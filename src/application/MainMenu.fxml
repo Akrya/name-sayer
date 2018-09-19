@@ -9,7 +9,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainMenuController">
    <right>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="226.0" BorderPane.alignment="CENTER">
@@ -40,7 +39,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Delete">
+                  <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" text="Delete">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -55,7 +54,7 @@
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="139.0" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="108.0" prefWidth="100.0" />
-            <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#OpenRecordScene" prefHeight="35.0" prefWidth="132.0" text="Create Recording" />
+            <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="35.0" prefWidth="132.0" text="Create Recording" />
             <Pane prefHeight="93.0" prefWidth="100.0" />
             <Button mnemonicParsing="false" text="Test Mic" />
          </children>
