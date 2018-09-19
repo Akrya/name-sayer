@@ -12,10 +12,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
+
+    private NamesModel _namesModel = new NamesModel();
 
     @FXML
     private Button recordBtn;
@@ -63,24 +67,38 @@ public class MainMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        populateTree(originalTreeView);
-        populateTree(personalTreeView);
+        populateTree(originalTreeView, "original");
+        populateTree(personalTreeView, "personal");
         _namesListModel.createDirectory();
     }
 
-    private void populateTree(TreeView<String> tree){
+    private void populateTree(TreeView<String> tree, String identifier){
         TreeItem<String> root = new TreeItem<>("Names");
-        char[] alphabetHeadings = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
-        for (char c: alphabetHeadings){
-            TreeItem<String> heading = new TreeItem<>(Character.toString(c));
-            heading.setExpanded(true);
-            root.getChildren().add(heading);
+        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
+        TreeItem<String>[] alphabetHeadings = new TreeItem[27];
+        for (int i=0;i<26;i++){
+            alphabetHeadings[i]= makeBranch(root, Character.toString(alphabet[i]));
         }
-        TreeItem<String> specialHeading = new TreeItem<>("Other");
-        specialHeading.setExpanded(true);
-        root.getChildren().add(specialHeading);
+        alphabetHeadings[26]=makeBranch(root,"Other");
+
+        //make branch for recordings
+        for (int i=0;i<26;i++){
+            ArrayList<String> recordings = new ArrayList<>();
+            recordings.addAll(_namesModel.getNames(alphabet[i], identifier));
+            for (String s : recordings){
+                makeBranch(alphabetHeadings[i], s);
+            }
+        }
+
         root.setExpanded(true);
         tree.setRoot(root);
 
+    }
+
+    private TreeItem<String> makeBranch(TreeItem<String> parent, String title){
+        TreeItem<String> branch = new TreeItem<>(title);
+        branch.setExpanded(true);
+        parent.getChildren().add(branch);
+        return branch;
     }
 }
