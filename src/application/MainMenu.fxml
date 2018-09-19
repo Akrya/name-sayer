@@ -12,7 +12,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <right>
-      <VBox prefHeight="400.0" prefWidth="226.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="226.0" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="15.0" prefWidth="60.0" text="Names">
                <padding>
@@ -35,10 +35,19 @@
             </TabPane>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Add" />
-                  <Button mnemonicParsing="false" text="Delete" />
+                  <Button mnemonicParsing="false" text="Add">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Delete">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
+            <Button mnemonicParsing="false" text="Rate" />
          </children>
       </VBox>
    </right>
@@ -46,9 +55,9 @@
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="139.0" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="108.0" prefWidth="100.0" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="132.0" text="Create Recording" />
+            <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#OpenRecordScene" prefHeight="35.0" prefWidth="132.0" text="Create Recording" />
             <Pane prefHeight="93.0" prefWidth="100.0" />
-            <RadioButton mnemonicParsing="false" text="Test Microphone" />
+            <Button mnemonicParsing="false" text="Test Mic" />
          </children>
       </VBox>
    </left>
@@ -56,17 +65,25 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox prefHeight="400.0" prefWidth="346.0">
+            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="346.0">
                <children>
-                  <Label text="Playlist Queue" />
+                  <Label text="Playlist Queue">
+                     <padding>
+                        <Insets bottom="5.0" top="10.0" />
+                     </padding>
+                  </Label>
                   <ListView prefHeight="200.0" prefWidth="200.0" />
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="120.0">
                      <children>
                         <Button mnemonicParsing="false" text="Listen" />
-                        <Button mnemonicParsing="false" text="Remove" />
-                        <Button mnemonicParsing="false" text="Randomise" />
+                        <Button mnemonicParsing="false" text="Remove">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                   </HBox>
+                  <Button mnemonicParsing="false" text="Randomise" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="400.0" prefWidth="0.0" />
