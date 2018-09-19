@@ -22,6 +22,16 @@ public class NamesListModel {
         }
     }
 
+    public void deleteCreation(String name){ //delete selected personal name file
+        String cmd = "rm Names/Personal"+"'"+name+"'"+".wav";
+        ProcessBuilder deleteFile = new ProcessBuilder("/bin/bash","-c",cmd);
+        try {
+            deleteFile.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 }
