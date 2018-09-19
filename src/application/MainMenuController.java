@@ -7,9 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,6 +22,12 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private Button deleteBtn;
+
+    @FXML
+    private TreeView<String> originalTreeView;
+
+    @FXML
+    private TreeView<String> personalTreeView;
 
     private NamesListModel _namesListModel = new NamesListModel();
 
@@ -58,6 +62,25 @@ public class MainMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        populateTree(originalTreeView);
+        populateTree(personalTreeView);
         _namesListModel.createDirectory();
+    }
+
+    private void populateTree(TreeView<String> tree){
+        TreeItem<String> root = new TreeItem<>("Names");
+        char[] alphabetHeadings = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
+        for (char c: alphabetHeadings){
+            TreeItem<String> heading = new TreeItem<>(Character.toString(c));
+            heading.setExpanded(true);
+            root.getChildren().add(heading);
+        }
+        TreeItem<String> specialHeading = new TreeItem<>("Other");
+        specialHeading.setExpanded(true);
+        root.getChildren().add(specialHeading);
+        root.setExpanded(true);
+        tree.setRoot(root);
+
     }
 }
