@@ -17,20 +17,20 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainMenuController">
    <right>
-      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="226.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="262.0" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="15.0" prefWidth="60.0" text="Names">
                <padding>
                   <Insets bottom="5.0" top="10.0" />
                </padding>
             </Label>
-            <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" prefHeight="400.0" prefWidth="226.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Original">
                      <content>
-                        <TreeView fx:id="originalTreeView" prefHeight="200.0" prefWidth="200.0" />
+                        <TreeView fx:id="originalTreeView" prefHeight="224.0" prefWidth="226.0" />
                      </content>
                 </Tab>
                 <Tab text="Personal">
@@ -40,7 +40,7 @@
                 </Tab>
               </tabs>
             </TabPane>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="226.0">
                <children>
                   <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" text="Add">
                      <HBox.margin>
@@ -72,15 +72,15 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="346.0">
+            <VBox alignment="CENTER" prefHeight="550.0" prefWidth="296.0">
                <children>
                   <Label text="Playlist Queue">
                      <padding>
                         <Insets bottom="5.0" top="10.0" />
                      </padding>
                   </Label>
-                  <ListView fx:id="playQueue" prefHeight="200.0" prefWidth="200.0" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="120.0">
+                  <ListView fx:id="playQueue" prefHeight="400.0" prefWidth="311.0" />
+                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="223.0">
                      <children>
                         <Button mnemonicParsing="false" text="Listen" />
                         <Button mnemonicParsing="false" text="Remove">

@@ -48,8 +48,6 @@ public class MainMenuController implements Initializable {
 
     private NamesListModel _namesListModel = new NamesListModel();
 
-    //private List<NamesModel> _listOfnames = new ArrayList<>();
-
     @FXML
     private void openRecordScene(ActionEvent event) throws IOException {
         Parent createScene = FXMLLoader.load(getClass().getResource("RecordScene.fxml"));
@@ -61,21 +59,25 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void deleteRecording(){
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Delete?");
-//        alert.setHeaderText("You are about to delete "+ "'"+ creationList.getSelectionModel().getSelectedItem()+"'");
-//        alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
-//
-//        Optional<ButtonType> result = alert.showAndWait();
-//        if (result.get() == ButtonType.OK){
-//            int selectedItemIndex = creationList.getSelectionModel().getSelectedIndex();
-//            model.deleteCreation(creations.get(selectedItemIndex));
-//            creations.remove(selectedItemIndex);
-//            if (creations.isEmpty()){ //lock view and delete button if there are no creations stored
-//                deleteBtn.setDisable(true);
-//                viewBtn.setDisable(true);
-//            }
-//        }
+
+        TreeItem<String> selection = personalTreeView.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete?");
+        alert.setHeaderText("You are about to delete "+ "'se206_"+ selection.getValue() +"'");
+        alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            selection.getParent().getChildren().remove(selection); //remove file from treeview
+            String selectionName = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
+            NamesModel selectionModel = _namesListModel.getName(selectionName);
+            selectionModel.delete("se206_"+selection.getValue()); //delete file
+            if (_queuedNames.indexOf(selection.getValue()) != -1){ //remove the recording if its been queued in play list
+                _queuedNames.remove(selection.getValue());
+            }
+        }
+
     }
 
     @FXML
@@ -109,9 +111,12 @@ public class MainMenuController implements Initializable {
 
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        addBtn.setDisable(true);
+        deleteBtn.setDisable(true);
         populateTree(originalTreeView, "original");
         populateTree(personalTreeView, "personal");
         checkDoubleClick();
@@ -151,12 +156,16 @@ public class MainMenuController implements Initializable {
 
     private TreeItem<String> makeBranch(TreeItem<String> parent, String title){
         TreeItem<String> branch = new TreeItem<>(title);
-        branch.setExpanded(true);
         parent.getChildren().add(branch);
+        if (calcHeight(branch) != 3){
+            branch.setExpanded(true);
+        } else {
+            branch.setExpanded(false);
+        }
         return branch;
     }
 
-    private int calcHeight(TreeItem<String> selection){
+    private int calcHeight(TreeItem<String> selection){ //recursive function to calculate height of the selected item in tree
         if (selection.getParent() == null){
             return 1;
         } else {
@@ -172,6 +181,8 @@ public class MainMenuController implements Initializable {
                 if(mouseEvent.getClickCount() == 2){
                     addToQueue();
                 }
+                deleteBtn.setDisable(true);
+                addBtn.setDisable(false);
             }
         });
 
@@ -181,6 +192,18 @@ public class MainMenuController implements Initializable {
                 if(mouseEvent.getClickCount() == 2){
                     addToQueue();
                 }
+                TreeItem<String> selection = personalTreeView.getSelectionModel().getSelectedItem();
+
+                if (selection != null) {
+                    if (selection.isLeaf() && calcHeight(selection) == 4) {
+                        deleteBtn.setDisable(false);
+                    } else {
+                        deleteBtn.setDisable(true);
+                    }
+                } else {
+                    deleteBtn.setDisable(true);
+                }
+                addBtn.setDisable(false);
             }
         });
 
