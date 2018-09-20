@@ -1,3 +1,18 @@
 .root{
-    -fx-background-color: #383838;
+   -fx-background-color: #6F6D6C;
+}
+
+
+.button{
+    -fx-background-radius: 0;
+    -fx-background-color: #CDCBC9;
+
+}
+
+.label{
+    -fx-text-fill: #fff;
+}
+
+.tab{
+    -fx-background-radius: 0;
 }
