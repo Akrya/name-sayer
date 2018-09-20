@@ -40,6 +40,18 @@ public class MainMenuController implements Initializable {
     @FXML
     private TabPane tabPane;
 
+    @FXML
+    private Button clearBtn;
+
+    @FXML
+    private Button removeBtn;
+
+    @FXML
+    private Button randomiseBtn;
+
+    @FXML
+    private Button listenBtn;
+
     private ObservableList<String> _queuedNames;
 
 
@@ -111,6 +123,15 @@ public class MainMenuController implements Initializable {
 
     }
 
+    @FXML
+    private void clearQueue(){
+        _queuedNames.clear();
+    }
+
+    @FXML
+    private void removeQueue(){
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
