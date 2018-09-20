@@ -53,6 +53,9 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button listenBtn;
 
+    @FXML
+    private Button rateBtn;
+
     private ObservableList<String> _queuedNames;
 
 
@@ -118,6 +121,7 @@ public class MainMenuController implements Initializable {
                 if (_queuedNames.indexOf(queueName) == -1){
                    _queuedNames.add(queueName);
                    clearBtn.setDisable(false);
+                   randomiseBtn.setDisable(false);
                }
 
             }
@@ -141,7 +145,7 @@ public class MainMenuController implements Initializable {
     private void removeQueue(){
         String selection = playQueue.getSelectionModel().getSelectedItem();
         _queuedNames.remove(selection);
-        if (_queuedNames.isEmpty()){
+        if (_queuedNames.isEmpty()) {
             clearBtn.setDisable(true);
             removeBtn.setDisable(true);
             listenBtn.setDisable(true);
@@ -153,26 +157,33 @@ public class MainMenuController implements Initializable {
     private void enableBtn(){
             if (!playQueue.getSelectionModel().isEmpty()) {
                 removeBtn.setDisable(false);
-                clearBtn.setDisable(false);
                 listenBtn.setDisable(false);
-                randomiseBtn.setDisable(false);
             } else {
                 removeBtn.setDisable(true);
-                clearBtn.setDisable(true);
                 listenBtn.setDisable(true);
-                randomiseBtn.setDisable(true);
             }
     }
 
+    @FXML
+    private void rateRecording(){
+
+    }
+
+    @FXML
+    private void randomiseQueue(){
+        Collections.shuffle(_queuedNames);
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        addBtn.setDisable(true);
+        addBtn.setDisable(true); //disable all buttons on start up except for testing mic and creating recording
         deleteBtn.setDisable(true);
         removeBtn.setDisable(true);
         clearBtn.setDisable(true);
         listenBtn.setDisable(true);
         randomiseBtn.setDisable(true);
+        rateBtn.setDisable(true);
+
         populateTree(originalTreeView, "original");
         populateTree(personalTreeView, "personal");
         checkDoubleClick();
@@ -238,7 +249,13 @@ public class MainMenuController implements Initializable {
                     addToQueue();
                 }
                 deleteBtn.setDisable(true);
-                addBtn.setDisable(false);
+                TreeItem<String> selection = originalTreeView.getSelectionModel().getSelectedItem();
+                if (selection != null) {
+                    if (selection.isLeaf() && calcHeight(selection) == 4) {
+                        addBtn.setDisable(false);
+                        rateBtn.setDisable(false);
+                    }
+                }
             }
         });
 
@@ -260,6 +277,7 @@ public class MainMenuController implements Initializable {
                     deleteBtn.setDisable(true);
                 }
                 addBtn.setDisable(false);
+                rateBtn.setDisable(false);
             }
         });
 

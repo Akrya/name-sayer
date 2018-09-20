@@ -50,7 +50,7 @@
                   </Button>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" text="Rate" />
+            <Button fx:id="rateBtn" mnemonicParsing="false" onAction="#rateRecording" text="Rate" />
          </children>
       </VBox>
    </right>
@@ -87,7 +87,7 @@
                         <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearQueue" text="Clear" />
                      </children>
                   </HBox>
-                  <Button fx:id="randomiseBtn" mnemonicParsing="false" text="Randomise" />
+                  <Button fx:id="randomiseBtn" mnemonicParsing="false" onAction="#randomiseQueue" text="Randomise" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="400.0" prefWidth="0.0" />
