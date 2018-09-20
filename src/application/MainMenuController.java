@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
 
-    private NamesModel _namesModel = new NamesModel();
 
     @FXML
     private Button recordBtn;
@@ -30,10 +29,13 @@ public class MainMenuController implements Initializable {
     @FXML
     private TreeView<String> originalTreeView;
 
+
     @FXML
     private TreeView<String> personalTreeView;
 
     private NamesListModel _namesListModel = new NamesListModel();
+
+    //private List<NamesModel> _listOfnames = new ArrayList<>();
 
     @FXML
     private void openRecordScene(ActionEvent event) throws IOException {
@@ -83,10 +85,15 @@ public class MainMenuController implements Initializable {
 
         //make branch for recordings
         for (int i=0;i<26;i++){
-            ArrayList<String> recordings = new ArrayList<>();
-            recordings.addAll(_namesModel.getNames(alphabet[i], identifier));
-            for (String s : recordings){
-                makeBranch(alphabetHeadings[i], s);
+            ArrayList<String> names = new ArrayList<>();
+            names.addAll(_namesListModel.getNames(alphabet[i], identifier));
+            for (String s : names){
+                TreeItem<String> heading = makeBranch(alphabetHeadings[i], s);
+                NamesModel nameModel = _namesListModel.getName(s);
+                List<String> recordings = (identifier.equals("original")) ? nameModel.getOriginalRecordings() : nameModel.getPersonalRecordings();
+                for (String recording : recordings){
+                    makeBranch(heading, recording);
+                }
             }
         }
 
