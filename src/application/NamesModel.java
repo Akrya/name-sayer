@@ -55,11 +55,7 @@ public class NamesModel {
         for (File file: ogFiles){
             if (file.isFile()){
                 if (file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.')).equals(_name)) {
-                    String recording = file.getName().substring(file.getName().lastIndexOf("_") + 1);
-                    if (_originalRecordings.lastIndexOf(recording) != -1){
-                        recording = recording + "("+versionNum+")";
-                        versionNum++;
-                    }
+                    String recording = file.getName().substring(file.getName().indexOf('_')+1);
                     _originalRecordings.add(recording);
                 }
             }
@@ -69,10 +65,12 @@ public class NamesModel {
         for (File file: perFiles){
             if (file.isFile()){
                 if (file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.')).equals(_name)) {
-                    String recording = file.getName().substring(file.getName().lastIndexOf("_") + 1);
+                    String recording = file.getName().substring(file.getName().lastIndexOf('_')+1);
                     if (_personalRecordings.lastIndexOf(recording) != -1){
-                        recording = recording + "("+versionNum+")";
+                        recording = file.getName() + "("+versionNum+")";
                         versionNum++;
+                    } else {
+                        recording = file.getName();
                     }
                     _personalRecordings.add(recording);
                 }

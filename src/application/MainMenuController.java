@@ -1,6 +1,9 @@
 package application;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,14 +11,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainMenuController implements Initializable {
 
@@ -27,7 +29,18 @@ public class MainMenuController implements Initializable {
     private Button deleteBtn;
 
     @FXML
+    private Button addBtn;
+
+    @FXML
+    private ListView<String> playQueue;
+
+    @FXML
     private TreeView<String> originalTreeView;
+
+    @FXML
+    private TabPane tabPane;
+
+    private ObservableList<String> _queuedNames;
 
 
     @FXML
@@ -65,13 +78,47 @@ public class MainMenuController implements Initializable {
 //        }
     }
 
+    @FXML
+    public void addToQueue(){
+
+        TreeItem<String> selection;
+        List<String> recordings;
+        if (tabPane.getSelectionModel().getSelectedIndex() == 0){
+            selection = originalTreeView.getSelectionModel().getSelectedItem();
+        } else {
+            selection = personalTreeView.getSelectionModel().getSelectedItem();
+        }
+
+        if (selection != null){
+            if (selection.isLeaf() && calcHeight(selection) == 4){
+               String queueName = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
+               NamesModel queueNameModel = _namesListModel.getName(queueName);
+                recordings = (tabPane.getSelectionModel().getSelectedIndex() == 0) ? queueNameModel.getOriginalRecordings() : queueNameModel.getPersonalRecordings();
+                for (String s : recordings){
+                    if (s.indexOf(selection.getValue()) != -1){
+                        queueName = s;
+                        break;
+                    }
+                }
+                if (_queuedNames.indexOf(queueName) == -1){
+                   _queuedNames.add(queueName);
+               }
+            }
+
+        }
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         populateTree(originalTreeView, "original");
         populateTree(personalTreeView, "personal");
+        checkDoubleClick();
         _namesListModel.createDirectory();
+        _queuedNames = FXCollections.observableArrayList();
+        playQueue.setItems(_queuedNames);
+
     }
 
     private void populateTree(TreeView<String> tree, String identifier){
@@ -107,5 +154,35 @@ public class MainMenuController implements Initializable {
         branch.setExpanded(true);
         parent.getChildren().add(branch);
         return branch;
+    }
+
+    private int calcHeight(TreeItem<String> selection){
+        if (selection.getParent() == null){
+            return 1;
+        } else {
+            return calcHeight(selection.getParent())+1;
+        }
+
+    }
+
+    private void checkDoubleClick(){
+        originalTreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getClickCount() == 2){
+                    addToQueue();
+                }
+            }
+        });
+
+        personalTreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getClickCount() == 2){
+                    addToQueue();
+                }
+            }
+        });
+
     }
 }
