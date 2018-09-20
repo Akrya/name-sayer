@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 
@@ -116,7 +117,9 @@ public class MainMenuController implements Initializable {
                 }
                 if (_queuedNames.indexOf(queueName) == -1){
                    _queuedNames.add(queueName);
+                   clearBtn.setDisable(false);
                }
+
             }
 
         }
@@ -125,12 +128,40 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void clearQueue(){
-        _queuedNames.clear();
+        _queuedNames.clear(); //need prevent clear button from being pressed during an audio file being played
+        if (_queuedNames.isEmpty()){
+            clearBtn.setDisable(true);
+            removeBtn.setDisable(true);
+            listenBtn.setDisable(true);
+            randomiseBtn.setDisable(true);
+        }
     }
 
     @FXML
     private void removeQueue(){
+        String selection = playQueue.getSelectionModel().getSelectedItem();
+        _queuedNames.remove(selection);
+        if (_queuedNames.isEmpty()){
+            clearBtn.setDisable(true);
+            removeBtn.setDisable(true);
+            listenBtn.setDisable(true);
+            randomiseBtn.setDisable(true);
+        }
+    }
 
+    @FXML
+    private void enableBtn(){
+            if (!playQueue.getSelectionModel().isEmpty()) {
+                removeBtn.setDisable(false);
+                clearBtn.setDisable(false);
+                listenBtn.setDisable(false);
+                randomiseBtn.setDisable(false);
+            } else {
+                removeBtn.setDisable(true);
+                clearBtn.setDisable(true);
+                listenBtn.setDisable(true);
+                randomiseBtn.setDisable(true);
+            }
     }
 
     @Override
@@ -138,6 +169,10 @@ public class MainMenuController implements Initializable {
 
         addBtn.setDisable(true);
         deleteBtn.setDisable(true);
+        removeBtn.setDisable(true);
+        clearBtn.setDisable(true);
+        listenBtn.setDisable(true);
+        randomiseBtn.setDisable(true);
         populateTree(originalTreeView, "original");
         populateTree(personalTreeView, "personal");
         checkDoubleClick();
