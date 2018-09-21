@@ -12,9 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -28,7 +25,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class MainMenuController implements Initializable {
+public class ListenModeController implements Initializable {
 
 
     @FXML
@@ -81,7 +78,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void openRecordScene(ActionEvent event) throws IOException {
-        Parent createScene = FXMLLoader.load(getClass().getResource("RecordScene.fxml"));
+        Parent createScene = FXMLLoader.load(getClass().getResource("PracticeMode.fxml"));
         Scene scene = new Scene(createScene);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
