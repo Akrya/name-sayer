@@ -21,7 +21,7 @@
 
 .label{
     -fx-text-fill: #fff;
-    -fx-text-
+    -fx-
 }
 
 .tab{
@@ -49,8 +49,7 @@
 }
 
 
-
-
+/*will add image later on*/
 .button-mic{
 
     -fx-font-weight: bold;
