@@ -1,0 +1,60 @@
+.root{
+    -fx-background-color: #636e72;   /*root background color*/
+}
+
+/*default hover and click system for buttons*/
+.button{
+    -fx-background-radius: 0;
+    -fx-background-color: #636e72;
+    -fx-text-fill: #dfe6e9;
+
+}
+.button:hover{
+
+    -fx-text-fill: #f7f1e3;
+    -fx-font-weight: bold;
+}
+.button:pressed{
+    -fx-text-fill: #dfe6e9;
+    -fx-font-weight: normal;
+}
+
+.label{
+    -fx-text-fill: #fff;
+    -fx-
+}
+
+.tab{
+    -fx-background-radius: 0;
+}
+
+/*separate class for recording and mic testing button */
+
+.button-recording{
+    -fx-background-color: #dfe6e9;
+    -fx-background-radius: 0;
+    -fx-text-fill: #535a5c;
+    -fx-font-weight: bold;
+}
+.button-recording:hover{
+    -fx-background-color: #edf4f7;
+    -fx-text-fill: #2d3436;
+    -fx-font-weight: bold;
+
+}
+.button-recording:pressed{
+    -fx-text-fill: #535a5c;
+    -fx-background-color: #dfe6e9;
+    -fx-font-weight: bold;
+}
+
+
+/*will add image later on*/
+.button-mic{
+
+    -fx-font-weight: bold;
+}
+
+.separator{
+
+}
