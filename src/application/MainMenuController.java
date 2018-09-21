@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +32,7 @@ public class MainMenuController implements Initializable {
 
 
     @FXML
-    private Button recordBtn;
+    private Button practiceBtn;
 
     @FXML
     private Button deleteBtn;
@@ -156,6 +157,9 @@ public class MainMenuController implements Initializable {
     private void playRecording(){
         //update playingText to display whats currently playing
         String selection = playQueue.getSelectionModel().getSelectedItem();
+        removeBtn.setDisable(true);
+        listenBtn.setDisable(true);
+        practiceBtn.setDisable(true);
         playingText.setText("Currently playing");
         selectedRecording.setText("'"+selection+"'");
         String filePath;
@@ -169,6 +173,15 @@ public class MainMenuController implements Initializable {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
+            clip.addLineListener(e -> { //add listener onto audio player, re-enable buttons when clip finishes playing
+                if (e.getType() == LineEvent.Type.STOP) {
+                    removeBtn.setDisable(false);
+                    listenBtn.setDisable(false);
+                    playingText.setText("No recording playing currently");
+                    selectedRecording.setText("");
+                    practiceBtn.setDisable(false);
+                }
+            });
             clip.start();
         } catch(Exception ex) {
             System.out.println("Error with playing sound.");
