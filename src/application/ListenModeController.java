@@ -12,19 +12,24 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class MainMenuController implements Initializable {
+public class ListenModeController implements Initializable {
 
 
     @FXML
-    private Button recordBtn;
+    private Button practiceBtn;
 
     @FXML
     private Button deleteBtn;
@@ -58,15 +63,22 @@ public class MainMenuController implements Initializable {
 
     private ObservableList<String> _queuedNames;
 
+    @FXML
+    private Text playingText;
+
+    @FXML
+    private Text selectedRecording;
 
     @FXML
     private TreeView<String> personalTreeView;
 
     private NamesListModel _namesListModel = new NamesListModel();
 
+    private HashMap<String, Integer> _mapRecordings = new HashMap<>();
+
     @FXML
     private void openRecordScene(ActionEvent event) throws IOException {
-        Parent createScene = FXMLLoader.load(getClass().getResource("RecordScene.fxml"));
+        Parent createScene = FXMLLoader.load(getClass().getResource("PracticeMode.fxml"));
         Scene scene = new Scene(createScene);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -101,6 +113,7 @@ public class MainMenuController implements Initializable {
 
         TreeItem<String> selection;
         List<String> recordings;
+        int key;
         if (tabPane.getSelectionModel().getSelectedIndex() == 0){
             selection = originalTreeView.getSelectionModel().getSelectedItem();
         } else {
@@ -111,15 +124,22 @@ public class MainMenuController implements Initializable {
             if (selection.isLeaf() && calcHeight(selection) == 4){
                String queueName = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
                NamesModel queueNameModel = _namesListModel.getName(queueName);
-                recordings = (tabPane.getSelectionModel().getSelectedIndex() == 0) ? queueNameModel.getOriginalRecordings() : queueNameModel.getPersonalRecordings();
-                for (String s : recordings){
-                    if (s.indexOf(selection.getValue()) != -1){
-                        queueName = s;
-                        break;
-                    }
-                }
-                if (_queuedNames.indexOf(queueName) == -1){
+               if (tabPane.getSelectionModel().getSelectedIndex() == 0){
+                   recordings = queueNameModel.getOriginalRecordings();
+                   key = 1;
+               } else {
+                   recordings = queueNameModel.getPersonalRecordings();
+                   key = 2;
+               }
+               for (String s : recordings){
+                   if (s.indexOf(selection.getValue()) != -1){
+                       queueName = s;
+                       break;
+                   }
+               }
+               if (_queuedNames.indexOf(queueName) == -1){
                    _queuedNames.add(queueName);
+                   _mapRecordings.put(queueName,key);
                    clearBtn.setDisable(false);
                    randomiseBtn.setDisable(false);
                }
@@ -131,14 +151,51 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
+    private void playRecording(){
+        //update playingText to display whats currently playing
+        String selection = playQueue.getSelectionModel().getSelectedItem();
+        removeBtn.setDisable(true);
+        listenBtn.setDisable(true);
+        practiceBtn.setDisable(true);
+        playingText.setText("Currently playing");
+        selectedRecording.setText("'"+selection+"'");
+        String filePath;
+        if (_mapRecordings.get(selection) == 1){
+            filePath = "Names/Original/"+selection;
+        } else {
+            filePath = "Names/Personal/"+selection;
+        }
+        System.out.println(filePath);
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.addLineListener(e -> { //add listener onto audio player, re-enable buttons when clip finishes playing
+                if (e.getType() == LineEvent.Type.STOP) {
+                    removeBtn.setDisable(false);
+                    listenBtn.setDisable(false);
+                    playingText.setText("No recording playing currently");
+                    selectedRecording.setText("");
+                    practiceBtn.setDisable(false);
+                }
+            });
+            clip.start();
+        } catch(Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+
+    }
+
+    @FXML
     private void clearQueue(){
         _queuedNames.clear(); //need prevent clear button from being pressed during an audio file being played
-        if (_queuedNames.isEmpty()){
-            clearBtn.setDisable(true);
-            removeBtn.setDisable(true);
-            listenBtn.setDisable(true);
-            randomiseBtn.setDisable(true);
-        }
+        clearBtn.setDisable(true);
+        removeBtn.setDisable(true);
+        listenBtn.setDisable(true);
+        randomiseBtn.setDisable(true);
+        playingText.setText("No recording playing currently");
+        selectedRecording.setText("");
     }
 
     @FXML
@@ -150,6 +207,8 @@ public class MainMenuController implements Initializable {
             removeBtn.setDisable(true);
             listenBtn.setDisable(true);
             randomiseBtn.setDisable(true);
+            playingText.setText("No recording playing currently");
+            selectedRecording.setText("");
         }
     }
 
@@ -211,7 +270,7 @@ public class MainMenuController implements Initializable {
                 NamesModel nameModel = _namesListModel.getName(s);
                 List<String> recordings = (identifier.equals("original")) ? nameModel.getOriginalRecordings() : nameModel.getPersonalRecordings();
                 for (String recording : recordings){
-                    makeBranch(heading, recording);
+                    makeBranch(heading, recording.substring(recording.indexOf('_')+1));
                 }
             }
         }
