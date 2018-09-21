@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@FxStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainMenuController">
    <right>
@@ -21,6 +22,9 @@
                <padding>
                   <Insets bottom="5.0" top="10.0" />
                </padding>
+               <font>
+                  <Font size="18.0" />
+               </font>
             </Label>
             <TabPane fx:id="tabPane" prefHeight="400.0" prefWidth="226.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -36,7 +40,7 @@
                 </Tab>
               </tabs>
             </TabPane>
-            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="226.0">
+            <HBox alignment="CENTER" prefHeight="57.0" prefWidth="262.0">
                <children>
                   <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" text="Add">
                      <HBox.margin>
@@ -50,7 +54,10 @@
                   </Button>
                </children>
             </HBox>
-            <Button mnemonicParsing="false" text="Rate" />
+            <Button mnemonicParsing="false" text="Rate">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Button>
          </children>
       </VBox>
    </right>
@@ -58,25 +65,28 @@
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="139.0" BorderPane.alignment="CENTER">
          <children>
             <Pane prefHeight="108.0" prefWidth="100.0" />
-            <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="35.0" prefWidth="132.0" text="Create Recording" />
+            <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="58.0" prefWidth="120.0" styleClass="button-recording" text="Create Recording" />
             <Pane prefHeight="93.0" prefWidth="100.0" />
-            <Button mnemonicParsing="false" text="Test Mic" />
+            <Button mnemonicParsing="false" styleClass="button-mic" text="Test Mic" />
          </children>
       </VBox>
    </left>
    <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="497.0" prefWidth="299.0" BorderPane.alignment="CENTER">
          <children>
-            <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox alignment="CENTER" prefHeight="550.0" prefWidth="296.0">
+            <Separator orientation="VERTICAL" prefHeight="550.0" prefWidth="24.0" />
+            <VBox alignment="CENTER" prefHeight="550.0" prefWidth="278.0">
                <children>
                   <Label text="Playlist Queue">
                      <padding>
                         <Insets bottom="5.0" top="10.0" />
                      </padding>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
                   </Label>
-                  <ListView fx:id="playQueue" onMouseClicked="#enableBtn" prefHeight="400.0" prefWidth="311.0" />
-                  <HBox alignment="CENTER" prefHeight="80.0" prefWidth="223.0">
+                  <ListView fx:id="playQueue" onMouseClicked="#enableBtn" prefHeight="400.0" prefWidth="247.0" />
+                  <HBox alignment="CENTER" prefHeight="57.0" prefWidth="287.0">
                      <children>
                         <Button fx:id="listenBtn" mnemonicParsing="false" text="Listen" />
                         <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeQueue" text="Remove">
@@ -87,10 +97,13 @@
                         <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearQueue" text="Clear" />
                      </children>
                   </HBox>
-                  <Button fx:id="randomiseBtn" mnemonicParsing="false" text="Randomise" />
+                  <Button fx:id="randomiseBtn" mnemonicParsing="false" text="Randomise">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></Button>
                </children>
             </VBox>
-            <Separator orientation="VERTICAL" prefHeight="400.0" prefWidth="0.0" />
+            <Separator orientation="VERTICAL" prefHeight="550.0" prefWidth="20.0" />
          </children>
       </HBox>
    </center>
