@@ -16,7 +16,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="700.0" stylesheets="@FxStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainMenuController">
    <right>
-      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="262.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="550.0" prefWidth="262.0" stylesheets="@FxStyler.css" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="15.0" prefWidth="60.0" text="Names">
                <padding>
