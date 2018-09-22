@@ -229,14 +229,17 @@ public class ListenModeController implements Initializable {
     }
 
     @FXML
-    private void enableBtn(){
-            if (!playQueue.getSelectionModel().isEmpty()) {
-                removeBtn.setDisable(false);
-                listenBtn.setDisable(false);
-            } else {
-                removeBtn.setDisable(true);
-                listenBtn.setDisable(true);
-            }
+    private void enableBtn(MouseEvent mouseEvent){
+        if(mouseEvent.getClickCount() == 2){
+            playRecording();
+        }
+        if (!playQueue.getSelectionModel().isEmpty()) {
+            removeBtn.setDisable(false);
+            listenBtn.setDisable(false);
+        } else {
+            removeBtn.setDisable(true);
+            listenBtn.setDisable(true);
+        }
     }
 
     @FXML
@@ -367,15 +370,6 @@ public class ListenModeController implements Initializable {
                 }
                 addBtn.setDisable(false);
                 rateBtn.setDisable(false);
-            }
-        });
-
-        playQueue.setOnMouseClicked(new EventHandler<MouseEvent>() { //double click recording in the queue automatically plays it
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getClickCount() == 2){
-                    playRecording();
-                }
             }
         });
     }
