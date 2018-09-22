@@ -1,7 +1,5 @@
 package application;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
@@ -170,14 +167,13 @@ public class ListenModeController implements Initializable {
         } else {
             filePath = "Names/Personal/"+selection;
         }
-        System.out.println(filePath);
         playingBar.setProgress(0);
         try {
             //get length of the recording
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
             AudioFormat format = audioInputStream.getFormat();
             long frames = audioInputStream.getFrameLength();
-            int length = (int) ((frames+0.0) / format.getFrameRate());
+            double length =  ((frames+0.0) / format.getFrameRate()); //length of recording in seconds
             Timer timer = new Timer();
             TimerTask timerTask = new TimerTask() {
                 @Override
@@ -191,13 +187,13 @@ public class ListenModeController implements Initializable {
                         practiceBtn.setDisable(false);
                         playingBar.setProgress(0);
                     } else {
-                        Platform.runLater(() -> { //update progress bar display, but doing it on gui thread to ensure thread safety
+                        Platform.runLater(() -> {
                             playingBar.setProgress(playingBar.getProgress() + 0.01);
                         });
                     }
                 }
             };
-            timer.scheduleAtFixedRate(timerTask, 0, length*10);
+            timer.scheduleAtFixedRate(timerTask, 0, (int)(length*10));
             //play the selected recording
             InputStream inputStream = new FileInputStream(filePath);
             AudioStream audioStream = new AudioStream(inputStream);
@@ -245,7 +241,55 @@ public class ListenModeController implements Initializable {
 
     @FXML
     private void rateRecording(){
+        TreeItem<String> selection = (tabPane.getSelectionModel().getSelectedIndex() == 0) ? originalTreeView.getSelectionModel().getSelectedItem() : personalTreeView.getSelectionModel().getSelectedItem();
+        RecordingRater rater = new RecordingRater(selection.getValue());
 
+        boolean exists = rater.checkFile();
+        if (exists){
+            rater.overWriteRating();
+            System.out.println("yes");
+        } else {
+            rater.makeRating();
+            System.out.println("no");
+        }
+
+
+
+
+
+
+
+
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Rating");
+//        alert.setHeaderText("You are rating '"+ selection.getValue()+"'");
+//        alert.setContentText("Choose a rating");
+//
+//        ButtonType goodButton = new ButtonType("Good");
+//        ButtonType badButton = new ButtonType("Bad");
+//        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+//
+//        alert.getButtonTypes().setAll(goodButton, badButton, cancelButton);
+//
+//        Optional<ButtonType> result = alert.showAndWait();
+//        String rating;
+//        if (result.get() == goodButton){
+//            rating = "Good";
+//        } else if (result.get() == badButton) {
+//            rating = "Bad";
+//        } else {
+//            return;
+//        }
+//        BufferedWriter bw = null;
+//        try {
+//            bw = new BufferedWriter(new FileWriter("Names/Ratings.txt", true));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        PrintWriter writer = new PrintWriter(bw);
+//        writer.println("");
+//        writer.println("Rating for " + selection.getValue() + " : '"+rating+"'");
+//        writer.close();
     }
 
     @FXML
@@ -263,6 +307,7 @@ public class ListenModeController implements Initializable {
         randomiseBtn.setDisable(true);
         rateBtn.setDisable(true);
 
+        makeRatingFile();
         populateTree(originalTreeView, "original");
         populateTree(personalTreeView, "personal");
         checkDoubleClick();
@@ -359,5 +404,32 @@ public class ListenModeController implements Initializable {
             }
         });
 
+        playQueue.setOnMouseClicked(new EventHandler<MouseEvent>() { //double click recording in the queue automatically plays it
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getClickCount() == 2){
+                    playRecording();
+                }
+            }
+        });
+    }
+
+    private void makeRatingFile(){
+        File rateFile = new File("Names/Ratings.txt");
+        if(rateFile.exists()) {
+            return;
+        } else {
+            try {
+                rateFile.createNewFile(); //make file if first time using program
+                Thread.sleep(1000);
+                BufferedWriter bw = new BufferedWriter(new FileWriter("Names/Ratings.txt", true));
+                PrintWriter writer = new PrintWriter(bw);
+                writer.println("This is the ratings for the recordings stored in the Original and Personal databases");
+                writer.println("Each recording stored in this file has a rating of 'Good' or 'Bad'");
+                writer.close();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
