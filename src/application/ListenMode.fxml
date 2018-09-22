@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ListenModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ListenModeController">
    <right>
       <VBox alignment="CENTER" prefHeight="482.0" prefWidth="350.0" BorderPane.alignment="CENTER">
          <children>
@@ -30,12 +30,12 @@
               <tabs>
                 <Tab text="Original">
                      <content>
-                        <TreeView fx:id="originalTreeView" prefHeight="311.0" prefWidth="342.0" />
+                        <TreeView fx:id="originalTreeView" onMouseClicked="#enableOgBtns" prefHeight="311.0" prefWidth="342.0" />
                      </content>
                 </Tab>
                 <Tab text="Personal">
                      <content>
-                        <TreeView fx:id="personalTreeView" prefHeight="200.0" prefWidth="200.0" />
+                        <TreeView fx:id="personalTreeView" onMouseClicked="#enablePerBtns" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                 </Tab>
               </tabs>
@@ -75,8 +75,8 @@
                         <Insets bottom="5.0" top="10.0" />
                      </padding>
                   </Label>
-                  <ListView fx:id="playQueue" onMouseClicked="#enableBtn" prefHeight="340.0" prefWidth="338.0" />
-                  <Text fx:id="playingText" fill="#e4e4e4" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording playing currently" />
+                  <ListView fx:id="playQueue" onMouseClicked="#enableListBtns" prefHeight="340.0" prefWidth="338.0" />
+                  <Text fx:id="playingText" fill="#e4e4e4" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
                   <Text fx:id="selectedRecording" fill="#e4e4e4" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <ProgressBar fx:id="playingBar" prefWidth="200.0" progress="0.0" />
                   <HBox alignment="CENTER" prefHeight="45.0" prefWidth="287.0">

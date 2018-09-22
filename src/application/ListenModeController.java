@@ -194,7 +194,7 @@ public class ListenModeController implements Initializable {
                         timer.cancel();
                         removeBtn.setDisable(false);
                         listenBtn.setDisable(false);
-                        playingText.setText("No recording playing currently");
+                        playingText.setText("No recording currently playing");
                         selectedRecording.setText("");
                         practiceBtn.setDisable(false);
                         playingBar.setProgress(0);
@@ -223,7 +223,7 @@ public class ListenModeController implements Initializable {
         removeBtn.setDisable(true);
         listenBtn.setDisable(true);
         randomiseBtn.setDisable(true);
-        playingText.setText("No recording playing currently");
+        playingText.setText("No recording currently playing");
         selectedRecording.setText("");
     }
 
@@ -236,16 +236,13 @@ public class ListenModeController implements Initializable {
             removeBtn.setDisable(true);
             listenBtn.setDisable(true);
             randomiseBtn.setDisable(true);
-            playingText.setText("No recording playing currently");
+            playingText.setText("No recording currently playing");
             selectedRecording.setText("");
         }
     }
 
     @FXML
-    private void enableBtn(MouseEvent mouseEvent){
-        if(mouseEvent.getClickCount() == 2){
-            playRecording();
-        }
+    private void enableListBtns(MouseEvent mouseEvent){
         if (!playQueue.getSelectionModel().isEmpty()) {
             removeBtn.setDisable(false);
             listenBtn.setDisable(false);
@@ -253,6 +250,44 @@ public class ListenModeController implements Initializable {
             removeBtn.setDisable(true);
             listenBtn.setDisable(true);
         }
+        if(mouseEvent.getClickCount() == 2){
+            playRecording();
+        }
+    }
+
+    @FXML
+    private void enableOgBtns(MouseEvent mouseEvent){
+        if(mouseEvent.getClickCount() == 2){
+            addToQueue();
+        }
+        deleteBtn.setDisable(true);
+        TreeItem<String> selection = originalTreeView.getSelectionModel().getSelectedItem();
+        if (selection != null) {
+            if (selection.isLeaf() && _treeModel.calcHeight(selection) == 4) {
+                addBtn.setDisable(false);
+                rateBtn.setDisable(false);
+            }
+        }
+    }
+
+    @FXML
+    private void enablePerBtns(MouseEvent mouseEvent){
+        if(mouseEvent.getClickCount() == 2){
+            addToQueue();
+        }
+        TreeItem<String> selection = personalTreeView.getSelectionModel().getSelectedItem();
+
+        if (selection != null) {
+            if (selection.isLeaf() && _treeModel.calcHeight(selection) == 4) {
+                deleteBtn.setDisable(false);
+            } else {
+                deleteBtn.setDisable(true);
+            }
+        } else {
+            deleteBtn.setDisable(true);
+        }
+        addBtn.setDisable(false);
+        rateBtn.setDisable(false);
     }
 
     @FXML
@@ -278,6 +313,7 @@ public class ListenModeController implements Initializable {
     private void randomiseQueue(){
         Collections.shuffle(_queuedNames);
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -292,51 +328,9 @@ public class ListenModeController implements Initializable {
         makeRatingFile();
         _treeModel.populateTree(originalTreeView, 0,_namesListModel);
         _treeModel.populateTree(personalTreeView, 1,_namesListModel);
-        checkDoubleClick();
         _queuedNames = FXCollections.observableArrayList();
         playQueue.setItems(_queuedNames);
 
-    }
-
-    private void checkDoubleClick(){
-        originalTreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getClickCount() == 2){
-                    addToQueue();
-                }
-                deleteBtn.setDisable(true);
-                TreeItem<String> selection = originalTreeView.getSelectionModel().getSelectedItem();
-                if (selection != null) {
-                    if (selection.isLeaf() && _treeModel.calcHeight(selection) == 4) {
-                        addBtn.setDisable(false);
-                        rateBtn.setDisable(false);
-                    }
-                }
-            }
-        });
-
-        personalTreeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getClickCount() == 2){
-                    addToQueue();
-                }
-                TreeItem<String> selection = personalTreeView.getSelectionModel().getSelectedItem();
-
-                if (selection != null) {
-                    if (selection.isLeaf() && _treeModel.calcHeight(selection) == 4) {
-                        deleteBtn.setDisable(false);
-                    } else {
-                        deleteBtn.setDisable(true);
-                    }
-                } else {
-                    deleteBtn.setDisable(true);
-                }
-                addBtn.setDisable(false);
-                rateBtn.setDisable(false);
-            }
-        });
     }
 
     private void makeRatingFile(){
