@@ -3,20 +3,19 @@ package application;
 import javax.naming.Name;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class NamesListModel {
 
     private ArrayList<NamesModel> _names; //List of NamesModel objects, each object associated with one or more recording for that name
-
-    private List<String> _ogNameStrings; //list of unique names in original database
-
-    private List<String> _perNameStrings; //list of unique names in personal database
+    private ArrayList<String> _ogNameStrings;
+    private ArrayList<String> _perNameStrings;
+    private List<String> _uniqueNames;
 
 
     public NamesListModel() {
         _names = new ArrayList<>();
+        _uniqueNames = new ArrayList<>();
         _ogNameStrings = new ArrayList<>();
         _perNameStrings = new ArrayList<>();
         createDirectory();
@@ -40,25 +39,29 @@ public class NamesListModel {
     }
 
 
-    public List<String> getNames(char heading, String identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
+    public List<String> getNames(char heading, int identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
         List<String> names = new ArrayList<>();
-        if (identifier.equals("original")){
-            for (String name : _ogNameStrings){
-                if (name.toUpperCase().charAt(0)== heading){
-                    names.add(name);
-                }
-            }
-        } else {
-            for (String name : _perNameStrings){
-                if (name.toUpperCase().charAt(0)== heading){
-                    names.add(name);
-                }
-            }
+        Map<String, Integer> namesMap;
+        boolean contains = false;
+        for (NamesModel nameModel : _names){
+           namesMap = nameModel.getRecordings();
+           for (Map.Entry<String, Integer> entry : namesMap.entrySet()){
+               if (entry.getValue() == identifier) {
+                   if (nameModel.toString().toUpperCase().charAt(0) == heading) {
+                       contains = true;
+                   }
+               }
+           }
+           if (contains){
+               names.add(nameModel.toString());
+           }
+           contains = false;
         }
         return names;
     }
 
     public NamesModel getName(String name){
+        name = name.substring(0,1).toUpperCase()+name.substring(1);
         NamesModel targetName = null;
         for (NamesModel candidateName : _names){
             if (candidateName.toString().equals(name)){
@@ -71,31 +74,49 @@ public class NamesListModel {
 
     private void makeNames(){
         File[] ogFiles = new File("Names/Original").listFiles();
-        for (File file: ogFiles){
-            if (file.isFile()){
-                String name = file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.'));  //remove file extension
-                //String treeName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-                if (_ogNameStrings.indexOf(name) == -1){
-                    _ogNameStrings.add(name);
-
-                    NamesModel nameModel = new NamesModel(name);
-                    _names.add(nameModel);
-                }
-            }
-        }
+        List<File> files = new ArrayList<>();
+        files.addAll(Arrays.asList(ogFiles));
         File[] perFiles = new File("Names/Personal").listFiles();
-        for (File file: perFiles){
-            if (file.isFile()){
-                String name = file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.'));  //remove file extension
-                name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-               // String treeName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-                if (_perNameStrings.indexOf(name) == -1){
-                    _perNameStrings.add(name);
+        files.addAll(Arrays.asList(perFiles));
 
-                    NamesModel nameModel = new NamesModel(name);
-                    _names.add(nameModel);
+        for (int i=0;i<files.size();i++){
+            if (files.get(i).isFile()){
+                String name = files.get(i).getName().substring(files.get(i).getName().lastIndexOf("_") + 1, files.get(i).getName().lastIndexOf('.'));
+                if (_uniqueNames.indexOf(name.toUpperCase()) == -1){ //unique name means index of -1
+                    _uniqueNames.add(name.toUpperCase());
+                    if (!Character.isUpperCase(name.charAt(0))){
+                        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+                    }
+                    NamesModel namesModel = new NamesModel(name);
+                    _names.add(namesModel);
                 }
             }
         }
+//        for (File file: ogFiles){
+//            if (file.isFile()){
+//                String name = file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.'));  //remove file extension
+//                //String treeName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+//                if (_ogNameStrings.indexOf(name) == -1){
+//                    _ogNameStrings.add(name);
+//
+//                    NamesModel nameModel = new NamesModel(name);
+//                    _names.add(nameModel);
+//                }
+//            }
+//        }
+//
+//        for (File file: perFiles){
+//            if (file.isFile()){
+//                String name = file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.'));  //remove file extension
+//                //name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+//                String treeName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+//                if (_perNameStrings.indexOf(name) == -1){
+//                    _perNameStrings.add(name);
+//
+//                    NamesModel nameModel = new NamesModel(name);
+//                    _names.add(nameModel);
+//                }
+//            }
+//        }
     }
 }

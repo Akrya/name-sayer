@@ -76,8 +76,6 @@ public class ListenModeController implements Initializable {
 
     private NamesListModel _namesListModel = new NamesListModel();
 
-    private HashMap<String, Integer> _mapRecordings = new HashMap<>();
-
     @FXML
     private void openRecordScene(ActionEvent event) throws IOException {
         Parent createScene = FXMLLoader.load(getClass().getResource("PracticeMode.fxml"));
@@ -114,7 +112,7 @@ public class ListenModeController implements Initializable {
     public void addToQueue(){
 
         TreeItem<String> selection;
-        List<String> recordings;
+        List<String> recordings = new ArrayList<>();
         int key;
         if (tabPane.getSelectionModel().getSelectedIndex() == 0){
             selection = originalTreeView.getSelectionModel().getSelectedItem();
@@ -126,12 +124,11 @@ public class ListenModeController implements Initializable {
             if (selection.isLeaf() && calcHeight(selection) == 4){
                String queueName = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
                NamesModel queueNameModel = _namesListModel.getName(queueName);
-               if (tabPane.getSelectionModel().getSelectedIndex() == 0){
-                   recordings = queueNameModel.getOriginalRecordings();
-                   key = 1;
-               } else {
-                   recordings = queueNameModel.getPersonalRecordings();
-                   key = 2;
+               Map<String, Integer> recordingsMap = queueNameModel.getRecordings();
+               for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
+                   if (entry.getValue()==tabPane.getSelectionModel().getSelectedIndex()){
+                       recordings.add(entry.getKey());
+                   }
                }
                for (String s : recordings){
                    if (s.indexOf(selection.getValue()) != -1){
@@ -141,7 +138,6 @@ public class ListenModeController implements Initializable {
                }
                if (_queuedNames.indexOf(queueName) == -1){
                    _queuedNames.add(queueName);
-                   _mapRecordings.put(queueName,key);
                    clearBtn.setDisable(false);
                    randomiseBtn.setDisable(false);
                }
@@ -162,7 +158,21 @@ public class ListenModeController implements Initializable {
         playingText.setText("Currently playing");
         selectedRecording.setText("'"+selection+"'");
         String filePath;
-        if (_mapRecordings.get(selection) == 1){
+        boolean original = false;
+        String queueName = selection.substring(selection.lastIndexOf('_')+1,selection.lastIndexOf('.'));
+        NamesModel queueNameModel = _namesListModel.getName(queueName);
+        Map<String, Integer> recordingsMap = queueNameModel.getRecordings();
+        for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
+            if (entry.getKey().equals(selection)){
+                if (entry.getValue()==0){
+                    original = true;
+                } else {
+                    original= false;
+                }
+                break;
+            }
+        }
+        if (original){
             filePath = "Names/Original/"+selection;
         } else {
             filePath = "Names/Personal/"+selection;
@@ -186,6 +196,7 @@ public class ListenModeController implements Initializable {
                         selectedRecording.setText("");
                         practiceBtn.setDisable(false);
                         playingBar.setProgress(0);
+                        playQueue.getSelectionModel().selectNext();
                     } else {
                         Platform.runLater(() -> {
                             playingBar.setProgress(playingBar.getProgress() + 0.01);
@@ -277,15 +288,15 @@ public class ListenModeController implements Initializable {
         rateBtn.setDisable(true);
 
         makeRatingFile();
-        populateTree(originalTreeView, "original");
-        populateTree(personalTreeView, "personal");
+        populateTree(originalTreeView, 0);
+        populateTree(personalTreeView, 1);
         checkDoubleClick();
         _queuedNames = FXCollections.observableArrayList();
         playQueue.setItems(_queuedNames);
 
     }
 
-    private void populateTree(TreeView<String> tree, String identifier){
+    private void populateTree(TreeView<String> tree, int identifier){
         TreeItem<String> root = new TreeItem<>("Names");
         char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
         TreeItem<String>[] alphabetHeadings = new TreeItem[27];
@@ -301,7 +312,13 @@ public class ListenModeController implements Initializable {
             for (String s : names){
                 TreeItem<String> heading = makeBranch(alphabetHeadings[i], s);
                 NamesModel nameModel = _namesListModel.getName(s);
-                List<String> recordings = (identifier.equals("original")) ? nameModel.getOriginalRecordings() : nameModel.getPersonalRecordings();
+                Map<String, Integer> recordingsMap = nameModel.getRecordings();
+                List<String> recordings = new ArrayList<>();
+                for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
+                    if (entry.getValue() == identifier){
+                        recordings.add(entry.getKey());
+                    }
+                }
                 for (String recording : recordings){
                     makeBranch(heading, recording.substring(recording.indexOf('_')+1));
                 }
@@ -381,7 +398,7 @@ public class ListenModeController implements Initializable {
         } else {
             try {
                 rateFile.createNewFile(); //make file if first time using program
-                Thread.sleep(1000);
+                Thread.sleep(1000); //TODO: not necessary?
                 BufferedWriter bw = new BufferedWriter(new FileWriter("Names/Ratings.txt", true));
                 PrintWriter writer = new PrintWriter(bw);
                 writer.println("This is the ratings for the recordings stored in the Original and Personal databases");
