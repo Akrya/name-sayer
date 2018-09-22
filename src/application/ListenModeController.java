@@ -1,5 +1,8 @@
 package application;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,14 +17,13 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
-import java.io.File;
-import java.io.IOException;
+import javax.sound.sampled.*;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -68,6 +70,9 @@ public class ListenModeController implements Initializable {
 
     @FXML
     private Text selectedRecording;
+
+    @FXML
+    private ProgressBar playingBar;
 
     @FXML
     private TreeView<String> personalTreeView;
@@ -166,25 +171,40 @@ public class ListenModeController implements Initializable {
             filePath = "Names/Personal/"+selection;
         }
         System.out.println(filePath);
+        playingBar.setProgress(0);
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.addLineListener(e -> { //add listener onto audio player, re-enable buttons when clip finishes playing
-                if (e.getType() == LineEvent.Type.STOP) {
-                    removeBtn.setDisable(false);
-                    listenBtn.setDisable(false);
-                    playingText.setText("No recording playing currently");
-                    selectedRecording.setText("");
-                    practiceBtn.setDisable(false);
+            //get length of the recording
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
+            AudioFormat format = audioInputStream.getFormat();
+            long frames = audioInputStream.getFrameLength();
+            int length = (int) ((frames+0.0) / format.getFrameRate());
+            Timer timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (playingBar.getProgress() >= 1) {
+                        timer.cancel();
+                        removeBtn.setDisable(false);
+                        listenBtn.setDisable(false);
+                        playingText.setText("No recording playing currently");
+                        selectedRecording.setText("");
+                        practiceBtn.setDisable(false);
+                        playingBar.setProgress(0);
+                    } else {
+                        Platform.runLater(() -> { //update progress bar display, but doing it on gui thread to ensure thread safety
+                            playingBar.setProgress(playingBar.getProgress() + 0.01);
+                        });
+                    }
                 }
-            });
-            clip.start();
-        } catch(Exception ex) {
-            System.out.println("Error with playing sound.");
-            ex.printStackTrace();
+            };
+            timer.scheduleAtFixedRate(timerTask, 0, length*10);
+            //play the selected recording
+            InputStream inputStream = new FileInputStream(filePath);
+            AudioStream audioStream = new AudioStream(inputStream);
+            AudioPlayer.player.start(audioStream);
+        } catch (IOException | UnsupportedAudioFileException e) {
+            e.printStackTrace();
         }
-
     }
 
     @FXML
@@ -246,7 +266,6 @@ public class ListenModeController implements Initializable {
         populateTree(originalTreeView, "original");
         populateTree(personalTreeView, "personal");
         checkDoubleClick();
-        _namesListModel.createDirectory();
         _queuedNames = FXCollections.observableArrayList();
         playQueue.setItems(_queuedNames);
 

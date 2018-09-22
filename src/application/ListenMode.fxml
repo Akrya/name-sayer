@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ListenModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ListenModeController">
    <right>
       <VBox alignment="CENTER" prefHeight="482.0" prefWidth="350.0" BorderPane.alignment="CENTER">
          <children>
@@ -75,6 +80,7 @@
                   <ListView fx:id="playQueue" onMouseClicked="#enableBtn" prefHeight="340.0" prefWidth="338.0" />
                   <Text fx:id="playingText" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording playing currently" />
                   <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <ProgressBar fx:id="playingBar" prefWidth="200.0" progress="0.0" />
                   <HBox alignment="CENTER" prefHeight="45.0" prefWidth="287.0">
                      <children>
                         <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" text="Listen" />
