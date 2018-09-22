@@ -19,10 +19,11 @@ public class NamesListModel {
         _names = new ArrayList<>();
         _ogNameStrings = new ArrayList<>();
         _perNameStrings = new ArrayList<>();
+        createDirectory();
         makeNames();
     }
 
-    public void createDirectory(){
+    private void createDirectory(){
 
         new File("Names").mkdir();
         new File( "Names/Personal").mkdir();
@@ -30,22 +31,14 @@ public class NamesListModel {
         String cmd = "unzip names.zip -d Names/Original";
         ProcessBuilder makeOriginal = new ProcessBuilder("/bin/bash","-c", cmd);
         try {
-            makeOriginal.start();
+           Process process = makeOriginal.start();
+           //process.waitFor();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-   // public void deleteCreation(String name){ //delete selected personal name file
-    //    String cmd = "rm Names/Personal"+"'"+name+"'"+".wav";
-   //     ProcessBuilder deleteFile = new ProcessBuilder("/bin/bash","-c",cmd);
-  //      try {
- //           deleteFile.start();
- //       } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 
     public List<String> getNames(char heading, String identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
         List<String> names = new ArrayList<>();
@@ -81,6 +74,7 @@ public class NamesListModel {
         for (File file: ogFiles){
             if (file.isFile()){
                 String name = file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.'));  //remove file extension
+                //String treeName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
                 if (_ogNameStrings.indexOf(name) == -1){
                     _ogNameStrings.add(name);
 
@@ -93,6 +87,8 @@ public class NamesListModel {
         for (File file: perFiles){
             if (file.isFile()){
                 String name = file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.'));  //remove file extension
+                name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+               // String treeName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
                 if (_perNameStrings.indexOf(name) == -1){
                     _perNameStrings.add(name);
 
