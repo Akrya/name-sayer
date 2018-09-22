@@ -1,11 +1,11 @@
 .root{
-    -fx-background-color: #636e72;   /*root background color*/
+    -fx-background-color: #0a3d62;   /*root background color*/
 }
 
 /*default hover and click system for buttons*/
 .button{
     -fx-background-radius: 0;
-    -fx-background-color: #10bc74;
+    -fx-background-color: #e58e26;
     -fx-text-fill: #38383e;
 
 }
@@ -58,5 +58,5 @@
 .separator *.line {
     -fx-border-style: solid;
     -fx-border-width: 0 2 2 0; /* its make really one-pixel-border */
-    -fx-border-color: #10bc74;
+    -fx-border-color: #e58e26;
 }
