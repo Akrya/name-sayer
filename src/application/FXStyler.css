@@ -5,17 +5,17 @@
 /*default hover and click system for buttons*/
 .button{
     -fx-background-radius: 0;
-    -fx-background-color: #636e72;
-    -fx-text-fill: #dfe6e9;
+    -fx-background-color: #10bc74;
+    -fx-text-fill: #38383e;
 
 }
 .button:hover{
 
-    -fx-text-fill: #f7f1e3;
+    -fx-text-fill: #232329;
     -fx-font-weight: bold;
 }
 .button:pressed{
-    -fx-text-fill: #dfe6e9;
+    -fx-text-fill: #38383e;
     -fx-font-weight: normal;
 }
 
@@ -55,6 +55,8 @@
     -fx-font-weight: bold;
 }
 
-.separator{
-
+.separator *.line {
+    -fx-border-style: solid;
+    -fx-border-width: 0 2 2 0; /* its make really one-pixel-border */
+    -fx-border-color: #10bc74;
 }

@@ -26,7 +26,7 @@
                   <Insets bottom="5.0" top="10.0" />
                </padding>
             </Label>
-            <TabPane fx:id="tabPane" prefHeight="360.0" prefWidth="340.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" prefHeight="340.0" prefWidth="324.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Original">
                      <content>
@@ -40,8 +40,8 @@
                 </Tab>
               </tabs>
             </TabPane>
-            <Pane prefHeight="16.0" prefWidth="340.0" />
-            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="226.0">
+            <Pane prefHeight="50.0" prefWidth="340.0" />
+            <HBox alignment="CENTER" prefHeight="46.0" prefWidth="340.0">
                <children>
                   <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" text="Add">
                      <HBox.margin>
@@ -76,8 +76,8 @@
                      </padding>
                   </Label>
                   <ListView fx:id="playQueue" onMouseClicked="#enableBtn" prefHeight="340.0" prefWidth="338.0" />
-                  <Text fx:id="playingText" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording playing currently" />
-                  <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text fx:id="playingText" fill="#e4e4e4" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording playing currently" />
+                  <Text fx:id="selectedRecording" fill="#e4e4e4" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <ProgressBar fx:id="playingBar" prefWidth="200.0" progress="0.0" />
                   <HBox alignment="CENTER" prefHeight="45.0" prefWidth="287.0">
                      <children>
@@ -97,7 +97,7 @@
                   </HBox>
                </children>
             </VBox>
-            <Separator orientation="VERTICAL" prefHeight="500.0" prefWidth="29.0" />
+            <Separator orientation="VERTICAL" prefHeight="502.0" prefWidth="27.0" />
          </children>
          <BorderPane.margin>
             <Insets left="10.0" />
@@ -119,16 +119,16 @@
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
-            <Label prefHeight="15.0" prefWidth="105.0" text="Listen Mode">
+            <Label prefHeight="28.0" prefWidth="105.0" text="Listen Mode">
                <VBox.margin>
-                  <Insets left="20.0" />
+                  <Insets left="20.0" top="5.0" />
                </VBox.margin>
             </Label>
          </children>
       </VBox>
    </top>
    <stylesheets>
-      <URL value="@FXStyler.css" />
+      <URL value="@f" />
       <URL value="@FXStyler.css" />
    </stylesheets>
 </BorderPane>
