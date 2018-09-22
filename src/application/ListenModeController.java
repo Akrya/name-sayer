@@ -229,14 +229,17 @@ public class ListenModeController implements Initializable {
     }
 
     @FXML
-    private void enableBtn(){
-            if (!playQueue.getSelectionModel().isEmpty()) {
-                removeBtn.setDisable(false);
-                listenBtn.setDisable(false);
-            } else {
-                removeBtn.setDisable(true);
-                listenBtn.setDisable(true);
-            }
+    private void enableBtn(MouseEvent mouseEvent){
+        if(mouseEvent.getClickCount() == 2){
+            playRecording();
+        }
+        if (!playQueue.getSelectionModel().isEmpty()) {
+            removeBtn.setDisable(false);
+            listenBtn.setDisable(false);
+        } else {
+            removeBtn.setDisable(true);
+            listenBtn.setDisable(true);
+        }
     }
 
     @FXML
@@ -246,50 +249,16 @@ public class ListenModeController implements Initializable {
 
         boolean exists = rater.checkFile();
         if (exists){
-            rater.overWriteRating();
-            System.out.println("yes");
+            boolean overwrite = rater.overWriteRating();
+            if (overwrite){
+                rater.makeRating();
+            } else {
+                return;
+            }
         } else {
             rater.makeRating();
-            System.out.println("no");
         }
 
-
-
-
-
-
-
-
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Rating");
-//        alert.setHeaderText("You are rating '"+ selection.getValue()+"'");
-//        alert.setContentText("Choose a rating");
-//
-//        ButtonType goodButton = new ButtonType("Good");
-//        ButtonType badButton = new ButtonType("Bad");
-//        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-//
-//        alert.getButtonTypes().setAll(goodButton, badButton, cancelButton);
-//
-//        Optional<ButtonType> result = alert.showAndWait();
-//        String rating;
-//        if (result.get() == goodButton){
-//            rating = "Good";
-//        } else if (result.get() == badButton) {
-//            rating = "Bad";
-//        } else {
-//            return;
-//        }
-//        BufferedWriter bw = null;
-//        try {
-//            bw = new BufferedWriter(new FileWriter("Names/Ratings.txt", true));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        PrintWriter writer = new PrintWriter(bw);
-//        writer.println("");
-//        writer.println("Rating for " + selection.getValue() + " : '"+rating+"'");
-//        writer.close();
     }
 
     @FXML
@@ -403,15 +372,6 @@ public class ListenModeController implements Initializable {
                 rateBtn.setDisable(false);
             }
         });
-
-        playQueue.setOnMouseClicked(new EventHandler<MouseEvent>() { //double click recording in the queue automatically plays it
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getClickCount() == 2){
-                    playRecording();
-                }
-            }
-        });
     }
 
     private void makeRatingFile(){
@@ -426,6 +386,7 @@ public class ListenModeController implements Initializable {
                 PrintWriter writer = new PrintWriter(bw);
                 writer.println("This is the ratings for the recordings stored in the Original and Personal databases");
                 writer.println("Each recording stored in this file has a rating of 'Good' or 'Bad'");
+                writer.println("");
                 writer.close();
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
