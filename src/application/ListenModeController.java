@@ -76,6 +76,8 @@ public class ListenModeController implements Initializable {
 
     private NamesListModel _namesListModel = new NamesListModel();
 
+    private TreeViewModel _treeModel = new TreeViewModel();
+
     @FXML
     private void openRecordScene(ActionEvent event) throws IOException {
         Parent createScene = FXMLLoader.load(getClass().getResource("PracticeMode.fxml"));
@@ -121,7 +123,7 @@ public class ListenModeController implements Initializable {
         }
 
         if (selection != null){
-            if (selection.isLeaf() && calcHeight(selection) == 4){
+            if (selection.isLeaf() && _treeModel.calcHeight(selection) == 4){
                String queueName = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
                NamesModel queueNameModel = _namesListModel.getName(queueName);
                Map<String, Integer> recordingsMap = queueNameModel.getRecordings();
@@ -288,65 +290,11 @@ public class ListenModeController implements Initializable {
         rateBtn.setDisable(true);
 
         makeRatingFile();
-        populateTree(originalTreeView, 0);
-        populateTree(personalTreeView, 1);
+        _treeModel.populateTree(originalTreeView, 0,_namesListModel);
+        _treeModel.populateTree(personalTreeView, 1,_namesListModel);
         checkDoubleClick();
         _queuedNames = FXCollections.observableArrayList();
         playQueue.setItems(_queuedNames);
-
-    }
-
-    private void populateTree(TreeView<String> tree, int identifier){
-        TreeItem<String> root = new TreeItem<>("Names");
-        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
-        TreeItem<String>[] alphabetHeadings = new TreeItem[27];
-        for (int i=0;i<26;i++){
-            alphabetHeadings[i]= makeBranch(root, Character.toString(alphabet[i]));
-        }
-        alphabetHeadings[26]=makeBranch(root,"Other");
-
-        //make branch for recordings
-        for (int i=0;i<26;i++){
-            ArrayList<String> names = new ArrayList<>();
-            names.addAll(_namesListModel.getNames(alphabet[i], identifier));
-            for (String s : names){
-                TreeItem<String> heading = makeBranch(alphabetHeadings[i], s);
-                NamesModel nameModel = _namesListModel.getName(s);
-                Map<String, Integer> recordingsMap = nameModel.getRecordings();
-                List<String> recordings = new ArrayList<>();
-                for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-                    if (entry.getValue() == identifier){
-                        recordings.add(entry.getKey());
-                    }
-                }
-                for (String recording : recordings){
-                    makeBranch(heading, recording.substring(recording.indexOf('_')+1));
-                }
-            }
-        }
-
-        root.setExpanded(true);
-        tree.setRoot(root);
-
-    }
-
-    private TreeItem<String> makeBranch(TreeItem<String> parent, String title){
-        TreeItem<String> branch = new TreeItem<>(title);
-        parent.getChildren().add(branch);
-        if (calcHeight(branch) != 3){
-            branch.setExpanded(true);
-        } else {
-            branch.setExpanded(false);
-        }
-        return branch;
-    }
-
-    private int calcHeight(TreeItem<String> selection){ //recursive function to calculate height of the selected item in tree
-        if (selection.getParent() == null){
-            return 1;
-        } else {
-            return calcHeight(selection.getParent())+1;
-        }
 
     }
 
@@ -360,7 +308,7 @@ public class ListenModeController implements Initializable {
                 deleteBtn.setDisable(true);
                 TreeItem<String> selection = originalTreeView.getSelectionModel().getSelectedItem();
                 if (selection != null) {
-                    if (selection.isLeaf() && calcHeight(selection) == 4) {
+                    if (selection.isLeaf() && _treeModel.calcHeight(selection) == 4) {
                         addBtn.setDisable(false);
                         rateBtn.setDisable(false);
                     }
@@ -377,7 +325,7 @@ public class ListenModeController implements Initializable {
                 TreeItem<String> selection = personalTreeView.getSelectionModel().getSelectedItem();
 
                 if (selection != null) {
-                    if (selection.isLeaf() && calcHeight(selection) == 4) {
+                    if (selection.isLeaf() && _treeModel.calcHeight(selection) == 4) {
                         deleteBtn.setDisable(false);
                     } else {
                         deleteBtn.setDisable(true);

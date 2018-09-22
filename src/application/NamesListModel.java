@@ -7,17 +7,13 @@ import java.util.*;
 
 public class NamesListModel {
 
-    private ArrayList<NamesModel> _names; //List of NamesModel objects, each object associated with one or more recording for that name
-    private ArrayList<String> _ogNameStrings;
-    private ArrayList<String> _perNameStrings;
+    private ArrayList<NamesModel> _names; //List of NamesModel objects, each object associated with one or more recording for that nam
     private List<String> _uniqueNames;
 
 
     public NamesListModel() {
         _names = new ArrayList<>();
         _uniqueNames = new ArrayList<>();
-        _ogNameStrings = new ArrayList<>();
-        _perNameStrings = new ArrayList<>();
         createDirectory();
         makeNames();
     }
@@ -92,31 +88,5 @@ public class NamesListModel {
                 }
             }
         }
-//        for (File file: ogFiles){
-//            if (file.isFile()){
-//                String name = file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.'));  //remove file extension
-//                //String treeName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-//                if (_ogNameStrings.indexOf(name) == -1){
-//                    _ogNameStrings.add(name);
-//
-//                    NamesModel nameModel = new NamesModel(name);
-//                    _names.add(nameModel);
-//                }
-//            }
-//        }
-//
-//        for (File file: perFiles){
-//            if (file.isFile()){
-//                String name = file.getName().substring(file.getName().lastIndexOf("_") + 1, file.getName().lastIndexOf('.'));  //remove file extension
-//                //name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-//                String treeName = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-//                if (_perNameStrings.indexOf(name) == -1){
-//                    _perNameStrings.add(name);
-//
-//                    NamesModel nameModel = new NamesModel(name);
-//                    _names.add(nameModel);
-//                }
-//            }
-//        }
     }
 }
