@@ -8,10 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
    <top>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="700.0">
                <children>
@@ -19,8 +18,15 @@
                      <font>
                         <Font size="48.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="30.0" />
+                     </HBox.margin>
                   </Label>
-                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <ProgressBar prefHeight="20.0" prefWidth="165.0" progress="0.0">
+                     <HBox.margin>
+                        <Insets left="30.0" right="20.0" />
+                     </HBox.margin>
+                  </ProgressBar>
                   <Button fx:id="listenModeBtn" mnemonicParsing="false" onAction="#goToListenMode" prefHeight="35.0" prefWidth="130.0" text="Listen Mode" />
                </children>
             </HBox>
@@ -33,4 +39,68 @@
          </children>
       </VBox>
    </top>
+   <right>
+      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="317.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets right="10.0" />
+         </BorderPane.margin>
+         <children>
+            <Label text="Practice Recordings " />
+            <ListView prefHeight="340.0" prefWidth="324.0" />
+            <Label text="Not Comparing anything at the moment" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Compare">
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" text="Save" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </right>
+   <left>
+      <HBox prefHeight="495.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" prefHeight="495.0" prefWidth="300.0">
+               <children>
+                  <Pane prefHeight="50.0" prefWidth="300.0" />
+                  <Label text="Original Names ">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TreeView prefHeight="350.0" prefWidth="299.0" />
+                  <Label text="No Recording playing currently" />
+                  <Label />
+                  <ProgressBar prefWidth="200.0" progress="0.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </ProgressBar>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Listen">
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Record" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Pane prefHeight="495.0" prefWidth="28.0" />
+            <Separator orientation="VERTICAL" prefHeight="495.0" prefWidth="4.0" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </left>
 </BorderPane>
