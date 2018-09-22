@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 public class RecordingRater {
 
+    //class that handles File I/O operations related to the txt file
+
     private String _selection;
 
     public RecordingRater(String selection){

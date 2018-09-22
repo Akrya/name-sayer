@@ -22,7 +22,7 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <ProgressBar prefHeight="20.0" prefWidth="165.0" progress="0.0">
+                  <ProgressBar fx:id="micBar" prefHeight="20.0" prefWidth="165.0" progress="0.0">
                      <HBox.margin>
                         <Insets left="30.0" right="20.0" />
                      </HBox.margin>
@@ -46,11 +46,12 @@
          </BorderPane.margin>
          <children>
             <Label text="Practice Recordings " />
-            <ListView prefHeight="340.0" prefWidth="324.0" />
+            <ListView fx:id="personalRecordings" prefHeight="328.0" prefWidth="317.0" />
             <Label text="Not Comparing anything at the moment" />
+            <Label />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Compare">
+                  <Button fx:id="compBtn" mnemonicParsing="false" text="Compare">
                      <HBox.margin>
                         <Insets right="15.0" />
                      </HBox.margin>
@@ -72,10 +73,10 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TreeView prefHeight="350.0" prefWidth="299.0" />
+                  <TreeView fx:id="ogTreeView" prefHeight="350.0" prefWidth="299.0" />
                   <Label text="No Recording playing currently" />
                   <Label />
-                  <ProgressBar prefWidth="200.0" progress="0.0">
+                  <ProgressBar fx:id="ogProgressBar" prefWidth="200.0" progress="0.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -85,12 +86,12 @@
                   </ProgressBar>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Listen">
+                        <Button fx:id="listenBtn" mnemonicParsing="false" text="Listen">
                            <HBox.margin>
                               <Insets right="15.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Record" />
+                        <Button fx:id="recordBtn" mnemonicParsing="false" text="Record" />
                      </children>
                   </HBox>
                </children>
