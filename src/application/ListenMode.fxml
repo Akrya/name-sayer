@@ -29,7 +29,7 @@
                   <Insets bottom="5.0" top="10.0" />
                </padding>
             </Label>
-            <TabPane fx:id="tabPane" prefHeight="342.0" prefWidth="340.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" prefHeight="360.0" prefWidth="340.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Original">
                      <content>
@@ -116,10 +116,7 @@
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Button layoutX="56.0" layoutY="23.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="TEST MIC" />
-                     </children></Pane>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
                   <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="35.0" prefWidth="130.0" text="Practice Mode" />
                </children>
             </HBox>
