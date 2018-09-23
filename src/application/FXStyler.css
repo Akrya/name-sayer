@@ -41,10 +41,23 @@
 }
 
 
-.mic-bar{
-    -fx-border-radius: 0;
-    -fx-background-color: #e5e5e5;
+/*css for mictest background */
+.mic-bar > .track {
+    -fx-control-inner-background: #fbd8d7;
+    -fx-background-insets: 0, 0 0 1 0, 1 1 2 1;
+    -fx-background-radius: 0, 0, 0; /* 10, 9, 8 */
+
 }
+
+/*css for mictest bar */
+.mic-bar > .bar {
+    -fx-background-color: #931f18;
+    -fx-background-insets: 3 3 4 3;
+    -fx-background-radius: 2;
+    -fx-padding: 0.75em;
+}
+
+
 
 .scene-label{
     -fx-text-fill: #fff5d1;
