@@ -18,14 +18,14 @@
    <top>
       <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="89.0" prefWidth="700.0" styleClass="nameSayer-hbox">
+            <HBox alignment="CENTER" styleClass="nameSayer-hbox">
                <children>
                   <Label text="Name Sayer">
                      <font>
                         <Font size="48.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="30.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                   <Pane prefHeight="200.0" prefWidth="200.0">
@@ -41,19 +41,25 @@
                <VBox.margin>
                   <Insets left="20.0" top="5.0" />
                </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </Label>
          </children>
       </VBox>
    </top>
    <right>
-      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="554.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="335.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets right="10.0" />
+            <Insets left="-3.0" right="10.0" />
          </BorderPane.margin>
          <children>
-            <Label text="Practice Recordings " />
-            <ListView fx:id="personalRecordings" prefHeight="340.0" prefWidth="324.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Label text="Practice Recordings " textFill="WHITE">
+               <padding>
+                  <Insets bottom="5.0" top="20.0" />
+               </padding></Label>
+            <ListView fx:id="personalRecordings" prefHeight="339.0" prefWidth="324.0" />
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="compBtn" mnemonicParsing="false" text="Compare">
@@ -68,25 +74,29 @@
       </VBox>
    </right>
    <left>
-      <HBox prefHeight="495.0" prefWidth="333.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="517.0" prefWidth="354.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" prefHeight="495.0" prefWidth="319.0">
+            <VBox alignment="CENTER" prefHeight="495.0" prefWidth="335.0">
                <children>
-                  <Label text="Original Names ">
+                  <Label prefHeight="23.0" prefWidth="86.0" text="Original Names " textFill="WHITE">
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
-                  </Label>
-                  <TreeView fx:id="ogTreeView" prefHeight="339.0" prefWidth="330.0" />
-                  <Text fx:id="ogPlayStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
-                  <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <ProgressBar fx:id="ogProgressBar" prefHeight="36.0" prefWidth="201.0" progress="0.0">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
                      <padding>
-                        <Insets top="20.0" />
+                        <Insets bottom="5.0" />
                      </padding>
+                  </Label>
+                  <TreeView fx:id="ogTreeView" prefHeight="339.0" prefWidth="335.0" />
+                  <Text fx:id="ogPlayStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="selectedRecording" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <ProgressBar fx:id="ogProgressBar" prefHeight="8.0" prefWidth="193.0" progress="0.0">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
                   </ProgressBar>
                   <HBox alignment="CENTER" prefHeight="47.0" prefWidth="340.0">
                      <children>
