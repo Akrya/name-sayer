@@ -22,7 +22,7 @@ public class RecordingRater {
     public boolean checkFile(){
         boolean found = false;
         try {
-            Scanner scanner = new Scanner(new File("Names/Ratings.txt"));
+            Scanner scanner = new Scanner(new File("Ratings.txt"));
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 if(line.contains(_selection)) {
@@ -80,7 +80,7 @@ public class RecordingRater {
         }
         BufferedWriter bw = null;
         try {
-            bw = new BufferedWriter(new FileWriter("Names/Ratings.txt", true));
+            bw = new BufferedWriter(new FileWriter("Ratings.txt", true));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,8 +90,8 @@ public class RecordingRater {
     }
 
     private void deleteRating(){
-        File ratingFile = new File("Names/Ratings.txt");
-        File tempFile = new File("Names/temp.txt");
+        File ratingFile = new File("Ratings.txt");
+        File tempFile = new File("temp.txt");
 
         try {
             tempFile.createNewFile(); //read in current ratings file and then check each line for the recording to be removed

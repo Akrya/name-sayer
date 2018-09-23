@@ -175,9 +175,9 @@ public class ListenModeController implements Initializable {
             }
         }
         if (original){
-            filePath = "Names/Original/"+selection;
+            filePath = "Original/"+selection;
         } else {
-            filePath = "Names/Personal/"+selection;
+            filePath = "Personal/"+selection;
         }
         playingBar.setProgress(0);
         try {
@@ -334,14 +334,14 @@ public class ListenModeController implements Initializable {
     }
 
     private void makeRatingFile(){
-        File rateFile = new File("Names/Ratings.txt");
+        File rateFile = new File("Ratings.txt");
         if(rateFile.exists()) {
             return;
         } else {
             try {
                 rateFile.createNewFile(); //make file if first time using program
 //                Thread.sleep(1000); //TODO: not necessary?
-                BufferedWriter bw = new BufferedWriter(new FileWriter("Names/Ratings.txt", true));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("Ratings.txt", true));
                 PrintWriter writer = new PrintWriter(bw);
                 writer.println("This is the ratings for the recordings stored in the Original and Personal databases");
                 writer.println("Each recording stored in this file has a rating of 'Good' or 'Bad'");

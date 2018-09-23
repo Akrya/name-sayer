@@ -20,17 +20,15 @@ public class NamesListModel {
 
     private void createDirectory(){
 
-        new File("Names").mkdir();
-        new File( "Names/Personal").mkdir();
-        new File("Names/Original").mkdir();
-        String cmd = "unzip names.zip -d Names/Original";
-        ProcessBuilder makeOriginal = new ProcessBuilder("/bin/bash","-c", cmd);
-        try {
-           Process process = makeOriginal.start();
-           //process.waitFor();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new File( "Personal").mkdir();
+        //String cmd = "unzip names.zip -d Names/Original";
+//        ProcessBuilder makeOriginal = new ProcessBuilder("/bin/bash","-c", cmd);
+//        try {
+//           Process process = makeOriginal.start();
+//           //process.waitFor();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -76,10 +74,10 @@ public class NamesListModel {
     }
 
     private void makeNames(){
-        File[] ogFiles = new File("Names/Original").listFiles();
+        File[] ogFiles = new File("Original").listFiles();
         List<File> files = new ArrayList<>();
         files.addAll(Arrays.asList(ogFiles));
-        File[] perFiles = new File("Names/Personal").listFiles();
+        File[] perFiles = new File("Personal").listFiles();
         files.addAll(Arrays.asList(perFiles));
 
         for (int i=0;i<files.size();i++){

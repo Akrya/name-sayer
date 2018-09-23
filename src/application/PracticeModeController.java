@@ -191,8 +191,8 @@ public class PracticeModeController implements Initializable {
                     perfile = entry.getKey();
                 }
             }
-            final String ogPath = "Names/Original/"+ogfile;
-            final String perPath = "Names/Personal/"+perfile;
+            final String ogPath = "Original/"+ogfile;
+            final String perPath = "Personal/"+perfile;
             ogProgressBar.setProgress(0);
             AudioInputStream audioInputStream = null;
             try {
@@ -205,10 +205,8 @@ public class PracticeModeController implements Initializable {
                 frames = audioInputStream.getFrameLength();
                 final double perLength =  ((frames+0.0) / format.getFrameRate());
                 setUpProgressBar(ogLength+perLength);
-                System.out.println(ogPath + " "+ ogLength);
                 RecordingPlayer player = new RecordingPlayer(ogPath,ogLength);
                 player.setOnSucceeded(e ->{
-                    System.out.println(perPath + " "+ perLength);
                     RecordingPlayer player2 = new RecordingPlayer(perPath,perLength); //play second video when first ends
                     player2.setOnSucceeded(b ->{
                         listenModeBtn.setDisable(false); //re-enable buttons after both videos play
@@ -260,7 +258,7 @@ public class PracticeModeController implements Initializable {
                     filePath = entry.getKey();
                 }
             }
-            filePath = (identifier == 0) ? "Names/Original/"+filePath : "Names/Personal/" + filePath;
+            filePath = (identifier == 0) ? "Original/"+filePath : "Personal/" + filePath;
             ogProgressBar.setProgress(0);
             try {
                 //get length of the recording

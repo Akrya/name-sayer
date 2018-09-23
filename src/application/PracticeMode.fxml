@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
    <top>
       <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
@@ -99,17 +99,15 @@
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
                         </Label>
-                        <ListView fx:id="ogRecordings" onMouseClicked="#enableListenOg" prefHeight="259.0" prefWidth="246.0">
+                        <ListView fx:id="ogRecordings" onMouseClicked="#enableListenOg" prefHeight="260.0" prefWidth="237.0">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </ListView>
-                        <Button fx:id="listenOgBtn" mnemonicParsing="false" onAction="#playOgRecording" text="Listen Original">
-                           <VBox.margin>
-                              <Insets top="15.0" />
-                           </VBox.margin>
-                        </Button>
                      </children>
                      <HBox.margin>
                         <Insets top="20.0" />
@@ -120,18 +118,17 @@
                         <Button fx:id="compBtn" mnemonicParsing="false" onAction="#compareRecordings" prefHeight="25.0" prefWidth="88.0" text="Compare" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="212.0" prefWidth="250.0">
+                  <VBox alignment="CENTER" prefHeight="212.0" prefWidth="250.0">
                      <children>
-                        <Label text="Personal files" />
-                        <ListView fx:id="personalRecordings" onMouseClicked="#enableListenPer" prefHeight="284.0" prefWidth="227.0">
+                        <Label text="Personal files">
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding></Label>
+                        <ListView fx:id="personalRecordings" onMouseClicked="#enableListenPer" prefHeight="260.0" prefWidth="248.0">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </ListView>
-                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#playPerRecording" text="Listen Personal">
-                           <VBox.margin>
-                              <Insets top="15.0" />
-                           </VBox.margin></Button>
                      </children>
                      <HBox.margin>
                         <Insets top="20.0" />
@@ -151,7 +148,7 @@
                         <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#playPerRecording" text="Listen Personal" />
                      </children>
                   </HBox>
-                  <Text fx:id="ogPlayStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
+                  <Text fx:id="ogPlayStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
                   <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <ProgressBar fx:id="ogProgressBar" prefHeight="40.0" prefWidth="318.0" progress="0.0">
                      <VBox.margin>
