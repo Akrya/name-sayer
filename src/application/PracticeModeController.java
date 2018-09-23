@@ -179,6 +179,7 @@ public class PracticeModeController implements Initializable {
         _treeViewModel.populateTree(ogTreeView,0,_namesListModel);
         _practiceNames = FXCollections.observableArrayList();
         personalRecordings.setItems(_practiceNames);
+
         audioVisualizer.setProgress(0.0);
         copyWorker = createWorker();
         audioVisualizer.progressProperty().unbind();

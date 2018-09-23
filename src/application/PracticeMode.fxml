@@ -30,14 +30,14 @@
                   </Label>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <ProgressBar fx:id="audioVisualizer" layoutX="18.0" layoutY="31.0" prefHeight="20.0" prefWidth="165.0" progress="0.0" />
+                        <ProgressBar fx:id="audioVisualizer" layoutX="18.0" layoutY="31.0" prefHeight="20.0" prefWidth="165.0" progress="0.0" styleClass="mic-bar" />
                      </children>
                   </Pane>
                   <Button fx:id="listenModeBtn" mnemonicParsing="false" onAction="#goToListenMode" prefHeight="35.0" prefWidth="130.0" text="Listen Mode" />
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
-            <Label text="Practice Mode">
+            <Label styleClass="scene-label" text="Practice Mode">
                <VBox.margin>
                   <Insets left="20.0" top="5.0" />
                </VBox.margin>

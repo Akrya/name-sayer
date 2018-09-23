@@ -1,5 +1,5 @@
 .root{
-    -fx-background-color: #a49f97;   /*root background color*/
+    -fx-background-color: #7e7776;   /*root background color*/
     -fx-text-fill: #fff;
 }
 
@@ -31,11 +31,22 @@
 .separator *.line {
     -fx-border-style: solid;
     -fx-border-width: 0 1 1 0; /* its make really one-pixel-border */
-    -fx-border-color: #968a81;
+    -fx-border-color: #5b5453;
 }
 
 /*style for name sayer panel*/
 .nameSayer-hbox{
     -fx-background-color: #665f5e;
 
+}
+
+
+.mic-bar{
+    -fx-border-radius: 0;
+    -fx-background-color: #e5e5e5;
+}
+
+.scene-label{
+    -fx-text-fill: #fff5d1;
+    -fx-font-weight: bold;
 }
