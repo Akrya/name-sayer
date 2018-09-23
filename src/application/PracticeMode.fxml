@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -14,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
    <top>
       <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,11 +33,20 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
+                  <VBox alignment="CENTER" prefHeight="84.0" prefWidth="222.0">
                      <children>
-                        <ProgressBar fx:id="audioVisualizer" layoutX="18.0" layoutY="31.0" prefHeight="20.0" prefWidth="165.0" progress="0.0" />
+                        <Label text="Mic Test">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Label>
+                        <ProgressBar fx:id="audioVisualizer" prefHeight="20.0" prefWidth="165.0" progress="0.0">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </ProgressBar>
                      </children>
-                  </Pane>
+                  </VBox>
                   <Button fx:id="listenModeBtn" mnemonicParsing="false" onAction="#goToListenMode" prefHeight="35.0" prefWidth="130.0" text="Listen Mode" />
                </children>
             </HBox>
@@ -77,7 +91,7 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TreeView fx:id="ogTreeView" prefHeight="339.0" prefWidth="330.0" />
+                  <TreeView fx:id="ogTreeView" onMouseClicked="#enableBtn" prefHeight="339.0" prefWidth="330.0" />
                   <Text fx:id="ogPlayStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
                   <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <ProgressBar fx:id="ogProgressBar" prefHeight="36.0" prefWidth="201.0" progress="0.0">
@@ -95,7 +109,7 @@
                               <Insets right="15.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="recordBtn" mnemonicParsing="false" text="Record" />
+                        <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" text="Record" />
                      </children>
                   </HBox>
                </children>

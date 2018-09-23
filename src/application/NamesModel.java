@@ -31,6 +31,7 @@ public class NamesModel {
     }
 
     public Map<String, Integer> getRecordings(){
+        makeRecordings();
         return _recordings;
     }
 

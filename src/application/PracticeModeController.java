@@ -20,6 +20,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
+import sun.reflect.generics.tree.Tree;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -31,12 +32,8 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class PracticeModeController implements Initializable {
 
@@ -169,6 +166,38 @@ public class PracticeModeController implements Initializable {
         }
     }
 
+
+    @FXML
+    private void recordNewName(){
+        TreeItem<String> selection = ogTreeView.getSelectionModel().getSelectedItem();
+        NamesModel selectedName = _namesListModel.getName(selection.getValue().substring(selection.getValue().lastIndexOf("_")+1,selection.getValue().lastIndexOf(".")));
+        Recorder recorder = new Recorder(selectedName);
+        recorder.start();
+        recordBtn.setDisable(true);
+        ogProgressBar.setProgress(0);
+        ogPlayStatus.setText("Now recording for 5 seconds for the name");
+        selectedRecording.setText("'"+selectedName.toString()+"'");
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (ogProgressBar.getProgress() >= 1) {
+                    timer.cancel();
+                    listenBtn.setDisable(false);
+                    recordBtn.setDisable(false);
+                    ogPlayStatus.setText("Finished recording!");
+                    selectedRecording.setText("");
+                } else {
+                    Platform.runLater(() -> { //update progress bar display, but doing it on gui thread to ensure thread safety
+                        ogProgressBar.setProgress(ogProgressBar.getProgress() + 0.01);
+                    });
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, 50); // 5 seconds for recording
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         listenBtn.setDisable(true);
@@ -179,11 +208,12 @@ public class PracticeModeController implements Initializable {
         _treeViewModel.populateTree(ogTreeView,0,_namesListModel);
         _practiceNames = FXCollections.observableArrayList();
         personalRecordings.setItems(_practiceNames);
+
         audioVisualizer.setProgress(0.0);
         copyWorker = createWorker();
         audioVisualizer.progressProperty().unbind();
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
-        new Thread(copyWorker).start();
+        new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
     }
 
 
@@ -196,7 +226,7 @@ public class PracticeModeController implements Initializable {
 
                 // Open a TargetDataLine for getting microphone input & sound level
 
-                AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44000, 16, 2, 4, 1000, true);
+                AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 4400, 16, 2, 4, 1000, true);
                 DataLine.Info info = new DataLine.Info(TargetDataLine.class, format); //     format is an AudioFormat object
                 //System.out.println(info);
                 if (!AudioSystem.isLineSupported(info)) {
