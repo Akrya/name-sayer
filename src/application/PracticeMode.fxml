@@ -12,13 +12,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
    <top>
       <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="700.0">
+            <HBox alignment="CENTER" prefHeight="89.0" prefWidth="700.0" styleClass="nameSayer-hbox">
                <children>
                   <Label text="Name Sayer">
                      <font>
@@ -28,36 +27,35 @@
                         <Insets left="30.0" />
                      </HBox.margin>
                   </Label>
-                  <ProgressBar fx:id="micBar" prefHeight="20.0" prefWidth="165.0" progress="0.0">
-                     <HBox.margin>
-                        <Insets left="30.0" right="20.0" />
-                     </HBox.margin>
-                  </ProgressBar>
+                  <Pane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <ProgressBar fx:id="audioVisualizer" layoutX="18.0" layoutY="31.0" prefHeight="20.0" prefWidth="165.0" progress="0.0" />
+                     </children>
+                  </Pane>
                   <Button fx:id="listenModeBtn" mnemonicParsing="false" onAction="#goToListenMode" prefHeight="35.0" prefWidth="130.0" text="Listen Mode" />
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
             <Label text="Practice Mode">
                <VBox.margin>
-                  <Insets left="20.0" />
+                  <Insets left="20.0" top="5.0" />
                </VBox.margin>
             </Label>
          </children>
       </VBox>
    </top>
    <right>
-      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="317.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="554.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="10.0" />
          </BorderPane.margin>
          <children>
             <Label text="Practice Recordings " />
-            <ListView fx:id="personalRecordings" prefHeight="328.0" prefWidth="317.0" />
-            <Text fx:id="compareStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Not comparing anything at the moment" />
-            <Text fx:id="selectedComparison" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <ListView prefHeight="340.0" prefWidth="324.0" />
+            <Label text="Not Comparing anything at the moment" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="compBtn" mnemonicParsing="false" text="Compare">
+                  <Button mnemonicParsing="false" text="Compare">
                      <HBox.margin>
                         <Insets right="15.0" />
                      </HBox.margin>
@@ -69,20 +67,19 @@
       </VBox>
    </right>
    <left>
-      <HBox prefHeight="495.0" prefWidth="348.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="495.0" prefWidth="333.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" prefHeight="495.0" prefWidth="300.0">
+            <VBox alignment="CENTER" prefHeight="495.0" prefWidth="319.0">
                <children>
-                  <Pane prefHeight="50.0" prefWidth="300.0" />
                   <Label text="Original Names ">
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TreeView fx:id="ogTreeView" onMouseClicked="#enableBtn" prefHeight="350.0" prefWidth="299.0" />
-                  <Text fx:id="ogPlayStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
-                  <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <ProgressBar fx:id="ogProgressBar" prefWidth="200.0" progress="0.0">
+                  <TreeView prefHeight="339.0" prefWidth="330.0" />
+                  <Label text="No Recording playing currently" />
+                  <Label />
+                  <ProgressBar prefHeight="36.0" prefWidth="201.0" progress="0.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -90,20 +87,20 @@
                         <Insets top="20.0" />
                      </padding>
                   </ProgressBar>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="47.0" prefWidth="340.0">
                      <children>
-                        <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" text="Listen">
+                        <Button mnemonicParsing="false" text="Listen">
                            <HBox.margin>
                               <Insets right="15.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="recordBtn" mnemonicParsing="false" text="Record" />
+                        <Button mnemonicParsing="false" text="Record" />
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <Pane prefHeight="495.0" prefWidth="32.0" />
-            <Separator orientation="VERTICAL" prefHeight="495.0" prefWidth="4.0" />
+            <Pane prefHeight="495.0" prefWidth="7.0" />
+            <Separator orientation="VERTICAL" prefHeight="495.0" prefWidth="1.0" />
          </children>
          <BorderPane.margin>
             <Insets left="10.0" />

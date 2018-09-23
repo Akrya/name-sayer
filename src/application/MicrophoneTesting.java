@@ -1,4 +1,4 @@
-package application;
+/*package application;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -8,9 +8,9 @@ import javax.sound.sampled.TargetDataLine;
 
 ////NEED TO REFERENCE STACK OVERFLOW
 
-public class MicrophoneTesting {
+public class TestmicroPhone {
 
-    public MicrophoneTesting() {
+    public TestmicroPhone() {
 
     }
 
@@ -58,3 +58,4 @@ public class MicrophoneTesting {
         }
     }
 }
+*/

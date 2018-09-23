@@ -1,61 +1,41 @@
 .root{
-    -fx-background-color: #0a3d62;   /*root background color*/
+    -fx-background-color: #f3f2f7;   /*root background color*/
+    -fx-text-fill: #fff;
 }
 
 /*default hover and click system for buttons*/
 .button{
     -fx-background-radius: 0;
-    -fx-background-color: #e58e26;
-    -fx-text-fill: #38383e;
+    -fx-background-color: #bb5e56;
+    -fx-text-fill: #fff7ff;
 
 }
 .button:hover{
 
-    -fx-text-fill: #232329;
+    -fx-background-color: #d16858;
+    -fx-text-fill: #fff7ff;
     -fx-font-weight: bold;
 }
 .button:pressed{
-    -fx-text-fill: #38383e;
+    -fx-text-fill: #fff7ff;
     -fx-font-weight: normal;
 }
 
 .label{
-    -fx-text-fill: #fff;
-}
-
-.tab{
-    -fx-background-radius: 0;
-}
-
-/*separate class for recording and mic testing button */
-
-.button-recording{
-    -fx-background-color: #dfe6e9;
-    -fx-background-radius: 0;
-    -fx-text-fill: #535a5c;
-    -fx-font-weight: bold;
-}
-.button-recording:hover{
-    -fx-background-color: #edf4f7;
-    -fx-text-fill: #2d3436;
-    -fx-font-weight: bold;
-
-}
-.button-recording:pressed{
-    -fx-text-fill: #535a5c;
-    -fx-background-color: #dfe6e9;
-    -fx-font-weight: bold;
+    -fx-text-fill: #eeeeee;
 }
 
 
-/*will add image later on*/
-.button-mic{
 
-    -fx-font-weight: bold;
-}
 
 .separator *.line {
     -fx-border-style: solid;
-    -fx-border-width: 0 2 2 0; /* its make really one-pixel-border */
-    -fx-border-color: #e58e26;
+    -fx-border-width: 0 1 1 0; /* its make really one-pixel-border */
+    -fx-border-color: #968a81;
+}
+
+/*style for name sayer panel*/
+.nameSayer-hbox{
+    -fx-background-color: #665f5e;
+
 }
