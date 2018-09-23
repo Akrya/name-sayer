@@ -70,7 +70,7 @@
       </VBox>
    </right>
    <top>
-      <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="scenelabel" prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="120.0" prefWidth="700.0" styleClass="nameSayer-hbox">
                <children>
@@ -84,7 +84,7 @@
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
-            <Label prefHeight="28.0" prefWidth="105.0" text="Listen Mode">
+            <Label prefHeight="28.0" prefWidth="105.0" styleClass="scene-label" text="Listen Mode" textFill="WHITE">
                <VBox.margin>
                   <Insets left="20.0" top="5.0" />
                </VBox.margin>
