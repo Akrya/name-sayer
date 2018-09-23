@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
    <top>
@@ -51,11 +52,11 @@
          </BorderPane.margin>
          <children>
             <Label text="Practice Recordings " />
-            <ListView prefHeight="340.0" prefWidth="324.0" />
-            <Label text="Not Comparing anything at the moment" />
+            <ListView fx:id="personalRecordings" prefHeight="340.0" prefWidth="324.0" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" text="Compare">
+                  <Button fx:id="compBtn" mnemonicParsing="false" text="Compare">
                      <HBox.margin>
                         <Insets right="15.0" />
                      </HBox.margin>
@@ -76,10 +77,10 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TreeView prefHeight="339.0" prefWidth="330.0" />
-                  <Label text="No Recording playing currently" />
-                  <Label />
-                  <ProgressBar prefHeight="36.0" prefWidth="201.0" progress="0.0">
+                  <TreeView fx:id="ogTreeView" prefHeight="339.0" prefWidth="330.0" />
+                  <Text fx:id="ogPlayStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
+                  <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <ProgressBar fx:id="ogProgressBar" prefHeight="36.0" prefWidth="201.0" progress="0.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -89,12 +90,12 @@
                   </ProgressBar>
                   <HBox alignment="CENTER" prefHeight="47.0" prefWidth="340.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Listen">
+                        <Button fx:id="listenBtn" mnemonicParsing="false" text="Listen">
                            <HBox.margin>
                               <Insets right="15.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Record" />
+                        <Button fx:id="recordBtn" mnemonicParsing="false" text="Record" />
                      </children>
                   </HBox>
                </children>

@@ -1,7 +1,10 @@
 package application;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +18,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -30,6 +35,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class PracticeModeController implements Initializable {
 
@@ -38,8 +45,7 @@ public class PracticeModeController implements Initializable {
 
     @FXML
     private ListView<String> personalRecordings;
-import java.net.URL;
-import java.util.ResourceBundle;
+
 
     @FXML
     private Button listenBtn;
@@ -69,7 +75,7 @@ import java.util.ResourceBundle;
 
 
     private ObservableList<String> _practiceNames;
-public class PracticeModeController implements Initializable {
+
 
     @FXML
     private ProgressBar audioVisualizer;
@@ -173,21 +179,14 @@ public class PracticeModeController implements Initializable {
         _treeViewModel.populateTree(ogTreeView,0,_namesListModel);
         _practiceNames = FXCollections.observableArrayList();
         personalRecordings.setItems(_practiceNames);
-    }
-
-
-
-}
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
         audioVisualizer.setProgress(0.0);
         copyWorker = createWorker();
         audioVisualizer.progressProperty().unbind();
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start();
-        // TODO
     }
+
+
 
 
     public Task createWorker() {
