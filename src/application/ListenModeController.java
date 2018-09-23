@@ -340,14 +340,14 @@ public class ListenModeController implements Initializable {
         } else {
             try {
                 rateFile.createNewFile(); //make file if first time using program
-                Thread.sleep(1000); //TODO: not necessary?
+//                Thread.sleep(1000); //TODO: not necessary?
                 BufferedWriter bw = new BufferedWriter(new FileWriter("Names/Ratings.txt", true));
                 PrintWriter writer = new PrintWriter(bw);
                 writer.println("This is the ratings for the recordings stored in the Original and Personal databases");
                 writer.println("Each recording stored in this file has a rating of 'Good' or 'Bad'");
                 writer.println("");
                 writer.close();
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

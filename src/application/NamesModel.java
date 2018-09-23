@@ -35,6 +35,26 @@ public class NamesModel {
         return _recordings;
     }
 
+    public List<String> getOgRecordings(){
+        List<String> ogRecordings = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : _recordings.entrySet()){
+            if (entry.getValue() == 0){
+                ogRecordings.add(entry.getKey());
+            }
+        }
+        return ogRecordings;
+    }
+
+    public List<String> getPerRecordings(){
+        List<String> perRecordings = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : _recordings.entrySet()){
+            if (entry.getValue() == 1){
+                perRecordings.add(entry.getKey());
+            }
+        }
+        return perRecordings;
+    }
+
     public String toString(){
         return _name;
     }

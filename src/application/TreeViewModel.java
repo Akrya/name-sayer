@@ -22,7 +22,7 @@ public class TreeViewModel {
         //make branch for recordings
         for (int i=0;i<26;i++){
             ArrayList<String> names = new ArrayList<>();
-            names.addAll(namesListModel.getNames(alphabet[i], identifier));
+            names.addAll(namesListModel.getNamesForLetter(alphabet[i], identifier));
             for (String s : names){
                 TreeItem<String> heading = makeBranch(alphabetHeadings[i], s);
                 NamesModel nameModel = namesListModel.getName(s);

@@ -38,14 +38,19 @@ import java.util.*;
 public class PracticeModeController implements Initializable {
 
     @FXML
-    private TreeView<String> ogTreeView;
+    private ListView<String> ogNames;
+
+    @FXML
+    private ListView<String> ogRecordings;
 
     @FXML
     private ListView<String> personalRecordings;
 
+    @FXML
+    private Text selectedName;
 
     @FXML
-    private Button listenBtn;
+    private Button listenOgBtn;
 
     @FXML
     private Button recordBtn;
@@ -57,22 +62,30 @@ public class PracticeModeController implements Initializable {
     private Button listenModeBtn;
 
     @FXML
+    private Button listenPerBtn;
+
+    @FXML
     private Text ogPlayStatus;
 
     @FXML
     private Text selectedRecording;
 
     @FXML
+    private Text selectedStatus;
+
+    @FXML
+    private Button selectBtn;
+
+    @FXML
     private ProgressBar ogProgressBar;
 
     private NamesListModel _namesListModel = new NamesListModel();
 
-    private TreeViewModel _treeViewModel = new TreeViewModel();
+    private ObservableList<String> _practiceRecordings;
 
+    private ObservableList<String> _ogRecordings;
 
-
-    private ObservableList<String> _practiceNames;
-
+    private ObservableList<String> _ogNames;
 
     @FXML
     private ProgressBar audioVisualizer;
@@ -94,25 +107,74 @@ public class PracticeModeController implements Initializable {
     }
 
     @FXML
-    private void enableBtn(MouseEvent mouseEvent){
-        TreeItem<String> selection = ogTreeView.getSelectionModel().getSelectedItem();
-        if (selection != null) {
-            if (selection.isLeaf() && _treeViewModel.calcHeight(selection) == 4) {
-                listenBtn.setDisable(false);
-                recordBtn.setDisable(false);
-            }
+    private void enableSelectBtn(MouseEvent mouseEvent){
+        if (!ogNames.getSelectionModel().isEmpty()) {
+            selectBtn.setDisable(false);
+        } else {
+            selectBtn.setDisable(true);
         }
         if(mouseEvent.getClickCount() == 2){
-            playRecording();
+            addToOgRecordings();
         }
     }
 
     @FXML
-    private void playRecording(){
-        //update playingText to display whats currently playing
-        String selection = ogTreeView.getSelectionModel().getSelectedItem().getValue();
-        if (ogTreeView.getSelectionModel().getSelectedItem().isLeaf() && _treeViewModel.calcHeight(ogTreeView.getSelectionModel().getSelectedItem()) == 4 ){
-            listenBtn.setDisable(true);
+    private void enableListenOg(MouseEvent mouseEvent){
+        if (!ogRecordings.getSelectionModel().isEmpty()){
+            listenOgBtn.setDisable(false);
+        } else{
+            listenOgBtn.setDisable(true);
+        }
+        if (mouseEvent.getClickCount() == 2) {
+            playOgRecording();
+        }
+    }
+
+    @FXML
+    private void enableListenPer(MouseEvent mouseEvent){
+        if (!personalRecordings.getSelectionModel().isEmpty()){
+            listenPerBtn.setDisable(false);
+        } else{
+            listenPerBtn.setDisable(true);
+        }
+        if (mouseEvent.getClickCount() == 2) {
+            playPerRecording();
+        }
+    }
+
+    @FXML
+    private void addToOgRecordings(){
+        selectedStatus.setText("Currently selected:");
+        selectedName.setText(ogNames.getSelectionModel().getSelectedItem());
+        NamesModel model = _namesListModel.getName(ogNames.getSelectionModel().getSelectedItem());
+        List<String> recordings = model.getOgRecordings();
+        _ogRecordings = FXCollections.observableArrayList(recordings);
+        ogRecordings.setItems(_ogRecordings);
+        recordings = model.getPerRecordings();
+        _practiceRecordings = FXCollections.observableArrayList(recordings);
+        personalRecordings.setItems(_practiceRecordings);
+        recordBtn.setDisable(false);
+        listenOgBtn.setDisable(true);
+        listenPerBtn.setDisable(true);
+    }
+
+
+    @FXML
+    private void playOgRecording(){
+        playRecording(0);
+    }
+
+    @FXML
+    private void playPerRecording(){
+        playRecording(1);
+    }
+
+    private void playRecording(int identifier){
+
+        String selection = (identifier == 0) ? ogRecordings.getSelectionModel().getSelectedItem() : personalRecordings.getSelectionModel().getSelectedItem();
+        if (selection != null){
+            listenPerBtn.setDisable(true);
+            listenOgBtn.setDisable(true);
             listenModeBtn.setDisable(true);
             recordBtn.setDisable(true);
             ogPlayStatus.setText("Currently playing");
@@ -126,7 +188,7 @@ public class PracticeModeController implements Initializable {
                     filePath = entry.getKey();
                 }
             }
-            filePath = "Names/Original/"+filePath;
+            filePath = (identifier == 0) ? "Names/Original/"+filePath : "Names/Personal/" + filePath;
             ogProgressBar.setProgress(0);
             try {
                 //get length of the recording
@@ -140,7 +202,8 @@ public class PracticeModeController implements Initializable {
                     public void run() {
                         if (ogProgressBar.getProgress() >= 1) {
                             timer.cancel();
-                            listenBtn.setDisable(false);
+                            listenOgBtn.setDisable(false);
+                            listenPerBtn.setDisable(false);
                             recordBtn.setDisable(false);
                             ogPlayStatus.setText("No recording currently playing");
                             selectedRecording.setText("");
@@ -161,19 +224,27 @@ public class PracticeModeController implements Initializable {
             } catch (IOException | UnsupportedAudioFileException e) {
                 e.printStackTrace();
             }
-        } else{
-            return;
         }
     }
 
 
     @FXML
     private void recordNewName(){
-        TreeItem<String> selection = ogTreeView.getSelectionModel().getSelectedItem();
-        NamesModel selectedName = _namesListModel.getName(selection.getValue().substring(selection.getValue().lastIndexOf("_")+1,selection.getValue().lastIndexOf(".")));
+        String selection = selectedName.getText();
+        NamesModel selectedName = _namesListModel.getName(selection);
         Recorder recorder = new Recorder(selectedName);
-        recorder.start();
+        recorder.setOnSucceeded(e -> {
+            listenOgBtn.setDisable(false);
+            listenPerBtn.setDisable(false);
+            recordBtn.setDisable(false);
+            ogPlayStatus.setText("Finished recording!");
+            _practiceRecordings.add(recorder.getValue());
+            System.out.println("yes");
+        });
+        new Thread(recorder).start();
         recordBtn.setDisable(true);
+        listenPerBtn.setDisable(true);
+        listenOgBtn.setDisable(true);
         ogProgressBar.setProgress(0);
         ogPlayStatus.setText("Now recording for 5 seconds for the name");
         selectedRecording.setText("'"+selectedName.toString()+"'");
@@ -183,10 +254,6 @@ public class PracticeModeController implements Initializable {
             public void run() {
                 if (ogProgressBar.getProgress() >= 1) {
                     timer.cancel();
-                    listenBtn.setDisable(false);
-                    recordBtn.setDisable(false);
-                    ogPlayStatus.setText("Finished recording!");
-                    selectedRecording.setText("");
                 } else {
                     Platform.runLater(() -> { //update progress bar display, but doing it on gui thread to ensure thread safety
                         ogProgressBar.setProgress(ogProgressBar.getProgress() + 0.01);
@@ -198,16 +265,24 @@ public class PracticeModeController implements Initializable {
 
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        listenBtn.setDisable(true);
+        listenOgBtn.setDisable(true);
+        listenPerBtn.setDisable(true);
         recordBtn.setDisable(true);
         compBtn.setDisable(true);
+        selectBtn.setDisable(true);
 
 
-        _treeViewModel.populateTree(ogTreeView,0,_namesListModel);
-        _practiceNames = FXCollections.observableArrayList();
-        personalRecordings.setItems(_practiceNames);
+
+        _practiceRecordings = FXCollections.observableArrayList();
+
+        personalRecordings.setItems(_practiceRecordings);
+        _ogRecordings = FXCollections.observableArrayList();
+        ogRecordings.setItems(_ogRecordings);
+        _ogNames = FXCollections.observableArrayList(_namesListModel.getNames());
+        ogNames.setItems(_ogNames);
 
         audioVisualizer.setProgress(0.0);
         copyWorker = createWorker();
@@ -215,9 +290,6 @@ public class PracticeModeController implements Initializable {
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
     }
-
-
-
 
     public Task createWorker() {
         return new Task() {

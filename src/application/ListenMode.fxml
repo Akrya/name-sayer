@@ -21,9 +21,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ListenModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ListenModeController">
    <right>
-      <VBox alignment="CENTER" prefHeight="482.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="30.0" prefWidth="125.0" text="Names Database">
                <padding>
@@ -93,11 +93,11 @@
       </VBox>
    </top>
    <left>
-      <HBox prefHeight="450.0" prefWidth="374.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="495.0" prefWidth="390.0" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="CENTER" prefHeight="450.0" prefWidth="345.0">
                <children>
-                  <Label prefHeight="15.0" prefWidth="75.0" text="Playlist Queue">
+                  <Label prefHeight="30.0" prefWidth="111.0" text="Playlist Queue">
                      <padding>
                         <Insets bottom="5.0" top="10.0" />
                      </padding>
@@ -128,6 +128,7 @@
                   </HBox>
                </children>
             </VBox>
+            <Pane prefHeight="495.0" prefWidth="19.0" />
             <Separator orientation="VERTICAL" prefHeight="502.0" prefWidth="27.0" />
          </children>
          <BorderPane.margin>

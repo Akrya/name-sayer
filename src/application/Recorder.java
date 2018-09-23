@@ -1,39 +1,28 @@
 package application;
 
-import java.io.File;
+import javafx.concurrent.Task;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Map;
 
-public class Recorder extends Thread{
+public class Recorder extends Task<String> {
 
     private NamesModel _name;
     private int _versionNum;
+    private String _fileName;
 
     public Recorder(NamesModel name){
         _name = name;
         getRecordingVersion();
     }
 
-    @Override
-    public void run(){
-
-        try {
-            createAudio();
-            Thread.sleep(5000); //sleep thread while recording
-            trimAudio();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void createAudio() { //run the bash command to record for 5 seconds
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
-        String fileName = "se206_"+currentTime+"_"+"ver_"+_versionNum+"_"+_name.toString()+".wav";
+        _fileName = "se206_"+currentTime+"_"+"ver_"+_versionNum+"_"+_name.toString()+".wav";
 
-        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Names/Personal/"+"'"+fileName+"'";
+        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Names/Personal/"+"'"+_fileName+"'";
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c", cmd);
         try {
             audioBuilder.start();
@@ -56,4 +45,11 @@ public class Recorder extends Thread{
         }
     }
 
+    @Override
+    protected String call() throws Exception {
+        createAudio();
+        Thread.sleep(5000); //sleep thread while recording
+        trimAudio();
+        return _fileName;
+    }
 }

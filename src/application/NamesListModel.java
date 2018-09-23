@@ -7,7 +7,7 @@ import java.util.*;
 
 public class NamesListModel {
 
-    private ArrayList<NamesModel> _names; //List of NamesModel objects, each object associated with one or more recording for that nam
+    private ArrayList<NamesModel> _names; //List of NamesModel objects, each object associated with one or more recording for that name
     private List<String> _uniqueNames;
 
 
@@ -34,8 +34,15 @@ public class NamesListModel {
 
     }
 
+    public List<String> getNames(){
+        List<String> names = new ArrayList<>();
+        for (NamesModel model : _names){
+            names.add(model.toString());
+        }
+        return names;
+    }
 
-    public List<String> getNames(char heading, int identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
+    public List<String> getNamesForLetter(char heading, int identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
         List<String> names = new ArrayList<>();
         Map<String, Integer> namesMap;
         boolean contains = false;

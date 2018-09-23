@@ -11,7 +11,6 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -19,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PracticeModeController">
    <top>
       <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
@@ -60,29 +59,93 @@
       </VBox>
    </top>
    <right>
-      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="554.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="653.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="10.0" />
          </BorderPane.margin>
          <children>
-            <Label text="Practice Recordings " />
-            <ListView fx:id="personalRecordings" prefHeight="340.0" prefWidth="324.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="compBtn" mnemonicParsing="false" text="Compare">
+                  <Text fx:id="selectedStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No name selected">
                      <HBox.margin>
-                        <Insets right="15.0" />
+                        <Insets />
                      </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Save" />
+                  </Text>
+                  <Text fx:id="selectedName" layoutX="222.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" text="Record">
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
+            <HBox alignment="CENTER" prefHeight="340.0" prefWidth="427.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="212.0" prefWidth="250.0">
+                     <children>
+                        <Label text="Original files">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <ListView fx:id="ogRecordings" onMouseClicked="#enableListenOg" prefHeight="230.0" prefWidth="177.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ListView>
+                     </children>
+                     <HBox.margin>
+                        <Insets top="80.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <Button fx:id="compBtn" mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Compare" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="212.0" prefWidth="250.0">
+                     <children>
+                        <Label text="Personal files" />
+                        <ListView fx:id="personalRecordings" onMouseClicked="#enableListenPer" prefHeight="197.0" prefWidth="221.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ListView>
+                     </children>
+                     <HBox.margin>
+                        <Insets top="80.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+            </HBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="listenOgBtn" mnemonicParsing="false" onAction="#playOgRecording" text="Listen Original">
+                           <HBox.margin>
+                              <Insets right="250.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#playPerRecording" text="Listen Personal" />
+                     </children>
+                  </HBox>
+                  <Text fx:id="ogPlayStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
+                  <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <ProgressBar fx:id="ogProgressBar" prefHeight="40.0" prefWidth="318.0" progress="0.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </ProgressBar>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </right>
    <left>
-      <HBox prefHeight="495.0" prefWidth="333.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="495.0" prefWidth="134.0" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="CENTER" prefHeight="495.0" prefWidth="319.0">
                <children>
@@ -91,30 +154,15 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TreeView fx:id="ogTreeView" onMouseClicked="#enableBtn" prefHeight="339.0" prefWidth="330.0" />
-                  <Text fx:id="ogPlayStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
-                  <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <ProgressBar fx:id="ogProgressBar" prefHeight="36.0" prefWidth="201.0" progress="0.0">
+                  <ListView fx:id="ogNames" onMouseClicked="#enableSelectBtn" prefHeight="439.0" prefWidth="133.0" />
+                  <Button fx:id="selectBtn" mnemonicParsing="false" onAction="#addToOgRecordings" text="Select">
                      <VBox.margin>
-                        <Insets />
+                        <Insets top="5.0" />
                      </VBox.margin>
-                     <padding>
-                        <Insets top="20.0" />
-                     </padding>
-                  </ProgressBar>
-                  <HBox alignment="CENTER" prefHeight="47.0" prefWidth="340.0">
-                     <children>
-                        <Button fx:id="listenBtn" mnemonicParsing="false" text="Listen">
-                           <HBox.margin>
-                              <Insets right="15.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" text="Record" />
-                     </children>
-                  </HBox>
+                  </Button>
                </children>
             </VBox>
-            <Pane prefHeight="495.0" prefWidth="7.0" />
+            <Pane prefHeight="495.0" prefWidth="10.0" />
             <Separator orientation="VERTICAL" prefHeight="495.0" prefWidth="1.0" />
          </children>
          <BorderPane.margin>

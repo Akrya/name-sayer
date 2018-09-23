@@ -12,7 +12,7 @@ public class MainApplication extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("ListenMode.fxml"));
         primaryStage.setTitle("Name Sayer");
-        primaryStage.setScene(new Scene(root, 700, 600));
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
