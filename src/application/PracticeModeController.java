@@ -1,5 +1,6 @@
 package application;
 
+import com.sun.prism.impl.Disposer;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -120,6 +121,9 @@ public class PracticeModeController implements Initializable {
 
     @FXML
     private void enableListenOg(MouseEvent mouseEvent){
+        if (ogRecordings.getSelectionModel().getSelectedItem() != null && personalRecordings.getSelectionModel().getSelectedItem() != null){
+            compBtn.setDisable(false);
+        }
         if (!ogRecordings.getSelectionModel().isEmpty()){
             listenOgBtn.setDisable(false);
         } else{
@@ -132,6 +136,9 @@ public class PracticeModeController implements Initializable {
 
     @FXML
     private void enableListenPer(MouseEvent mouseEvent){
+        if (ogRecordings.getSelectionModel().getSelectedItem() != null && personalRecordings.getSelectionModel().getSelectedItem() != null){
+            compBtn.setDisable(false);
+        }
         if (!personalRecordings.getSelectionModel().isEmpty()){
             listenPerBtn.setDisable(false);
         } else{
@@ -156,8 +163,72 @@ public class PracticeModeController implements Initializable {
         recordBtn.setDisable(false);
         listenOgBtn.setDisable(true);
         listenPerBtn.setDisable(true);
+        compBtn.setDisable(true);
     }
 
+    @FXML
+    private void compareRecordings(){
+        if (personalRecordings.getSelectionModel().getSelectedItem() != null && ogRecordings.getSelectionModel().getSelectedItem() != null){
+            ogPlayStatus.setText("Now comparing ");
+            selectedRecording.setText("'"+ogRecordings.getSelectionModel().getSelectedItem()+"' with '"+personalRecordings.getSelectionModel().getSelectedItem()+"'");
+            listenModeBtn.setDisable(true);
+            listenOgBtn.setDisable(true);
+            listenPerBtn.setDisable(true);
+            recordBtn.setDisable(true);
+            compBtn.setDisable(true);
+            String ogfile = "";
+            String perfile = "";
+            String ogSelection = ogRecordings.getSelectionModel().getSelectedItem();
+            String perSelection = personalRecordings.getSelectionModel().getSelectedItem();
+            String queueName = ogSelection.substring(ogSelection.lastIndexOf('_')+1,ogSelection.lastIndexOf('.'));
+            NamesModel model = _namesListModel.getName(queueName);
+            Map<String, Integer> recordingsMap = model.getRecordings();
+            for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
+                if (entry.getKey().contains(ogSelection)) {
+                    ogfile = entry.getKey();
+                }
+                if (entry.getKey().contains(perSelection)){
+                    perfile = entry.getKey();
+                }
+            }
+            final String ogPath = "Names/Original/"+ogfile;
+            final String perPath = "Names/Personal/"+perfile;
+            ogProgressBar.setProgress(0);
+            AudioInputStream audioInputStream = null;
+            try {
+                audioInputStream = AudioSystem.getAudioInputStream(new File(ogPath));
+                AudioFormat format = audioInputStream.getFormat();
+                long frames = audioInputStream.getFrameLength();
+                final double ogLength =  ((frames+0.0) / format.getFrameRate()); //length of recording in seconds
+                audioInputStream = AudioSystem.getAudioInputStream(new File(perPath));
+                format = audioInputStream.getFormat();
+                frames = audioInputStream.getFrameLength();
+                final double perLength =  ((frames+0.0) / format.getFrameRate());
+                setUpProgressBar(ogLength+perLength);
+                System.out.println(ogPath + " "+ ogLength);
+                RecordingPlayer player = new RecordingPlayer(ogPath,ogLength);
+                player.setOnSucceeded(e ->{
+                    System.out.println(perPath + " "+ perLength);
+                    RecordingPlayer player2 = new RecordingPlayer(perPath,perLength); //play second video when first ends
+                    player2.setOnSucceeded(b ->{
+                        listenModeBtn.setDisable(false); //re-enable buttons after both videos play
+                        listenOgBtn.setDisable(false);
+                        listenPerBtn.setDisable(false);
+                        recordBtn.setDisable(false);
+                        compBtn.setDisable(false);
+                        ogPlayStatus.setText("Comparison Over");
+                        selectedRecording.setText("");
+                    });
+                    new Thread(player2).start();
+                });
+                new Thread(player).start();
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @FXML
     private void playOgRecording(){
@@ -177,6 +248,7 @@ public class PracticeModeController implements Initializable {
             listenOgBtn.setDisable(true);
             listenModeBtn.setDisable(true);
             recordBtn.setDisable(true);
+            compBtn.setDisable(true);
             ogPlayStatus.setText("Currently playing");
             selectedRecording.setText("'"+selection+"'");
             String filePath = "";
@@ -195,38 +267,45 @@ public class PracticeModeController implements Initializable {
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
                 AudioFormat format = audioInputStream.getFormat();
                 long frames = audioInputStream.getFrameLength();
-                double length =  ((frames+0.0) / format.getFrameRate()); //length of recording in seconds
-                Timer timer = new Timer();
-                TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (ogProgressBar.getProgress() >= 1) {
-                            timer.cancel();
-                            listenOgBtn.setDisable(false);
-                            listenPerBtn.setDisable(false);
-                            recordBtn.setDisable(false);
-                            ogPlayStatus.setText("No recording currently playing");
-                            selectedRecording.setText("");
-                            listenModeBtn.setDisable(false);
-                            ogProgressBar.setProgress(0);
-                        } else {
-                            Platform.runLater(() -> {
-                                ogProgressBar.setProgress(ogProgressBar.getProgress() + 0.01);
-                            });
-                        }
-                    }
-                };
-                timer.scheduleAtFixedRate(timerTask, 0, (int)(length*10));
+                final double length =  ((frames+0.0) / format.getFrameRate()); //length of recording in seconds
+                setUpProgressBar(length);
                 //play the selected recording
-                InputStream inputStream = new FileInputStream(filePath);
-                AudioStream audioStream = new AudioStream(inputStream);
-                AudioPlayer.player.start(audioStream);
+                RecordingPlayer player = new RecordingPlayer(filePath,length);
+                player.setOnSucceeded(e ->{
+                    System.out.println(length);
+                    listenOgBtn.setDisable(false);
+                    listenPerBtn.setDisable(false);
+                    recordBtn.setDisable(false);
+                    compBtn.setDisable(true);
+                    ogPlayStatus.setText("No recording currently playing");
+                    selectedRecording.setText("");
+                    listenModeBtn.setDisable(false);
+                });
+                new Thread(player).start();
             } catch (IOException | UnsupportedAudioFileException e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private void setUpProgressBar(double length){
+        ogProgressBar.setProgress(0);
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (ogProgressBar.getProgress() >= 1) {
+                    timer.cancel();
+                    ogProgressBar.setProgress(0);
+                } else {
+                    Platform.runLater(() -> {
+                        ogProgressBar.setProgress(ogProgressBar.getProgress() + 0.01);
+                    });
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, (int)(length*10));
+    }
 
     @FXML
     private void recordNewName(){
