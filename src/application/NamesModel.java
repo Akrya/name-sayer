@@ -36,6 +36,7 @@ public class NamesModel {
     }
 
     public List<String> getOgRecordings(){
+        makeRecordings();
         List<String> ogRecordings = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : _recordings.entrySet()){
             if (entry.getValue() == 0){
@@ -46,6 +47,7 @@ public class NamesModel {
     }
 
     public List<String> getPerRecordings(){
+        makeRecordings();
         List<String> perRecordings = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : _recordings.entrySet()){
             if (entry.getValue() == 1){

@@ -155,11 +155,11 @@ public class PracticeModeController implements Initializable {
         selectedName.setText(ogNames.getSelectionModel().getSelectedItem());
         NamesModel model = _namesListModel.getName(ogNames.getSelectionModel().getSelectedItem());
         List<String> recordings = model.getOgRecordings();
-        _ogRecordings = FXCollections.observableArrayList(recordings);
-        ogRecordings.setItems(_ogRecordings);
+        _ogRecordings.clear();
+        _ogRecordings.addAll(recordings);
         recordings = model.getPerRecordings();
-        _practiceRecordings = FXCollections.observableArrayList(recordings);
-        personalRecordings.setItems(_practiceRecordings);
+        _practiceRecordings.clear();
+        _practiceRecordings.addAll(recordings);
         recordBtn.setDisable(false);
         listenOgBtn.setDisable(true);
         listenPerBtn.setDisable(true);
@@ -275,6 +275,11 @@ public class PracticeModeController implements Initializable {
                     listenPerBtn.setDisable(false);
                     recordBtn.setDisable(false);
                     compBtn.setDisable(true);
+                    if (identifier == 0){
+                        ogRecordings.getSelectionModel().selectNext();
+                    } else {
+                        personalRecordings.getSelectionModel().selectNext();
+                    }
                     ogPlayStatus.setText("No recording currently playing");
                     selectedRecording.setText("");
                     listenModeBtn.setDisable(false);
@@ -316,7 +321,6 @@ public class PracticeModeController implements Initializable {
             recordBtn.setDisable(false);
             ogPlayStatus.setText("Finished recording!");
             _practiceRecordings.add(recorder.getValue());
-            System.out.println("yes");
         });
         new Thread(recorder).start();
         recordBtn.setDisable(true);

@@ -84,7 +84,13 @@
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Text fx:id="selectedName" fill="WHITE" layoutX="222.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text fx:id="selectedName" fill="WHITE" layoutX="222.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin></Text>
                   <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" prefHeight="44.0" prefWidth="109.0" text="Record">
                      <HBox.margin>
                         <Insets left="40.0" />
@@ -149,7 +155,7 @@
                      </children>
                   </HBox>
                   <Text fx:id="ogPlayStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" />
-                  <Text fx:id="selectedRecording" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text fx:id="selectedRecording" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <ProgressBar fx:id="ogProgressBar" prefHeight="40.0" prefWidth="318.0" progress="0.0">
                      <VBox.margin>
                         <Insets />
