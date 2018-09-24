@@ -372,6 +372,8 @@ public class PracticeModeController implements Initializable {
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
     }
 
+
+    //Reference for mic-testing: https://stackoverflow.com/questions/15870666/calculating-microphone-volume-trying-to-find-max
     public Task createWorker() {
         return new Task() {
             @Override
