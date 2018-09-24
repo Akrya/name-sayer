@@ -102,9 +102,17 @@ public class ListenModeController implements Initializable {
             selection.getParent().getChildren().remove(selection); //remove file from treeview
             String selectionName = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
             NamesModel selectionModel = _namesListModel.getName(selectionName);
-            selectionModel.delete("se206_"+selection.getValue()); //delete file
-            if (_queuedNames.indexOf(selection.getValue()) != -1){ //remove the recording if its been queued in play list
-                _queuedNames.remove(selection.getValue());
+            String fileName ="";
+            Map<String, Integer> recordingsMap = selectionModel.getRecordings();
+            for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
+                if (entry.getKey().contains(selection.getValue())){
+                    selectionModel.delete(entry.getKey());
+                    fileName = entry.getKey();
+                    break;
+                }
+            }
+            if (_queuedNames.indexOf(fileName) != -1){ //remove the recording if its been queued in play list
+                _queuedNames.remove(fileName);
             }
         }
 
@@ -208,9 +216,8 @@ public class ListenModeController implements Initializable {
             };
             timer.scheduleAtFixedRate(timerTask, 0, (int)(length*10));
             //play the selected recording
-            InputStream inputStream = new FileInputStream(filePath);
-            AudioStream audioStream = new AudioStream(inputStream);
-            AudioPlayer.player.start(audioStream);
+            RecordingPlayer player = new RecordingPlayer(filePath, length);
+            new Thread(player).start();
         } catch (IOException | UnsupportedAudioFileException e) {
             e.printStackTrace();
         }
@@ -340,7 +347,6 @@ public class ListenModeController implements Initializable {
         } else {
             try {
                 rateFile.createNewFile(); //make file if first time using program
-//                Thread.sleep(1000); //TODO: not necessary?
                 BufferedWriter bw = new BufferedWriter(new FileWriter("Ratings.txt", true));
                 PrintWriter writer = new PrintWriter(bw);
                 writer.println("This is the ratings for the recordings stored in the Original and Personal databases");

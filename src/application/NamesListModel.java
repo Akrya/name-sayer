@@ -21,14 +21,6 @@ public class NamesListModel {
     private void createDirectory(){
 
         new File( "Personal").mkdir();
-        //String cmd = "unzip names.zip -d Names/Original";
-//        ProcessBuilder makeOriginal = new ProcessBuilder("/bin/bash","-c", cmd);
-//        try {
-//           Process process = makeOriginal.start();
-//           //process.waitFor();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
     }
 

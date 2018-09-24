@@ -23,6 +23,7 @@ public class RecordingPlayer extends Task<Void> {
         AudioStream audioStream = new AudioStream(inputStream);
         AudioPlayer.player.start(audioStream);
         Thread.sleep((long)_duration*1000);
+        audioStream.close();
         return null;
     }
 }

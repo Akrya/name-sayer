@@ -24,8 +24,9 @@ public class NamesModel {
         String cmd = "rm Personal/"+"'"+recording+"'";
         ProcessBuilder deleteFile = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
-            deleteFile.start();
-        } catch (IOException e) {
+            Process process = deleteFile.start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
