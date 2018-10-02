@@ -6,6 +6,7 @@ import javafx.concurrent.Task;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
 public class Recorder extends Task<String> {
@@ -21,7 +22,7 @@ public class Recorder extends Task<String> {
 
     private void createAudio() { //run the bash command to record for 5 seconds
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
-        _fileName = "se206_"+currentTime+"_"+"ver_"+_versionNum+"_"+_name.toString()+".wav";
+        _fileName = "se206_"+currentTime+"_"+"ver_"+"("+_versionNum+")"+"_"+_name.toString()+".wav";
 
         String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Personal/"+"'"+_fileName+"'";
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c", cmd);
@@ -37,13 +38,20 @@ public class Recorder extends Task<String> {
     }
 
     private void getRecordingVersion(){
-        Map<String, Integer> recordingsMap = _name.getRecordings();
+        List<RecordingModel> records = _name.getRecords();
         _versionNum = 1;
-        for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-            if (entry.getValue() == 1){
+        for (RecordingModel record : records){
+            if (record.getIdentifier() == 1){
                 _versionNum++;
             }
         }
+//        Map<String, Integer> recordingsMap = _name.getRecordings();
+//        _versionNum = 1;
+//        for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
+//            if (entry.getValue() == 1){
+//                _versionNum++;
+//            }
+//        }
     }
 
     @Override

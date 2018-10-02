@@ -1,9 +1,6 @@
 package application.uiControllers;
 
-import application.models.NamesListModel;
-import application.models.NamesModel;
-import application.models.Recorder;
-import application.models.RecordingPlayer;
+import application.models.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -177,13 +174,13 @@ public class PracticeModeController implements Initializable {
             String perSelection = personalRecordings.getSelectionModel().getSelectedItem();
             String queueName = ogSelection.substring(ogSelection.lastIndexOf('_')+1,ogSelection.lastIndexOf('.'));
             NamesModel model = _namesListModel.getName(queueName);
-            Map<String, Integer> recordingsMap = model.getRecordings();
-            for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-                if (entry.getKey().contains(ogSelection)) {
-                    ogfile = entry.getKey();
+            List<RecordingModel> records = model.getRecords();
+            for (RecordingModel record : records){
+                if (record.getFileName().contains(ogSelection)){
+                    ogfile = record.getFileName();
                 }
-                if (entry.getKey().contains(perSelection)){
-                    perfile = entry.getKey();
+                if (record.getFileName().contains(perSelection)){
+                    perfile = record.getFileName();
                 }
             }
             final String ogPath = "Original/"+ogfile;
@@ -247,10 +244,10 @@ public class PracticeModeController implements Initializable {
             String filePath = "";
             String queueName = selection.substring(selection.lastIndexOf('_')+1,selection.lastIndexOf('.'));
             NamesModel queueNameModel = _namesListModel.getName(queueName);
-            Map<String, Integer> recordingsMap = queueNameModel.getRecordings();
-            for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-                if (entry.getKey().contains(selection)) {
-                    filePath = entry.getKey();
+            List<RecordingModel> records = queueNameModel.getRecords();
+            for (RecordingModel record : records){
+                if (record.getFileName().contains(selection)){
+                    filePath = record.getFileName();
                 }
             }
             filePath = (identifier == 0) ? "Original/"+filePath : "Personal/" + filePath;

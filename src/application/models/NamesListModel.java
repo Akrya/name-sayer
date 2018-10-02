@@ -32,17 +32,20 @@ public class NamesListModel {
 
     public List<String> getNamesForLetter(char heading, int identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
         List<String> names = new ArrayList<>();
-        Map<String, Integer> namesMap;
+        List<RecordingModel> records;
+//        Map<String, Integer> namesMap;
         boolean contains = false;
         for (NamesModel nameModel : _names){
-           namesMap = nameModel.getRecordings();
-           for (Map.Entry<String, Integer> entry : namesMap.entrySet()){
-               if (entry.getValue() == identifier) {
-                   if (nameModel.toString().toUpperCase().charAt(0) == heading) {
+//           namesMap = nameModel.getRecordings();
+           records = nameModel.getRecords();
+           for (RecordingModel record : records){
+               if (record.getIdentifier() == identifier){
+                   if (nameModel.toString().toUpperCase().charAt(0) == heading){
                        contains = true;
                    }
                }
            }
+
            if (contains){
                names.add(nameModel.toString());
            }

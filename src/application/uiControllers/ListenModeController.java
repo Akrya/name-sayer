@@ -101,11 +101,11 @@ public class ListenModeController implements Initializable {
             String selectionName = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
             NamesModel selectionModel = _namesListModel.getName(selectionName);
             String fileName ="";
-            Map<String, Integer> recordingsMap = selectionModel.getRecordings();
-            for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-                if (entry.getKey().contains(selection.getValue())){
-                    selectionModel.delete(entry.getKey());
-                    fileName = entry.getKey();
+            List<RecordingModel> records = selectionModel.getRecords();
+            for (RecordingModel record : records){
+                if (record.getFileName().contains(selection.getValue())){
+                    selectionModel.delete(record.getFileName());
+                    fileName = record.getFileName();
                     break;
                 }
             }
@@ -132,10 +132,10 @@ public class ListenModeController implements Initializable {
             if (selection.isLeaf() && _treeModel.calcHeight(selection) == 4){
                String queueName = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
                NamesModel queueNameModel = _namesListModel.getName(queueName);
-               Map<String, Integer> recordingsMap = queueNameModel.getRecordings();
-               for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-                   if (entry.getValue()==tabPane.getSelectionModel().getSelectedIndex()){
-                       recordings.add(entry.getKey());
+               List<RecordingModel> records = queueNameModel.getRecords();
+               for (RecordingModel record : records){
+                   if (record.getIdentifier() == tabPane.getSelectionModel().getSelectedIndex()){
+                       recordings.add(record.getFileName());
                    }
                }
                for (String s : recordings){
@@ -169,15 +169,13 @@ public class ListenModeController implements Initializable {
         boolean original = false;
         String queueName = selection.substring(selection.lastIndexOf('_')+1,selection.lastIndexOf('.'));
         NamesModel queueNameModel = _namesListModel.getName(queueName);
-        Map<String, Integer> recordingsMap = queueNameModel.getRecordings();
-        for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-            if (entry.getKey().equals(selection)){
-                if (entry.getValue()==0){
+        List<RecordingModel> records = queueNameModel.getRecords();
+        for (RecordingModel record : records){
+            if (record.getFileName().equals(selection)){
+                if (record.getIdentifier() == 0){
                     original = true;
-                } else {
-                    original= false;
+                    break;
                 }
-                break;
             }
         }
         if (original){

@@ -10,12 +10,12 @@ public class NamesModel {
 
     //model associated with each name, one name can have multiple recordings
 
-    private Map<String, Integer> _recordings;
+    private List<RecordingModel> _records;
 
     private String _name;
 
     public NamesModel(String name){
-        _recordings = new HashMap<>();
+        _records = new ArrayList<>();
         _name = name;
         makeRecordings();
     }
@@ -31,17 +31,17 @@ public class NamesModel {
         }
     }
 
-    public Map<String, Integer> getRecordings(){
+    public List<RecordingModel> getRecords(){
         makeRecordings();
-        return _recordings;
+        return _records;
     }
 
     public List<String> getOgRecordings(){
         makeRecordings();
         List<String> ogRecordings = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : _recordings.entrySet()){
-            if (entry.getValue() == 0){
-                ogRecordings.add(entry.getKey());
+        for (RecordingModel record : _records){
+            if (record.getIdentifier() == 0){
+                ogRecordings.add(record.getFileName());
             }
         }
         return ogRecordings;
@@ -50,9 +50,10 @@ public class NamesModel {
     public List<String> getPerRecordings(){
         makeRecordings();
         List<String> perRecordings = new ArrayList<>();
-        for (Map.Entry<String, Integer> entry : _recordings.entrySet()){
-            if (entry.getValue() == 1){
-                perRecordings.add(entry.getKey());
+        List<String> ogRecordings = new ArrayList<>();
+        for (RecordingModel record : _records){
+            if (record.getIdentifier() == 0){
+                perRecordings.add(record.getFileName());
             }
         }
         return perRecordings;
@@ -69,6 +70,7 @@ public class NamesModel {
         int ogSize = files.size();
         File[] perFiles = new File("Personal").listFiles();
         files.addAll(Arrays.asList(perFiles));
+        _records.clear();
 
 
         //place each recording into map with value being the identifier for which database it belongs in
@@ -77,9 +79,9 @@ public class NamesModel {
                 if (files.get(i).getName().substring(files.get(i).getName().lastIndexOf("_") + 1, files.get(i).getName().lastIndexOf('.')).toUpperCase().equals(_name.toUpperCase())) {
                     String recording = files.get(i).getName();
                     if (i < ogSize){
-                        _recordings.put(recording,0);
+                        _records.add(new RecordingModel(recording, _name, 0));
                     } else {
-                        _recordings.put(recording,1);
+                        _records.add(new RecordingModel(recording, _name, 1));
                     }
                 }
             }

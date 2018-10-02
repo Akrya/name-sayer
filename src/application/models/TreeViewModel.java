@@ -28,15 +28,11 @@ public class TreeViewModel {
             for (String s : names){
                 TreeItem<String> heading = makeBranch(alphabetHeadings[i], s);
                 NamesModel nameModel = namesListModel.getName(s);
-                Map<String, Integer> recordingsMap = nameModel.getRecordings();
-                List<String> recordings = new ArrayList<>();
-                for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-                    if (entry.getValue() == identifier){
-                        recordings.add(entry.getKey());
+                List<RecordingModel> records = nameModel.getRecords();
+                for (RecordingModel record : records){
+                    if (record.getIdentifier() == identifier){
+                        makeBranch(heading, record.getFileName().substring(record.getFileName().indexOf('_')+1));
                     }
-                }
-                for (String recording : recordings){
-                    makeBranch(heading, recording.substring(recording.indexOf('_')+1));
                 }
             }
         }
