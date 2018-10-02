@@ -175,6 +175,7 @@ public class ListenModeController implements Initializable {
             if (record.getFileName().equals(selection)){
                 if (record.getIdentifier() == 0){
                     original = true;
+                    System.out.println(record.getRating());
                     break;
                 }
             }
@@ -297,18 +298,22 @@ public class ListenModeController implements Initializable {
     @FXML
     private void rateRecording(){
         TreeItem<String> selection = (tabPane.getSelectionModel().getSelectedIndex() == 0) ? originalTreeView.getSelectionModel().getSelectedItem() : personalTreeView.getSelectionModel().getSelectedItem();
-        RecordingRater rater = new RecordingRater(selection.getValue());
 
-        boolean exists = rater.checkFile();
-        if (exists){
-            boolean overwrite = rater.overWriteRating();
-            if (overwrite){
-                rater.makeRating();
-            } else {
-                return;
+
+        String name = selection.getValue().substring(selection.getValue().lastIndexOf('_')+1,selection.getValue().lastIndexOf('.'));
+        NamesModel model = _namesListModel.getName(name);
+        List<RecordingModel> records = model.getRecords();
+        for (RecordingModel record : records){
+            if (record.getFileName().contains(selection.getValue())){
+                RecordingRater rater = new RecordingRater(selection.getValue(), record);
+                boolean exists = rater.checkFile();
+                if (exists){
+                    rater.overWriteRating();
+                } else {
+                    rater.makeRating();
+                }
+                break;
             }
-        } else {
-            rater.makeRating();
         }
 
     }

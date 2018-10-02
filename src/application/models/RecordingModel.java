@@ -14,10 +14,13 @@ public class RecordingModel {
 
     private int _versionNum;
 
+    private boolean _goodRating; //by default each recording has good rating unless stating otherwise by the rating button
+
     public RecordingModel(String fileName, String name, int identifier){
         _fileName = fileName;
         _name = name;
         _identifier = identifier;
+        _goodRating = true;
         findDate();
         findVersion();
     }
@@ -52,6 +55,12 @@ public class RecordingModel {
         return _identifier;
     }
 
+    public void setRating(boolean rating){
+        _goodRating = rating;
+    }
 
+    public String getRating(){
+        return ""+_goodRating;
+    }
 
 }
