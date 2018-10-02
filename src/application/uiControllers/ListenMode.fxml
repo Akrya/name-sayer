@@ -74,12 +74,8 @@
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="78.0" prefWidth="80.0" />
-                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="115.0" text="Home" />
-                  <Pane prefHeight="78.0" prefWidth="30.0" />
-                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="115.0" text="Play Custom" />
-                  <Pane prefHeight="78.0" prefWidth="30.0" />
-                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="35.0" prefWidth="115.0" text="Practice Mode" textFill="WHITE" />
+                  <Pane prefHeight="78.0" prefWidth="300.0" />
+                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="35.0" prefWidth="130.0" text="Home" textFill="WHITE" />
                </children>
             </HBox>
             <Separator prefWidth="200.0" />

@@ -87,9 +87,10 @@ public class PracticeModeController implements Initializable {
 
     private TargetDataLine line = null;
 
+    //takes you to home window
     @FXML
     private void goToListenMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("ListenMode.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -357,11 +358,13 @@ public class PracticeModeController implements Initializable {
         _ogNames = FXCollections.observableArrayList(_namesListModel.getNames());
         ogNames.setItems(_ogNames);
 
+        /*
         audioVisualizer.setProgress(0.0);
         copyWorker = createWorker();
         audioVisualizer.progressProperty().unbind();
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
+        */
     }
 
 

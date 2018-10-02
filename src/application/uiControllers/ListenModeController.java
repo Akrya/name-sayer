@@ -76,9 +76,10 @@ public class ListenModeController implements Initializable {
 
     private TreeViewModel _treeModel = new TreeViewModel();
 
+    //takes you to home window
     @FXML
     private void openRecordScene(ActionEvent event) throws IOException {
-        Parent createScene = FXMLLoader.load(getClass().getResource("PracticeMode.fxml"));
+        Parent createScene = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(createScene);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
