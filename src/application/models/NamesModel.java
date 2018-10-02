@@ -12,10 +12,13 @@ public class NamesModel {
 
     private List<RecordingModel> _records;
 
+    private List<String> _recordFiles;
+
     private String _name;
 
     public NamesModel(String name){
         _records = new ArrayList<>();
+        _recordFiles = new ArrayList<>();
         _name = name;
         makeRecordings();
     }
@@ -32,12 +35,12 @@ public class NamesModel {
     }
 
     public List<RecordingModel> getRecords(){
-        makeRecordings();
+        getNewRecords();
         return _records;
     }
 
     public List<String> getOgRecordings(){
-        makeRecordings();
+        getNewRecords();
         List<String> ogRecordings = new ArrayList<>();
         for (RecordingModel record : _records){
             if (record.getIdentifier() == 0){
@@ -48,11 +51,10 @@ public class NamesModel {
     }
 
     public List<String> getPerRecordings(){
-        makeRecordings();
+        getNewRecords();
         List<String> perRecordings = new ArrayList<>();
-        List<String> ogRecordings = new ArrayList<>();
         for (RecordingModel record : _records){
-            if (record.getIdentifier() == 0){
+            if (record.getIdentifier() == 1){
                 perRecordings.add(record.getFileName());
             }
         }
@@ -78,10 +80,35 @@ public class NamesModel {
             if (files.get(i).isFile()){
                 if (files.get(i).getName().substring(files.get(i).getName().lastIndexOf("_") + 1, files.get(i).getName().lastIndexOf('.')).toUpperCase().equals(_name.toUpperCase())) {
                     String recording = files.get(i).getName();
+                    _recordFiles.add(recording);
                     if (i < ogSize){
                         _records.add(new RecordingModel(recording, _name, 0));
                     } else {
                         _records.add(new RecordingModel(recording, _name, 1));
+                    }
+                }
+            }
+        }
+    }
+
+    private void getNewRecords(){
+        File[] ogFiles = new File("Original").listFiles();
+        List<File> files = new ArrayList<>();
+        files.addAll(Arrays.asList(ogFiles));
+        int ogSize = files.size();
+        File[] perFiles = new File("Personal").listFiles();
+        files.addAll(Arrays.asList(perFiles));
+
+        for (int i=0;i<files.size();i++){
+            if (files.get(i).isFile()){
+                if (files.get(i).getName().substring(files.get(i).getName().lastIndexOf("_") + 1, files.get(i).getName().lastIndexOf('.')).toUpperCase().equals(_name.toUpperCase())) {
+                    if (_recordFiles.indexOf(files.get(i).getName()) == -1) { //unique name means index of -1
+                        if (i < ogSize) {
+                            _records.add(new RecordingModel(files.get(i).getName(), _name, 0));
+                        } else {
+                            _records.add(new RecordingModel(files.get(i).getName(), _name, 1));
+                        }
+                        _recordFiles.add(files.get(i).getName());
                     }
                 }
             }
