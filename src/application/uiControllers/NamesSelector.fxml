@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.ListenModeController">
+   <right>
+      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="414.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="200.0" text="SELECTED NAMES" textFill="WHITE">
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <JFXListView prefHeight="307.0" prefWidth="403.0" />
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="403.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+               <children>
+                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" prefWidth="135.0" styleClass="button-menu-background" text="REMOVE">
+                     <HBox.margin>
+                        <Insets right="40.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="25.0" prefWidth="118.0" styleClass="button-menu-background" text="CLEAR">
+                     <HBox.margin>
+                        <Insets left="40.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <VBox prefHeight="116.0" prefWidth="403.0">
+               <children>
+                  <Button fx:id="addBtn1" mnemonicParsing="false" onAction="#addToQueue" prefHeight="35.0" prefWidth="130.0" text="PRACTICE NAMES">
+                     <VBox.margin>
+                        <Insets left="140.0" top="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Pane prefHeight="10.0" prefWidth="403.0" />
+                  <Button fx:id="deleteBtn1" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="35.0" prefWidth="130.0" text="LISTEN TO NAMES">
+                     <VBox.margin>
+                        <Insets left="140.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets right="10.0" />
+         </padding>
+      </VBox>
+   </right>
+   <top>
+      <VBox fx:id="scenelabel" prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="120.0" prefWidth="700.0" styleClass="nameSayer-hbox">
+               <children>
+                  <Label text="Name Sayer">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="78.0" prefWidth="300.0" />
+                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="35.0" prefWidth="130.0" text="Home" textFill="WHITE" />
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0" />
+            <Label prefHeight="28.0" prefWidth="105.0" styleClass="scene-label" text="Select Mode" textFill="WHITE">
+               <VBox.margin>
+                  <Insets left="20.0" top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </top>
+   <left>
+      <HBox prefHeight="495.0" prefWidth="377.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" prefHeight="495.0" prefWidth="361.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="200.0" text="SELECT" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField focusColor="#111111" prefHeight="25.0" prefWidth="326.0" style="-fx-background-color: #9d9291;" />
+                  <JFXListView prefHeight="311.0" prefWidth="344.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </JFXListView>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="343.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                     <children>
+                        <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefWidth="100.0" styleClass="button-menu-background" text="ADD">
+                           <HBox.margin>
+                              <Insets right="40.0" />
+                           </HBox.margin></Button>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Button fx:id="randomiseBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#randomiseQueue" prefWidth="100.0" styleClass="button-menu-background" text="ADD ALL">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <Label prefHeight="19.0" prefWidth="272.0" text="SELECT WITH A FILE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </Label>
+                  <HBox prefHeight="43.0" prefWidth="343.0">
+                     <children>
+                        <JFXTextField focusColor="WHITE" prefHeight="22.0" prefWidth="180.0" unFocusColor="#cdcdcd">
+                           <HBox.margin>
+                              <Insets left="35.0" />
+                           </HBox.margin>
+                        </JFXTextField>
+                        <Button mnemonicParsing="false" prefHeight="26.0" text="USE" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="495.0" prefWidth="51.0" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </left>
+</BorderPane>
