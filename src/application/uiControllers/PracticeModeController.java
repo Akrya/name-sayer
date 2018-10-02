@@ -1,9 +1,10 @@
-package application;
+package application.uiControllers;
 
-import com.sun.prism.impl.Disposer;
+import application.models.NamesListModel;
+import application.models.NamesModel;
+import application.models.Recorder;
+import application.models.RecordingPlayer;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -19,21 +20,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.reflect.generics.tree.Tree;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
-import java.io.FileInputStream;
 import javax.sound.sampled.*;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PracticeModeController implements Initializable {

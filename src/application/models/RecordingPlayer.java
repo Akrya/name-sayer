@@ -1,4 +1,4 @@
-package application;
+package application.models;
 
 import javafx.concurrent.Task;
 import sun.audio.AudioPlayer;

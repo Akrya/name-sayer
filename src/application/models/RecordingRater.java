@@ -1,4 +1,4 @@
-package application;
+package application.models;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;

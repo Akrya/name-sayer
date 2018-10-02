@@ -1,5 +1,6 @@
-package application;
+package application.models;
 
+import application.models.NamesModel;
 import javafx.concurrent.Task;
 
 import java.io.IOException;

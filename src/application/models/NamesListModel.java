@@ -1,8 +1,6 @@
-package application;
+package application.models;
 
-import javax.naming.Name;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class NamesListModel {

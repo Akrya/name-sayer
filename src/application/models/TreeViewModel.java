@@ -1,5 +1,7 @@
-package application;
+package application.models;
 
+import application.models.NamesListModel;
+import application.models.NamesModel;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
