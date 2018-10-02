@@ -45,13 +45,6 @@ public class Recorder extends Task<String> {
                 _versionNum++;
             }
         }
-//        Map<String, Integer> recordingsMap = _name.getRecordings();
-//        _versionNum = 1;
-//        for (Map.Entry<String, Integer> entry : recordingsMap.entrySet()){
-//            if (entry.getValue() == 1){
-//                _versionNum++;
-//            }
-//        }
     }
 
     @Override

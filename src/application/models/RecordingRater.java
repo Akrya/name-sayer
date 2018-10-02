@@ -15,7 +15,10 @@ public class RecordingRater {
 
     private String _selection;
 
-    public RecordingRater(String selection){
+    private RecordingModel _recordingModel;
+
+    public RecordingRater(String selection, RecordingModel recordingModel){
+        _recordingModel = recordingModel;
         _selection = selection;
     }
 
@@ -42,18 +45,16 @@ public class RecordingRater {
     }
 
 
-    public boolean overWriteRating(){
+    public void overWriteRating(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Overwrite?");
-        alert.setHeaderText("A rating has been recorded for '"+_selection+"'");
-        alert.setContentText("Do you want to overwrite?");
+        alert.setHeaderText("A bad rating has been recorded for '"+_selection+"'");
+        alert.setContentText("Do you want to remove this rating?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
             deleteRating();
-            return true;
-        } else {
-            return false;
+            _recordingModel.setRating(true);
         }
     }
 
@@ -61,20 +62,18 @@ public class RecordingRater {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Rating");
         alert.setHeaderText("You are rating '"+ _selection+"'");
-        alert.setContentText("Choose a rating");
+        alert.setContentText("Is this recording bad quality?");
 
-        ButtonType goodButton = new ButtonType("Good");
         ButtonType badButton = new ButtonType("Bad");
         ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-        alert.getButtonTypes().setAll(goodButton, badButton, cancelButton);
+        alert.getButtonTypes().setAll(badButton, cancelButton);
 
         Optional<ButtonType> result = alert.showAndWait();
         String rating;
-        if (result.get() == goodButton){
-            rating = "Good";
-        } else if (result.get() == badButton) {
+        if (result.get() == badButton) {
             rating = "Bad";
+            _recordingModel.setRating(false);
         } else {
             return;
         }
