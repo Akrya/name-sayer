@@ -358,13 +358,13 @@ public class PracticeModeController implements Initializable {
         _ogNames = FXCollections.observableArrayList(_namesListModel.getNames());
         ogNames.setItems(_ogNames);
 
-        /*
+
         audioVisualizer.setProgress(0.0);
         copyWorker = createWorker();
         audioVisualizer.progressProperty().unbind();
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
-        */
+
     }
 
 

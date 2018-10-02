@@ -175,7 +175,6 @@ public class ListenModeController implements Initializable {
             if (record.getFileName().equals(selection)){
                 if (record.getIdentifier() == 0){
                     original = true;
-                    System.out.println(record.getRating());
                     break;
                 }
             }

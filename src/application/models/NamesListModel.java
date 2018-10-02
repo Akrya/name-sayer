@@ -33,10 +33,8 @@ public class NamesListModel {
     public List<String> getNamesForLetter(char heading, int identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
         List<String> names = new ArrayList<>();
         List<RecordingModel> records;
-//        Map<String, Integer> namesMap;
         boolean contains = false;
         for (NamesModel nameModel : _names){
-//           namesMap = nameModel.getRecordings();
            records = nameModel.getRecords();
            for (RecordingModel record : records){
                if (record.getIdentifier() == identifier){
