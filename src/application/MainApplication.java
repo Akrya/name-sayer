@@ -14,7 +14,7 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("uiControllers/ListenMode.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("uiControllers/MainMenu.fxml"));
         primaryStage.setTitle("Name Sayer");
         primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
