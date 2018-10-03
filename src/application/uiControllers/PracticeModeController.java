@@ -358,7 +358,7 @@ public class PracticeModeController implements Initializable {
         _ogNames = FXCollections.observableArrayList(_namesListModel.getNames());
         ogNames.setItems(_ogNames);
 
-
+        //initializing mic level bar
         audioVisualizer.setProgress(0.0);
         copyWorker = createWorker();
         audioVisualizer.progressProperty().unbind();
