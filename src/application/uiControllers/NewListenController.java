@@ -211,7 +211,6 @@ public class NewListenController implements Initializable {
         makeRatingFile();
         fileCol.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
-
         recordingsTable.getItems().setAll(testRec);
         _queuedRecordings = FXCollections.observableArrayList();
         playList.setItems(_queuedRecordings);
@@ -229,8 +228,17 @@ public class NewListenController implements Initializable {
                 if (element.toUpperCase().contains(newValue.toUpperCase())){
                     return true;
                 }
+                if (element.contains("Name not found")){
+                    return true;
+                }
                 return false;
             });
+            if (_filteredNames.isEmpty()){
+                names.add("Name not found");
+            } else if (!_filteredNames.isEmpty() && names.indexOf("Name not found") != -1 && _filteredNames.size() !=1){
+                System.out.println("yes");
+                names.remove("Name not found");
+            }
             namesList.setItems(_filteredNames);
         });
 
