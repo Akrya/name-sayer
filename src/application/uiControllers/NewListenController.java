@@ -78,16 +78,10 @@ public class NewListenController implements Initializable {
                 _queuedRecordings.add(recording);
             }
         }
-//        String selection = recordingsList.getSelectionModel().getSelectedItem();
-//        if (selection != null){
-//            if (_queuedRecordings.indexOf(selection) == -1){
-//                _queuedRecordings.add(selection);
-//            }
-//        }
     }
 
     @FXML
-    private void enableRecordinglistBtns(MouseEvent mouseEvent){
+    private void enableRecordingListBtns(MouseEvent mouseEvent){
         if (mouseEvent.getClickCount() == 2){
             addToQueue();
         }
@@ -105,9 +99,6 @@ public class NewListenController implements Initializable {
 
     @FXML
     private void deleteRecording(){
-
-
-
 
         String selection = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -137,25 +128,24 @@ public class NewListenController implements Initializable {
 
     @FXML
     private void rateRecording(){
-        String selection = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
+        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
-            String name = selection.substring(selection.lastIndexOf('_') + 1, selection.lastIndexOf('.'));
-            testRec.remove(recordingsTable.getSelectionModel().getSelectedItem());
+            String name = selection.getFileName().substring(selection.getFileName().lastIndexOf('_') + 1, selection.getFileName().lastIndexOf('.'));
+            RecordingRater rater = new RecordingRater(selection.getFileName(), selection);
+            boolean exists = rater.checkFile();
+            if (exists) {
+                rater.overWriteRating();
+            } else {
+                rater.makeRating();
+            }
+            recordingsTable.getItems().clear();
+            testRec.clear();
             NamesModel model = _namesListModel.getName(name);
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records) {
-                if (record.getFileName().equals(selection)) {
-                    RecordingRater rater = new RecordingRater(selection, record);
-                    boolean exists = rater.checkFile();
-                    if (exists) {
-                        rater.overWriteRating();
-
-                    } else {
-                        rater.makeRating();
-                    }
-                    break;
-                }
+                testRec.add(record);
             }
+            recordingsTable.getItems().setAll(testRec);
         }
     }
 

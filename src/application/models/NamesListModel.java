@@ -19,6 +19,7 @@ public class NamesListModel {
     private void createDirectory(){
 
         new File( "Personal").mkdir();
+        new File("Original").mkdir();
 
     }
 
