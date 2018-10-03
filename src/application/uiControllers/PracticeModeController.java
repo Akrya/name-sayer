@@ -80,6 +80,8 @@ public class PracticeModeController implements Initializable {
 
     private ObservableList<String> _ogNames;
 
+    private boolean isRecording = false;
+
     @FXML
     private ProgressBar audioVisualizer;
 
@@ -102,13 +104,15 @@ public class PracticeModeController implements Initializable {
 
     @FXML
     private void enableSelectBtn(MouseEvent mouseEvent){
-        if (!ogNames.getSelectionModel().isEmpty()) {
-            selectBtn.setDisable(false);
-        } else {
-            selectBtn.setDisable(true);
-        }
-        if(mouseEvent.getClickCount() == 2){
-            addToOgRecordings();
+        if (!isRecording) {
+            if (!ogNames.getSelectionModel().isEmpty()) {
+                selectBtn.setDisable(false);
+            } else {
+                selectBtn.setDisable(true);
+            }
+            if (mouseEvent.getClickCount() == 2) {
+                addToOgRecordings();
+            }
         }
     }
 
@@ -312,11 +316,15 @@ public class PracticeModeController implements Initializable {
             listenOgBtn.setDisable(false);
             listenPerBtn.setDisable(false);
             recordBtn.setDisable(false);
+            selectBtn.setDisable(false);
+            isRecording = false;
             ogPlayStatus.setText("Finished recording!");
             _practiceRecordings.add(recorder.getValue());
         });
         new Thread(recorder).start();
         recordBtn.setDisable(true);
+        selectBtn.setDisable(true);
+        isRecording = true;
         listenPerBtn.setDisable(true);
         listenOgBtn.setDisable(true);
         ogProgressBar.setProgress(0);
