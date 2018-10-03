@@ -138,7 +138,7 @@ public class NewListenController implements Initializable {
             } else {
                 rater.makeRating();
             }
-            recordingsTable.getItems().clear();
+            recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings list
             testRec.clear();
             NamesModel model = _namesListModel.getName(name);
             List<RecordingModel> records = model.getRecords();
@@ -151,8 +151,6 @@ public class NewListenController implements Initializable {
 
     @FXML
     private void playRecording(){
-
-
 
     }
 
@@ -207,7 +205,7 @@ public class NewListenController implements Initializable {
         rateBtn.setDisable(true);
 
         makeRatingFile();
-        fileCol.setCellValueFactory(new PropertyValueFactory<>("fileName"));
+        fileCol.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
 
         recordingsTable.getItems().setAll(testRec);
