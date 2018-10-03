@@ -219,6 +219,7 @@ public class NewListenController implements Initializable {
     private void makeRatingFile(){
         File rateFile = new File("Ratings.txt");
         if(rateFile.exists()) {
+            getRatings();
             return;
         } else {
             try {
@@ -233,5 +234,43 @@ public class NewListenController implements Initializable {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void getRatings(){ //can be improved greatly right now O(n^2)
+        List<NamesModel> models = _namesListModel.getModels();
+        Map<String, Integer> fileMap = new HashMap<>();
+        List<String> fileNames = new ArrayList<>();
+        List<RecordingModel> recordings = new ArrayList<>();
+        for (NamesModel model : models){
+            List<RecordingModel> records = model.getRecords();
+            for (RecordingModel record : records){
+                recordings.add(record);
+                fileMap.put(record.getFileName(), 0);
+                fileNames.add(record.getFileName());
+            }
+        }
+        try {
+            Scanner scanner = new Scanner(new File("Ratings.txt"));
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                int index =  fileNames.indexOf(line);
+                if (index != -1){
+                    fileMap.put(fileNames.get(index),1);
+                }
+            }
+            for (Map.Entry<String,Integer> entry : fileMap.entrySet()){
+                if (entry.getValue() == 1){
+                    for (RecordingModel record : recordings){
+                        if (record.getFileName().equals(entry.getKey())){
+                            record.setRating(false);
+                        }
+                    }
+                }
+            }
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+
     }
 }

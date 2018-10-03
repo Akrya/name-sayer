@@ -23,11 +23,6 @@ public class RecordingModel {
         _goodRating = true;
         findDate();
         findVersion();
-        findRating();
-    }
-
-    private void findRating() {
-
     }
 
     private void findDate(){

@@ -70,9 +70,7 @@ public class RecordingRater {
         alert.getButtonTypes().setAll(badButton, cancelButton);
 
         Optional<ButtonType> result = alert.showAndWait();
-        String rating;
         if (result.get() == badButton) {
-            rating = "Bad";
             _recordingModel.setRating(false);
         } else {
             return;
@@ -84,7 +82,7 @@ public class RecordingRater {
             e.printStackTrace();
         }
         PrintWriter writer = new PrintWriter(bw);
-        writer.println("Rating for " + _selection+ " : '"+rating+"'");
+        writer.println(_selection);
         writer.close();
     }
 
