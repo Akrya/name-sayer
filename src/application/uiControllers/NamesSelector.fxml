@@ -44,13 +44,13 @@
                <children>
                   <Button fx:id="addBtn1" mnemonicParsing="false" onAction="#addToQueue" prefHeight="35.0" prefWidth="130.0" text="PRACTICE NAMES">
                      <VBox.margin>
-                        <Insets left="140.0" top="20.0" />
+                        <Insets left="250.0" top="20.0" />
                      </VBox.margin>
                   </Button>
                   <Pane prefHeight="10.0" prefWidth="403.0" />
                   <Button fx:id="deleteBtn1" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="35.0" prefWidth="130.0" text="LISTEN TO NAMES">
                      <VBox.margin>
-                        <Insets left="140.0" />
+                        <Insets left="250.0" />
                      </VBox.margin>
                   </Button>
                </children>
