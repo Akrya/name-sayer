@@ -292,8 +292,10 @@ public class NewListenController implements Initializable {
                 if (newValue == null || newValue.isEmpty()){
                     return true;
                 }
-                if (element.toUpperCase().contains(newValue.toUpperCase())){
-                    return true;
+                if (element.length() >= newValue.length()){
+                    if (element.toUpperCase().substring(0,newValue.length()).equals(newValue.toUpperCase())){ //filter for names that start with search string
+                        return true;
+                    }
                 }
                 if (element.contains("Name not found")){
                     return true;

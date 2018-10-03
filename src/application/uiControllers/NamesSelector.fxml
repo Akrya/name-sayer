@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.ListenModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.NamesSelectorController">
    <right>
       <VBox alignment="CENTER" prefHeight="595.0" prefWidth="640.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,16 +24,16 @@
                   <Font size="22.0" />
                </font>
             </Label>
-            <ListView prefHeight="413.0" prefWidth="630.0" />
+            <ListView fx:id="selectedList" onMouseClicked="#enableSelectBtns" prefHeight="413.0" prefWidth="630.0" />
             <HBox alignment="CENTER" prefHeight="32.0" prefWidth="403.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
                <children>
-                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" prefWidth="135.0" styleClass="button-menu-background" text="REMOVE">
+                  <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefWidth="135.0" styleClass="button-menu-background" text="REMOVE">
                      <HBox.margin>
                         <Insets right="40.0" />
                      </HBox.margin>
                   </Button>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="25.0" prefWidth="118.0" styleClass="button-menu-background" text="CLEAR">
+                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearSelections" prefHeight="25.0" prefWidth="118.0" styleClass="button-menu-background" text="CLEAR">
                      <HBox.margin>
                         <Insets left="40.0" right="10.0" />
                      </HBox.margin>
@@ -42,13 +42,13 @@
             </HBox>
             <VBox prefHeight="116.0" prefWidth="403.0">
                <children>
-                  <Button fx:id="addBtn1" mnemonicParsing="false" onAction="#addToQueue" prefHeight="35.0" prefWidth="130.0" text="PRACTICE NAMES">
+                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#goToPracticeMode" prefHeight="35.0" prefWidth="130.0" text="PRACTICE NAMES">
                      <VBox.margin>
                         <Insets left="250.0" top="20.0" />
                      </VBox.margin>
                   </Button>
                   <Pane prefHeight="10.0" prefWidth="403.0" />
-                  <Button fx:id="deleteBtn1" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="35.0" prefWidth="130.0" text="LISTEN TO NAMES">
+                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="LISTEN TO NAMES">
                      <VBox.margin>
                         <Insets left="250.0" />
                      </VBox.margin>
@@ -65,7 +65,7 @@
       </VBox>
    </right>
    <top>
-      <VBox fx:id="scenelabel" prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="120.0" prefWidth="700.0" styleClass="nameSayer-hbox">
                <children>
@@ -75,7 +75,7 @@
                      </font>
                   </Label>
                   <Pane prefHeight="78.0" prefWidth="300.0" />
-                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="35.0" prefWidth="130.0" text="Home" textFill="WHITE" />
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="130.0" text="Home" textFill="WHITE" />
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
@@ -103,20 +103,20 @@
                         <Font size="22.0" />
                      </font>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="searchBox">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </TextField>
-                  <ListView prefHeight="410.0" prefWidth="416.0" />
+                  <ListView fx:id="namesList" onMouseClicked="#enableAddBtn" prefHeight="410.0" prefWidth="416.0" />
                   <HBox alignment="CENTER" prefHeight="32.0" prefWidth="344.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
                      <children>
-                        <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefWidth="100.0" styleClass="button-menu-background" text="ADD">
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection" prefWidth="100.0" styleClass="button-menu-background" text="ADD">
                            <HBox.margin>
                               <Insets right="40.0" />
                            </HBox.margin></Button>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Button fx:id="randomiseBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#randomiseQueue" prefWidth="100.0" styleClass="button-menu-background" text="ADD ALL">
+                        <Button fx:id="addAllBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addAllSelections" prefWidth="100.0" styleClass="button-menu-background" text="ADD ALL">
                            <HBox.margin>
                               <Insets left="40.0" />
                            </HBox.margin>
