@@ -24,8 +24,7 @@ public class Recorder extends Task<String> {
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
         _fileName = "personal_"+currentTime+"_"+"ver_"+"("+_versionNum+")"+"_"+_name.toString()+".wav";
 
-        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Personal/"+"'"+_fileName+"" +
-                "'";
+        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Personal/"+"'"+_fileName+"'";
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c", cmd);
         try {
             audioBuilder.start();
@@ -34,9 +33,6 @@ public class Recorder extends Task<String> {
         }
     }
 
-    private void trimAudio(){
-
-    }
 
     private void getRecordingVersion(){
         List<RecordingModel> records = _name.getRecords();
@@ -52,7 +48,6 @@ public class Recorder extends Task<String> {
     protected String call() throws Exception {
         createAudio();
         Thread.sleep(5000); //sleep thread while recording
-        trimAudio();
         return _fileName;
     }
 }

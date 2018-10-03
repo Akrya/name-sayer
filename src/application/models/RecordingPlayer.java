@@ -5,25 +5,34 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class RecordingPlayer extends Task<Void> {
 
     private String _filePath;
-    private double _duration;
 
-    public RecordingPlayer(String filePath, double duration){
+    public RecordingPlayer(String filePath){
         _filePath =filePath;
-        _duration =duration+0.5; //add another half second as record playing is not instantaneous
     }
 
     @Override
     protected Void call() throws Exception {
-        InputStream inputStream = new FileInputStream(_filePath);
-        AudioStream audioStream = new AudioStream(inputStream);
-        AudioPlayer.player.start(audioStream);
-        Thread.sleep((long)_duration*1000);
-        audioStream.close();
+        playAudio();
+
         return null;
+    }
+
+    private void playAudio(){
+        String cmd = "ffplay -loglevel panic -autoexit -nodisp -i "+"'"+_filePath+"'";
+        System.out.println(cmd);
+        ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
+        try {
+            Process process = builder.start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }

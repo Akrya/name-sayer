@@ -213,7 +213,7 @@ public class ListenModeController implements Initializable {
             };
             timer.scheduleAtFixedRate(timerTask, 0, (int)(length*10));
             //play the selected recording
-            RecordingPlayer player = new RecordingPlayer(filePath, length);
+            RecordingPlayer player = new RecordingPlayer(filePath);
             new Thread(player).start();
         } catch (IOException | UnsupportedAudioFileException e) {
             e.printStackTrace();
