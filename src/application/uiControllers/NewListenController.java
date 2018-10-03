@@ -14,15 +14,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class NewListenController implements Initializable {
 
@@ -54,36 +52,50 @@ public class NewListenController implements Initializable {
     private ListView<String> namesList;
 
     @FXML
-    private ListView<String> recordingsList;
+    private TableView<RecordingModel> recordingsTable;
+
+    private ObservableList<RecordingModel> testRec = FXCollections.observableArrayList();
+
+    @FXML
+    private TableColumn<RecordingModel, String> fileCol;
+
+    @FXML
+    private TableColumn<RecordingModel, String> ratingCol;
 
     private NamesListModel _namesListModel = new NamesListModel();
 
     private ObservableList<String> _names;
-
-    private ObservableList<String> _recordings;
 
     private ObservableList<String> _queuedRecordings;
 
 
     @FXML
     private void addToQueue(){
-        String selection = recordingsList.getSelectionModel().getSelectedItem();
-        if (selection != null){
-            if (_queuedRecordings.indexOf(selection) == -1){
-                _queuedRecordings.add(selection);
+        RecordingModel selected = recordingsTable.getSelectionModel().getSelectedItem();
+        if (selected != null){
+            String recording = selected.getFileName();
+            if (_queuedRecordings.indexOf(recording) == -1){
+                _queuedRecordings.add(recording);
             }
         }
+//        String selection = recordingsList.getSelectionModel().getSelectedItem();
+//        if (selection != null){
+//            if (_queuedRecordings.indexOf(selection) == -1){
+//                _queuedRecordings.add(selection);
+//            }
+//        }
     }
 
     @FXML
-    private void enableRecordingListBtns(MouseEvent mouseEvent){
+    private void enableRecordinglistBtns(MouseEvent mouseEvent){
         if (mouseEvent.getClickCount() == 2){
             addToQueue();
         }
-        if (recordingsList.getSelectionModel().getSelectedItem() != null){
+        if (recordingsTable.getSelectionModel().getSelectedItem() != null){
             addBtn.setDisable(false);
             rateBtn.setDisable(false);
-            if (recordingsList.getSelectionModel().getSelectedItem().substring(0,8).equals("personal")){
+            String recording = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
+            if (recording.substring(0,8).equals("personal")){
                 deleteBtn.setDisable(false);
             } else {
                 deleteBtn.setDisable(true);
@@ -93,8 +105,11 @@ public class NewListenController implements Initializable {
 
     @FXML
     private void deleteRecording(){
-        String selection = recordingsList.getSelectionModel().getSelectedItem();
 
+
+
+
+        String selection = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete?");
         alert.setHeaderText("You are about to delete "+ "'se206_"+ selection+"'");
@@ -102,7 +117,9 @@ public class NewListenController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            _recordings.remove(selection);
+            testRec.remove(recordingsTable.getSelectionModel().getSelectedItem());
+            recordingsTable.getItems().clear();
+            recordingsTable.getItems().setAll(testRec);
             String selectionName = selection.substring(selection.lastIndexOf('_')+1,selection.lastIndexOf('.'));
             NamesModel selectionModel = _namesListModel.getName(selectionName);
             List<RecordingModel> records = selectionModel.getRecords();
@@ -120,9 +137,10 @@ public class NewListenController implements Initializable {
 
     @FXML
     private void rateRecording(){
-        String selection = recordingsList.getSelectionModel().getSelectedItem();
+        String selection = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
         if (selection != null) {
             String name = selection.substring(selection.lastIndexOf('_') + 1, selection.lastIndexOf('.'));
+            testRec.remove(recordingsTable.getSelectionModel().getSelectedItem());
             NamesModel model = _namesListModel.getName(name);
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records) {
@@ -131,6 +149,7 @@ public class NewListenController implements Initializable {
                     boolean exists = rater.checkFile();
                     if (exists) {
                         rater.overWriteRating();
+
                     } else {
                         rater.makeRating();
                     }
@@ -142,6 +161,8 @@ public class NewListenController implements Initializable {
 
     @FXML
     private void playRecording(){
+
+
 
     }
 
@@ -165,12 +186,13 @@ public class NewListenController implements Initializable {
 
         String selection = namesList.getSelectionModel().getSelectedItem();
         if (selection != null){
-            _recordings.clear();
+            testRec.clear();
             NamesModel model = _namesListModel.getName(selection);
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records){
-                _recordings.add(record.getFileName());
+                testRec.add(record);
             }
+            recordingsTable.getItems().setAll(testRec);
         }
     }
 
@@ -195,10 +217,12 @@ public class NewListenController implements Initializable {
         rateBtn.setDisable(true);
 
         makeRatingFile();
-        _recordings = FXCollections.observableArrayList();
+        fileCol.setCellValueFactory(new PropertyValueFactory<>("fileName"));
+        ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
+
+        recordingsTable.getItems().setAll(testRec);
         _queuedRecordings = FXCollections.observableArrayList();
         playList.setItems(_queuedRecordings);
-        recordingsList.setItems(_recordings);
         _names = FXCollections.observableArrayList(_namesListModel.getNames());
         namesList.setItems(_names);
 

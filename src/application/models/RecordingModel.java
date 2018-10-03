@@ -65,7 +65,11 @@ public class RecordingModel {
     }
 
     public String getRating(){
-        return ""+_goodRating;
+        if (_goodRating){
+            return "Good";
+        } else {
+            return "Bad";
+        }
     }
 
 }
