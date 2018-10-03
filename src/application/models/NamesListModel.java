@@ -32,6 +32,10 @@ public class NamesListModel {
         return names;
     }
 
+    public List<NamesModel> getModels(){
+        return _names;
+    }
+
     public List<String> getNamesForLetter(char heading, int identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
         List<String> names = new ArrayList<>();
         List<RecordingModel> records;
