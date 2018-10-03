@@ -45,7 +45,8 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void openListenMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("ListenMode.fxml"));
+        //Parent listenScene = FXMLLoader.load(getClass().getResource("ListenMode.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("NewListenMode.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

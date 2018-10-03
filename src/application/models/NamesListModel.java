@@ -19,6 +19,7 @@ public class NamesListModel {
     private void createDirectory(){
 
         new File( "Personal").mkdir();
+        new File("Original").mkdir();
 
     }
 
@@ -27,6 +28,7 @@ public class NamesListModel {
         for (NamesModel model : _names){
             names.add(model.toString());
         }
+        Collections.sort(names);
         return names;
     }
 

@@ -22,7 +22,7 @@ public class Recorder extends Task<String> {
 
     private void createAudio() { //run the bash command to record for 5 seconds
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
-        _fileName = "se206_"+currentTime+"_"+"ver_"+"("+_versionNum+")"+"_"+_name.toString()+".wav";
+        _fileName = "personal_"+currentTime+"_"+"ver_"+"("+_versionNum+")"+"_"+_name.toString()+".wav";
 
         String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Personal/"+"'"+_fileName+"'";
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c", cmd);
