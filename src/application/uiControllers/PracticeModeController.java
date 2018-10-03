@@ -202,9 +202,9 @@ public class PracticeModeController implements Initializable {
                 frames = audioInputStream.getFrameLength();
                 final double perLength =  ((frames+0.0) / format.getFrameRate());
                 setUpProgressBar(ogLength+perLength);
-                RecordingPlayer player = new RecordingPlayer(ogPath,ogLength);
+                RecordingPlayer player = new RecordingPlayer(ogPath);
                 player.setOnSucceeded(e ->{
-                    RecordingPlayer player2 = new RecordingPlayer(perPath,perLength); //play second video when first ends
+                    RecordingPlayer player2 = new RecordingPlayer(perPath); //play second video when first ends
                     player2.setOnSucceeded(b ->{
                         listenModeBtn.setDisable(false); //re-enable buttons after both videos play
                         listenOgBtn.setDisable(false);
@@ -265,7 +265,7 @@ public class PracticeModeController implements Initializable {
                 final double length =  ((frames+0.0) / format.getFrameRate()); //length of recording in seconds
                 setUpProgressBar(length);
                 //play the selected recording
-                RecordingPlayer player = new RecordingPlayer(filePath,length);
+                RecordingPlayer player = new RecordingPlayer(filePath);
                 player.setOnSucceeded(e ->{
                     System.out.println(length);
                     listenOgBtn.setDisable(false);

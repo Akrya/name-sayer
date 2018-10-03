@@ -52,6 +52,7 @@
                   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="1067.0">
                      <children>
                         <TextField fx:id="searchBox" prefHeight="25.0" prefWidth="518.0" />
+                        <Button mnemonicParsing="false" onAction="#clearSearch" prefHeight="25.0" prefWidth="122.0" text="Clear Search" />
                         <Pane prefHeight="100.0" prefWidth="464.0" />
                      </children>
                   </HBox>
@@ -86,7 +87,7 @@
                   <VBox prefHeight="496.0" prefWidth="396.0">
                      <children>
                         <Label text="Playlist Queue" />
-                        <ListView fx:id="playList" prefHeight="422.0" prefWidth="304.0" />
+                        <ListView fx:id="playList" onMouseClicked="#enablePlayBtns" prefHeight="422.0" prefWidth="304.0" />
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" text="Listen" />

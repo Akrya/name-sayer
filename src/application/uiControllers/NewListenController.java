@@ -1,9 +1,6 @@
 package application.uiControllers;
 
-import application.models.NamesListModel;
-import application.models.NamesModel;
-import application.models.RecordingModel;
-import application.models.RecordingRater;
+import application.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -72,6 +69,8 @@ public class NewListenController implements Initializable {
 
     private ObservableList<String> _queuedRecordings;
 
+    private boolean isPlaying = false;
+
 
     @FXML
     private void addToQueue(){
@@ -80,6 +79,8 @@ public class NewListenController implements Initializable {
             String recording = selected.getFileName();
             if (_queuedRecordings.indexOf(recording) == -1){
                 _queuedRecordings.add(recording);
+                clearBtn.setDisable(false);
+                randomiseBtn.setDisable(false);
             }
         }
     }
@@ -155,21 +156,71 @@ public class NewListenController implements Initializable {
 
     @FXML
     private void playRecording(){
+        removeBtn.setDisable(true);
+        clearBtn.setDisable(true);
+        deleteBtn.setDisable(true);
+        listenBtn.setDisable(true);
+        isPlaying = true;
+        String filePath;
+        if (playList.getSelectionModel().getSelectedItem().substring(0,8).equals("personal")){
+            filePath = "Personal/"+playList.getSelectionModel().getSelectedItem();
+        } else {
+            filePath = "Original/"+playList.getSelectionModel().getSelectedItem();
+        }
+        RecordingPlayer player = new RecordingPlayer(filePath);
+        player.setOnSucceeded(e ->{
+            removeBtn.setDisable(false);
+            clearBtn.setDisable(false);
+            deleteBtn.setDisable(false);
+            listenBtn.setDisable(false);
+            isPlaying = false;
+        });
+        new Thread(player).start();
+    }
 
+    @FXML
+    private void clearSearch(){
+        searchBox.setText("");
     }
 
     @FXML
     private void removeQueue(){
-
+        String selection = playList.getSelectionModel().getSelectedItem();
+        _queuedRecordings.remove(selection);
+        if (_queuedRecordings.isEmpty()) {
+            clearBtn.setDisable(true);
+            removeBtn.setDisable(true);
+            listenBtn.setDisable(true);
+            randomiseBtn.setDisable(true);
+        }
     }
 
     @FXML
     private void clearQueue(){
-
+        _queuedRecordings.clear();
+        clearBtn.setDisable(true);
+        removeBtn.setDisable(true);
+        listenBtn.setDisable(true);
+        randomiseBtn.setDisable(true);
     }
 
     @FXML
     private void randomiseQueue(){
+        Collections.shuffle(_queuedRecordings);
+    }
+
+    @FXML
+    private void enablePlayBtns(MouseEvent mouseEvent){
+        if (!playList.getSelectionModel().isEmpty()){
+            listenBtn.setDisable(false);
+            removeBtn.setDisable(false);
+        } else {
+            listenBtn.setDisable(true);
+        }
+
+        if (mouseEvent.getClickCount() == 2 && !isPlaying){
+            playRecording();
+        }
 
     }
 
@@ -236,7 +287,6 @@ public class NewListenController implements Initializable {
             if (_filteredNames.isEmpty()){
                 names.add("Name not found");
             } else if (!_filteredNames.isEmpty() && names.indexOf("Name not found") != -1 && _filteredNames.size() !=1){
-                System.out.println("yes");
                 names.remove("Name not found");
             }
             namesList.setItems(_filteredNames);
