@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -9,13 +10,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.MainMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.MainMenuController">
    <children>
-      <VBox prefHeight="600.0" prefWidth="800.0">
+      <VBox prefHeight="700.0" prefWidth="1200.0">
          <children>
             <HBox prefHeight="130.0" prefWidth="600.0" stylesheets="@FXStyler.css">
                <children>
-                  <Pane prefHeight="99.0" prefWidth="250.0" />
+                  <Pane prefHeight="130.0" prefWidth="442.0" />
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Name Sayer" textAlignment="CENTER" wrappingWidth="300.0">
                      <font>
                         <Font size="48.0" />
@@ -26,23 +27,24 @@
                   </Text>
                </children>
             </HBox>
-            <VBox prefHeight="470.0" prefWidth="800.0">
+            <Separator prefWidth="200.0" />
+            <VBox prefHeight="566.0" prefWidth="1200.0">
                <children>
-                  <Pane prefHeight="127.0" prefWidth="800.0" />
+                  <Pane prefHeight="203.0" prefWidth="1200.0" />
                   <HBox prefHeight="125.0" prefWidth="800.0">
                      <children>
-                        <HBox prefHeight="110.0" prefWidth="110.0" />
+                        <Pane prefHeight="125.0" prefWidth="208.0" />
                         <Button fx:id="viewRecordings" mnemonicParsing="false" onAction="#openListenMode" prefHeight="110.0" prefWidth="160.0" text="View Names" />
-                        <Pane prefHeight="39.0" prefWidth="50.0" />
+                        <Pane prefHeight="125.0" prefWidth="166.0" />
                         <Button fx:id="practiceModeButton" mnemonicParsing="false" onAction="#openPracticeMode" prefHeight="110.0" prefWidth="160.0" text="Practice Mode" />
-                        <Pane prefHeight="39.0" prefWidth="50.0" />
+                        <Pane prefHeight="125.0" prefWidth="162.0" />
                         <Button mnemonicParsing="false" prefHeight="110.0" prefWidth="160.0" text="Play Custom" />
                      </children>
                   </HBox>
-                  <Pane prefHeight="164.0" prefWidth="800.0" />
+                  <Pane prefHeight="199.0" prefWidth="1200.0" />
                   <HBox prefHeight="0.0" prefWidth="600.0">
                      <children>
-                        <Pane prefHeight="25.0" prefWidth="686.0" />
+                        <Pane prefHeight="25.0" prefWidth="1114.0" />
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Help" />
                      </children>
                   </HBox>

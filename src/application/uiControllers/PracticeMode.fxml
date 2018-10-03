@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.PracticeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.PracticeModeController">
    <top>
       <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
@@ -65,12 +65,12 @@
       </VBox>
    </top>
    <right>
-      <VBox alignment="CENTER" prefHeight="495.0" prefWidth="653.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="595.0" prefWidth="850.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets right="10.0" />
          </BorderPane.margin>
          <children>
-            <HBox alignment="CENTER" prefHeight="72.0" prefWidth="582.0">
+            <HBox alignment="CENTER" prefHeight="121.0" prefWidth="798.0">
                <children>
                   <Text fx:id="selectedStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No name selected">
                      <HBox.margin>
@@ -93,9 +93,9 @@
                      </HBox.margin></Button>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="291.0" prefWidth="582.0">
+            <HBox alignment="CENTER" prefHeight="329.0" prefWidth="838.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="330.0" prefWidth="239.0">
+                  <VBox alignment="CENTER" prefHeight="329.0" prefWidth="250.0">
                      <children>
                         <Label text="Original files">
                            <VBox.margin>
@@ -105,7 +105,7 @@
                               <Insets bottom="5.0" />
                            </padding>
                         </Label>
-                        <ListView fx:id="ogRecordings" onMouseClicked="#enableListenOg" prefHeight="260.0" prefWidth="237.0">
+                        <ListView fx:id="ogRecordings" onMouseClicked="#enableListenOg" prefHeight="300.0" prefWidth="250.0">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -115,18 +115,18 @@
                         <Insets />
                      </HBox.margin>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <VBox alignment="CENTER" prefHeight="329.0" prefWidth="178.0">
                      <children>
                         <Button fx:id="compBtn" mnemonicParsing="false" onAction="#compareRecordings" prefHeight="25.0" prefWidth="88.0" text="Compare" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="212.0" prefWidth="250.0">
+                  <VBox alignment="CENTER" prefHeight="321.0" prefWidth="250.0">
                      <children>
                         <Label text="Personal files">
                            <padding>
                               <Insets bottom="5.0" />
                            </padding></Label>
-                        <ListView fx:id="personalRecordings" onMouseClicked="#enableListenPer" prefHeight="260.0" prefWidth="248.0">
+                        <ListView fx:id="personalRecordings" onMouseClicked="#enableListenPer" prefHeight="300.0" prefWidth="250.0">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -138,40 +138,51 @@
                   </VBox>
                </children>
             </HBox>
-            <VBox alignment="CENTER" prefHeight="123.0" prefWidth="576.0">
+            <VBox alignment="CENTER" prefHeight="147.0" prefWidth="838.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="26.0" prefWidth="582.0">
+                  <HBox alignment="CENTER" prefHeight="44.0" prefWidth="838.0">
                      <children>
                         <Button fx:id="listenOgBtn" mnemonicParsing="false" onAction="#playOgRecording" text="Listen Original">
                            <HBox.margin>
-                              <Insets right="250.0" />
+                              <Insets />
                            </HBox.margin>
                         </Button>
+                        <Pane prefHeight="31.0" prefWidth="344.0" />
                         <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#playPerRecording" text="Listen Personal" />
                      </children>
                   </HBox>
-                  <Text fx:id="ogPlayStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" wrappingWidth="162.052734375" />
-                  <Text fx:id="selectedRecording" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <HBox prefHeight="25.0" prefWidth="582.0">
-                     <children>
-                        <Pane prefHeight="18.0" prefWidth="225.0" />
-                        <Slider />
-                     </children>
-                  </HBox>
-                  <ProgressBar fx:id="ogProgressBar" prefHeight="9.0" prefWidth="318.0" progress="0.0">
+                  <Text fx:id="ogPlayStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" wrappingWidth="162.052734375">
                      <VBox.margin>
-                        <Insets />
+                        <Insets top="20.0" />
                      </VBox.margin>
-                  </ProgressBar>
+                  </Text>
+                  <Text fx:id="selectedRecording" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Pane prefHeight="35.0" prefWidth="798.0" />
+                  <VBox prefHeight="76.0" prefWidth="838.0">
+                     <children>
+                        <HBox prefHeight="26.0" prefWidth="838.0">
+                           <children>
+                              <Pane prefHeight="26.0" prefWidth="330.0" />
+                              <Slider />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="26.0" prefWidth="838.0">
+                           <children>
+                              <Pane prefHeight="26.0" prefWidth="243.0" />
+                              <ProgressBar fx:id="ogProgressBar" prefHeight="9.0" prefWidth="318.0" progress="0.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
       </VBox>
    </right>
    <left>
-      <HBox prefHeight="495.0" prefWidth="198.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="595.0" prefWidth="382.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" prefHeight="495.0" prefWidth="198.0">
+            <VBox alignment="CENTER" prefHeight="595.0" prefWidth="321.0">
                <children>
                   <Label text="Original Names ">
                      <VBox.margin>
@@ -181,7 +192,10 @@
                         <Insets bottom="5.0" />
                      </padding>
                   </Label>
-                  <ListView fx:id="ogNames" onMouseClicked="#enableSelectBtn" prefHeight="402.0" prefWidth="150.0" />
+                  <ListView fx:id="ogNames" onMouseClicked="#enableSelectBtn" prefHeight="507.0" prefWidth="376.0">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin></ListView>
                   <Button fx:id="selectBtn" mnemonicParsing="false" onAction="#addToOgRecordings" text="Select">
                      <VBox.margin>
                         <Insets top="15.0" />
@@ -190,7 +204,7 @@
                </children>
             </VBox>
             <Pane prefHeight="495.0" prefWidth="11.0" />
-            <Separator orientation="VERTICAL" prefHeight="495.0" prefWidth="54.0" />
+            <Separator orientation="VERTICAL" prefHeight="595.0" prefWidth="44.0" />
          </children>
          <BorderPane.margin>
             <Insets left="10.0" />
