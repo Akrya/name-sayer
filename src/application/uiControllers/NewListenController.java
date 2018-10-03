@@ -6,6 +6,7 @@ import application.models.RecordingModel;
 import application.models.RecordingRater;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -46,6 +47,9 @@ public class NewListenController implements Initializable {
     private Button clearBtn;
 
     @FXML
+    private TextField searchBox;
+
+    @FXML
     private ListView<String> playList;
 
     @FXML
@@ -64,7 +68,7 @@ public class NewListenController implements Initializable {
 
     private NamesListModel _namesListModel = new NamesListModel();
 
-    private ObservableList<String> _names;
+    private FilteredList<String> _filteredNames;
 
     private ObservableList<String> _queuedRecordings;
 
@@ -211,8 +215,24 @@ public class NewListenController implements Initializable {
         recordingsTable.getItems().setAll(testRec);
         _queuedRecordings = FXCollections.observableArrayList();
         playList.setItems(_queuedRecordings);
-        _names = FXCollections.observableArrayList(_namesListModel.getNames());
-        namesList.setItems(_names);
+
+
+        //reference for search box https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
+        ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
+        _filteredNames = new FilteredList<>(names, e -> true);
+        namesList.setItems(_filteredNames);
+        searchBox.textProperty().addListener((observable,oldValue, newValue) ->{
+            _filteredNames.setPredicate(element ->{
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+                if (element.toUpperCase().contains(newValue.toUpperCase())){
+                    return true;
+                }
+                return false;
+            });
+            namesList.setItems(_filteredNames);
+        });
 
     }
 
