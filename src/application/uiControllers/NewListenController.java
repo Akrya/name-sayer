@@ -169,7 +169,7 @@ public class NewListenController implements Initializable {
         clearBtn.setDisable(true);
         deleteBtn.setDisable(true);
         listenBtn.setDisable(true);
-        playProgressBar.setProgress(0);
+        //playProgressBar.setProgress(0);
         playStatus.setText("Now playing: ");
         playRecording.setText(playList.getSelectionModel().getSelectedItem());
         isPlaying = true;

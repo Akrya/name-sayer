@@ -25,7 +25,7 @@ public class RecordingPlayer extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
-        playAudio();
+        //playAudio();
         waitForPlay();
         return null;
     }
@@ -43,11 +43,10 @@ public class RecordingPlayer extends Task<Void> {
 
     }
     private void waitForPlay() throws InterruptedException {
-        int approxLength = (int) _length;
+        int approxLength = (int) (_length*1000);
         for (int i=0;i<approxLength;i++){
-            Thread.sleep(1000);
-            int workDone = (int) (i+1/_length)*10;
-            updateProgress(workDone,10);
+            Thread.sleep(1);
+            updateProgress(i+1,approxLength);
         }
     }
     private void calcLength() {
