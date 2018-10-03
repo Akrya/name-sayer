@@ -87,8 +87,8 @@
                   <VBox prefHeight="496.0" prefWidth="396.0">
                      <children>
                         <Label text="Playlist Queue" />
-                        <ListView fx:id="playList" onMouseClicked="#enablePlayBtns" prefHeight="422.0" prefWidth="304.0" />
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <ListView fx:id="playList" onMouseClicked="#enablePlayBtns" prefHeight="378.0" prefWidth="360.0" />
+                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="223.0">
                            <children>
                               <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" text="Listen" />
                               <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeQueue" text="Remove" />
@@ -96,6 +96,13 @@
                               <Button fx:id="randomiseBtn" mnemonicParsing="false" onAction="#randomiseQueue" text="Shuffle" />
                            </children>
                         </HBox>
+                        <VBox alignment="CENTER" prefHeight="89.0" prefWidth="360.0">
+                           <children>
+                              <Label fx:id="playStatus" text="No recording currently playing" />
+                              <Label fx:id="playRecording" />
+                              <ProgressBar fx:id="playProgressBar" prefWidth="200.0" progress="0.0" />
+                           </children>
+                        </VBox>
                      </children>
                   </VBox>
                </children>
