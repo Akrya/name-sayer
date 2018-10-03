@@ -27,6 +27,7 @@ public class NamesListModel {
         for (NamesModel model : _names){
             names.add(model.toString());
         }
+        Collections.sort(names);
         return names;
     }
 
