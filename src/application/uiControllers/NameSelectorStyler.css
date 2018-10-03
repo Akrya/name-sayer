@@ -1,0 +1,22 @@
+
+.button-menu-background{
+    -fx-background-color: #665f5e;
+}
+
+
+.button{
+    -fx-background-color: #665f5e;
+}
+.ff {
+    -fx-background-color: #9d9291;
+}
+.button:hover{
+
+    -fx-background-color: #665f5e;
+    -fx-text-fill: #fff7ff;
+    -fx-font-weight: bold;
+}
+.button:pressed{
+    -fx-text-fill: #fff7ff;
+    -fx-font-weight: normal;
+}
