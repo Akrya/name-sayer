@@ -1,6 +1,6 @@
 package application.models;
 
-import application.uiControllers.NamesSelectorController;
+import application.controllers.NamesSelectorController;
 
 public class NameSelectorSingleton {
 

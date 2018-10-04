@@ -34,12 +34,10 @@ public class RecordingPlayer extends Task<Void> {
         String cmd = "ffplay -loglevel panic -autoexit -nodisp -i "+"'"+_filePath+"'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
-            Process process = builder.start();
-            //process.waitFor();
+            builder.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     private void waitForPlay() throws InterruptedException {
         int approxLength = (int) (_length*1000);

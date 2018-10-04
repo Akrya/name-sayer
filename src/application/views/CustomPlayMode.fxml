@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.CustomModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.CustomModeController">
    <top>
       <VBox prefHeight="124.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
@@ -20,9 +20,9 @@
                      </font>
                   </Label>
                   <Pane prefHeight="200.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" text="Back to Selection" />
+                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" text="Back to Selection" />
                   <Pane layoutX="456.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
-                  <Button mnemonicParsing="false" text="Home" />
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" text="Home" />
                </children>
             </HBox>
          </children>
@@ -34,8 +34,7 @@
             <VBox alignment="CENTER" prefHeight="576.0" prefWidth="304.0">
                <children>
                   <Label text="Selected Custom Names" />
-                  <ListView fx:id="selectedNames" prefHeight="527.0" prefWidth="303.0" />
-                  <Button mnemonicParsing="false" text="SELECT" />
+                  <ListView fx:id="selectedNames" onMouseClicked="#enableSelect" prefHeight="527.0" prefWidth="303.0" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -47,7 +46,7 @@
          <children>
             <VBox alignment="TOP_CENTER" prefHeight="434.0" prefWidth="563.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No name selected ">
+                  <Text fx:id="selectStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="No name selected ">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -55,18 +54,20 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                  <Text fx:id="selectedName" strokeType="OUTSIDE" strokeWidth="0.0">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
                   <Pane prefHeight="34.0" prefWidth="563.0" />
-                  <Button mnemonicParsing="false" text="LISTEN TO ORIGINAL" />
+                  <Button fx:id="listenOgBtn" mnemonicParsing="false" text="LISTEN TO ORIGINAL" />
+                  <Pane layoutX="10.0" layoutY="86.0" prefHeight="47.0" prefWidth="563.0" />
+                  <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordCustom" text="MAKE CUSTOM RECORDING" />
                </children>
             </VBox>
             <Label fx:id="playStatus" text="No recording currently playing" />
             <Label fx:id="playRecording" />
-            <ProgressBar prefHeight="20.0" prefWidth="394.0" progress="0.0" />
+            <ProgressBar fx:id="progressBar" prefHeight="20.0" prefWidth="394.0" progress="0.0" />
          </children>
       </VBox>
    </center>
@@ -81,8 +82,8 @@
             <VBox alignment="CENTER" prefHeight="576.0" prefWidth="317.0">
                <children>
                   <Label text="Your Custom Recordings" />
-                  <ListView prefHeight="509.0" prefWidth="194.0" />
-                  <Button mnemonicParsing="false" text="LISTEN TO PERSONAL" />
+                  <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="509.0" prefWidth="194.0" />
+                  <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" text="LISTEN TO PERSONAL" />
                </children>
             </VBox>
          </children>

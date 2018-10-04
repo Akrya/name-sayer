@@ -1,4 +1,4 @@
-package application.uiControllers;
+package application.controllers;
 
 import application.models.*;
 import javafx.collections.FXCollections;
@@ -20,7 +20,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-public class NewListenController implements Initializable {
+public class MangeModeController implements Initializable {
 
     @FXML
     private Button rateBtn;
@@ -265,7 +265,7 @@ public class NewListenController implements Initializable {
 
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/MainMenu.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
