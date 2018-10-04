@@ -1,9 +1,6 @@
 package application.uiControllers;
 
-import application.models.NameSelectorSingleton;
-import application.models.NamesListModel;
-import application.models.NamesModel;
-import application.models.Recorder;
+import application.models.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
@@ -58,6 +56,20 @@ public class CustomModeController implements Initializable {
     private Label playStatus;
 
     @FXML
+    private Label playRecording;
+
+    @FXML
+    private Button listenPerBtn;
+
+    @FXML
+    private Button listenOgBtn;
+
+    @FXML
+    private Button recordBtn;
+
+    private boolean inAction = false;
+
+    @FXML
     private void goToMain(ActionEvent event) throws IOException {
         Parent listenScene = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
         Scene scene = new Scene(listenScene);
@@ -80,9 +92,45 @@ public class CustomModeController implements Initializable {
     }
 
     @FXML
-    private void enableSelect(MouseEvent mouseEvent){
-        if (mouseEvent.getClickCount() == 2){
+    private void enableSelect(){
+        if (selectedNames.getSelectionModel().getSelectedItem() != null){
             selectName();
+        }
+    }
+
+    @FXML
+    private void enablePersonalListen(MouseEvent mouseEvent){
+        if (mouseEvent.getClickCount() == 2 && !inAction){
+            listenPersonal();
+        }
+        if (!customRecordings.getSelectionModel().isEmpty()){
+            listenPerBtn.setDisable(false);
+        }
+
+    }
+
+    @FXML
+    private void listenPersonal(){
+        if (customRecordings.getSelectionModel().getSelectedItem() != null){
+            String filePath = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
+            RecordingPlayer player = new RecordingPlayer(filePath);
+            progressBar.progressProperty().unbind();
+            progressBar.progressProperty().bind(player.progressProperty());
+            playStatus.setText("Now playing: ");
+            playRecording.setText(customRecordings.getSelectionModel().getSelectedItem());
+            inAction = true;
+            recordBtn.setDisable(true);
+            listenPerBtn.setDisable(true);
+            listenOgBtn.setDisable(true);
+            player.setOnSucceeded(e ->{
+                playStatus.setText("No recording currently playing");
+                playRecording.setText("");
+                inAction = false;
+                listenPerBtn.setDisable(false);
+                recordBtn.setDisable(false);
+                listenOgBtn.setDisable(false);
+            });
+            new Thread(player).start();
         }
     }
 
@@ -93,6 +141,8 @@ public class CustomModeController implements Initializable {
             if (!selection.contains("invalid")){
                 selectStatus.setText("Currently selected:");
                 selectedName.setText(selection);
+                listenOgBtn.setDisable(false);
+                recordBtn.setDisable(false);
             }
         }
 
@@ -102,10 +152,19 @@ public class CustomModeController implements Initializable {
     private void recordCustom(){
 
         String selection = selectedName.getText();
-        if (selection != null){
+        if (selection != null && !selection.isEmpty()){
             Recorder recorder = new Recorder(selection);
+            inAction = true;
+            listenPerBtn.setDisable(true);
+            recordBtn.setDisable(true);
+            listenOgBtn.setDisable(true);
             recorder.setOnSucceeded(e -> {
                 playStatus.setText("Finished recording!");
+                inAction = false;
+                getCustomRecordings();
+                listenPerBtn.setDisable(false);
+                recordBtn.setDisable(false);
+                listenOgBtn.setDisable(false);
             });
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(recorder.progressProperty());
@@ -119,12 +178,17 @@ public class CustomModeController implements Initializable {
         _controller = _singleton.getController();
         _selectedNames = FXCollections.observableArrayList(_controller.getSelectedNames());
         selectedNames.setItems(_selectedNames);
+        _customRecords = FXCollections.observableArrayList();
         getCustomRecordings();
         customRecordings.setItems(_customRecords);
+
+        listenPerBtn.setDisable(true);
+        recordBtn.setDisable(true);
 
     }
 
     private void getCustomRecordings(){
+        _customRecords.clear();
         File[] files = new File("CustomRecords").listFiles();
         List<String> customRecords = new ArrayList<>();
         for (File file : files){
@@ -132,6 +196,6 @@ public class CustomModeController implements Initializable {
                 customRecords.add(file.getName());
             }
         }
-        _customRecords = FXCollections.observableArrayList(customRecords);
+        _customRecords.addAll(customRecords);
     }
 }

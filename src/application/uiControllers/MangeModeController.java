@@ -20,7 +20,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-public class NewListenController implements Initializable {
+public class MangeModeController implements Initializable {
 
     @FXML
     private Button rateBtn;

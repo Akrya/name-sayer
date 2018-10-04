@@ -253,7 +253,7 @@ public class NamesSelectorController implements Initializable {
         clearBtn.setDisable(true);
         removeBtn.setDisable(true);
         makeFileBtn.setDisable(true);
-        searchBox.setPromptText("Search...");
+        searchBox.setPromptText("Search for names here, use space key to autofill suggested result ...");
         getCustomFiles();
         customFiles.setItems(_customFiles);
 

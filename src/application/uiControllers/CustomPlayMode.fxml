@@ -35,7 +35,6 @@
                <children>
                   <Label text="Selected Custom Names" />
                   <ListView fx:id="selectedNames" onMouseClicked="#enableSelect" prefHeight="527.0" prefWidth="303.0" />
-                  <Button fx:id="selectBtn" mnemonicParsing="false" onAction="#selectName" text="SELECT" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -83,8 +82,8 @@
             <VBox alignment="CENTER" prefHeight="576.0" prefWidth="317.0">
                <children>
                   <Label text="Your Custom Recordings" />
-                  <ListView fx:id="customRecordings" prefHeight="509.0" prefWidth="194.0" />
-                  <Button fx:id="listenPerBtn" mnemonicParsing="false" text="LISTEN TO PERSONAL" />
+                  <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="509.0" prefWidth="194.0" />
+                  <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" text="LISTEN TO PERSONAL" />
                </children>
             </VBox>
          </children>
