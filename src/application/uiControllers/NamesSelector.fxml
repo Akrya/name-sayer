@@ -53,7 +53,7 @@
             </HBox>
             <VBox prefHeight="116.0" prefWidth="403.0">
                <children>
-                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#goToPracticeMode" prefHeight="35.0" prefWidth="130.0" text="PRACTICE NAMES">
+                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#goToCustomMode" prefHeight="35.0" prefWidth="199.0" text="PRACTICE CUSTOM NAMES">
                      <VBox.margin>
                         <Insets left="250.0" top="20.0" />
                      </VBox.margin>
@@ -132,14 +132,10 @@
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <HBox prefHeight="43.0" prefWidth="343.0">
+                  <HBox alignment="CENTER" prefHeight="43.0" prefWidth="343.0">
                      <children>
-                        <TextField prefHeight="25.0" prefWidth="170.0">
-                           <HBox.margin>
-                              <Insets left="35.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <Button mnemonicParsing="false" prefHeight="24.0" text="USE" />
+                        <ComboBox fx:id="customFiles" prefWidth="150.0" promptText="custom lists" />
+                        <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadCustomFile" prefHeight="24.0" text="LOAD" />
                      </children>
                   </HBox>
                </children>
