@@ -69,4 +69,23 @@ public class MainMenuController implements Initializable {
         window.setScene(scene);
     }
 
+    @FXML
+    private void openHelpWindow(ActionEvent event){
+
+        Parent root;
+        try{
+            root = FXMLLoader.load(getClass().getResource("../views/HelpWindow.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Help");
+            stage.setScene(new Scene(root, 600, 650));
+            stage.show();
+
+        }
+
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
 }

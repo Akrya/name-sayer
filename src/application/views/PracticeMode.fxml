@@ -28,27 +28,7 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Pane prefHeight="93.0" prefWidth="378.0" />
-                  <VBox alignment="CENTER" prefHeight="84.0" prefWidth="200.0">
-                     <children>
-                        <Label text="Mic Test">
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Label>
-                        <ProgressBar fx:id="audioVisualizer" prefHeight="9.0" prefWidth="165.0" progress="0.0" styleClass="mic-bar">
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="5.0" />
-                           </VBox.margin>
-                        </ProgressBar>
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <padding>
-                        <Insets right="15.0" />
-                     </padding>
-                  </VBox>
+                  <Pane prefHeight="93.0" prefWidth="600.0" />
                   <Button fx:id="listenModeBtn" mnemonicParsing="false" onAction="#goToListenMode" prefHeight="35.0" prefWidth="130.0" text="Home" />
                </children>
             </HBox>
@@ -70,29 +50,55 @@
             <Insets right="10.0" />
          </BorderPane.margin>
          <children>
-            <HBox alignment="CENTER" prefHeight="121.0" prefWidth="798.0">
+            <VBox alignment="CENTER" prefHeight="149.0" prefWidth="798.0">
                <children>
-                  <Text fx:id="selectedStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No name selected">
-                     <HBox.margin>
+                  <Text fx:id="selectedStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No name selected" textAlignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <VBox.margin>
                         <Insets />
-                     </HBox.margin>
-                     <font>
-                        <Font size="24.0" />
-                     </font>
+                     </VBox.margin>
                   </Text>
-                  <Text fx:id="selectedName" fill="WHITE" layoutX="222.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                  <Text fx:id="selectedName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin></Text>
-                  <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" prefHeight="44.0" prefWidth="109.0" text="Record">
-                     <HBox.margin>
-                        <Insets left="40.0" />
-                     </HBox.margin></Button>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Text>
+                  <HBox alignment="CENTER" prefHeight="121.0" prefWidth="798.0">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="112.0" prefWidth="193.0">
+                           <children>
+                              <Label text="Mic Test">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <ProgressBar fx:id="audioVisualizer" prefHeight="9.0" prefWidth="165.0" progress="0.0" styleClass="mic-bar">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </ProgressBar>
+                           </children>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets right="15.0" />
+                           </padding>
+                        </VBox>
+                        <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" prefHeight="44.0" prefWidth="109.0" text="Record">
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
             <HBox alignment="CENTER" prefHeight="339.0" prefWidth="798.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="329.0" prefWidth="250.0">
