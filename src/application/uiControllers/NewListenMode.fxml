@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -15,9 +18,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.NewListenController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.NewListenController">
    <top>
-      <VBox prefHeight="100.0" prefWidth="1200.0" styleClass="nameSayer-hbox" BorderPane.alignment="CENTER">
+      <VBox prefHeight="103.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
@@ -26,7 +29,7 @@
                         <Font size="64.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="100.0" prefWidth="652.0" />
+                  <Pane prefHeight="100.0" prefWidth="677.0" />
                   <Button fx:id="returnBtn" mnemonicParsing="false" onAction="#goToMain" text="Home" />
                </children>
             </HBox>
@@ -43,12 +46,9 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="78.0" prefWidth="1067.0">
+            <VBox prefHeight="86.0" prefWidth="1067.0">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" Please type in a name in the search bar to select a name for listening">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin></Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" Please type in a name in the search bar to select a name for listening" />
                   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="1067.0">
                      <children>
                         <TextField fx:id="searchBox" prefHeight="25.0" prefWidth="518.0" />
@@ -63,56 +63,52 @@
                   <VBox prefHeight="496.0" prefWidth="343.0">
                      <children>
                         <Label text="Names" />
-                        <ListView fx:id="namesList" onMouseClicked="#getRecordings" prefHeight="434.0" prefWidth="302.0">
-                           <VBox.margin>
-                              <Insets right="5.0" />
-                           </VBox.margin></ListView>
+                        <ListView fx:id="namesList" onMouseClicked="#getRecordings" prefHeight="417.0" prefWidth="279.0" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="496.0" prefWidth="436.0">
                      <children>
-                        <Label text="Recordings">
-                           <VBox.margin>
-                              <Insets top="-5.0" />
-                           </VBox.margin></Label>
-                        <TableView fx:id="recordingsTable" onMouseClicked="#enableRecordingListBtns" prefHeight="433.0" prefWidth="395.0">
+                        <HBox prefHeight="21.0" prefWidth="400.0">
+                           <children>
+                              <Pane prefHeight="15.0" prefWidth="19.0" />
+                              <Label fx:id="recordingStatus" text="Recordings" />
+                              <Label fx:id="recordingLabel" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="recordingsTable" onMouseClicked="#enableRecordingListBtns" prefHeight="454.0" prefWidth="400.0">
                           <columns>
                             <TableColumn fx:id="fileCol" prefWidth="340.0" text="File name" />
                             <TableColumn fx:id="ratingCol" prefWidth="60.0" text="Rating" />
                           </columns>
-                           <VBox.margin>
-                              <Insets right="5.0" />
-                           </VBox.margin>
                         </TableView>
-                        <HBox alignment="CENTER" prefHeight="39.0" prefWidth="400.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" prefWidth="100.0" text="Add" />
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="100.0" text="Delete" />
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="rateBtn" mnemonicParsing="false" onAction="#rateRecording" prefWidth="100.0" text="Rate" />
+                              <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" text="Add" />
+                              <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" text="Delete" />
+                              <Button fx:id="rateBtn" mnemonicParsing="false" onAction="#rateRecording" text="Rate" />
                            </children>
-                           <VBox.margin>
-                              <Insets right="5.0" />
-                           </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
                   <VBox prefHeight="496.0" prefWidth="396.0">
                      <children>
-                        <Label alignment="CENTER" text="Playlist Queue" />
-                        <ListView fx:id="playList" onMouseClicked="#enablePlayBtns" prefHeight="434.0" prefWidth="360.0" />
-                        <HBox alignment="CENTER" prefHeight="39.0" prefWidth="360.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                        <Label text="Playlist Queue" />
+                        <ListView fx:id="playList" onMouseClicked="#enablePlayBtns" prefHeight="378.0" prefWidth="360.0" />
+                        <HBox alignment="CENTER" prefHeight="25.0" prefWidth="223.0">
                            <children>
-                              <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefWidth="80.0" text="Listen" />
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeQueue" prefWidth="80.0" text="Remove" />
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearQueue" prefWidth="80.0" text="Clear" />
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="randomiseBtn" mnemonicParsing="false" onAction="#randomiseQueue" prefWidth="80.0" text="Shuffle" />
+                              <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" text="Listen" />
+                              <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeQueue" text="Remove" />
+                              <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearQueue" text="Clear" />
+                              <Button fx:id="randomiseBtn" mnemonicParsing="false" onAction="#randomiseQueue" text="Shuffle" />
                            </children>
                         </HBox>
+                        <VBox alignment="CENTER" prefHeight="89.0" prefWidth="360.0">
+                           <children>
+                              <Label fx:id="playStatus" text="No recording currently playing" />
+                              <Label fx:id="playRecording" />
+                              <ProgressBar fx:id="playProgressBar" prefWidth="200.0" progress="0.0" />
+                           </children>
+                        </VBox>
                      </children>
                   </VBox>
                </children>

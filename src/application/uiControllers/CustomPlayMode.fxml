@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.CustomModeController">
+   <top>
+      <VBox prefHeight="124.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Name Sayer">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <Pane prefHeight="200.0" prefWidth="200.0" />
+                  <Button mnemonicParsing="false" text="Back to Selection" />
+                  <Pane layoutX="456.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
+                  <Button mnemonicParsing="false" text="Home" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <left>
+      <HBox prefHeight="576.0" prefWidth="308.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" prefHeight="576.0" prefWidth="304.0">
+               <children>
+                  <Label text="Selected Custom Names" />
+                  <ListView fx:id="selectedNames" prefHeight="527.0" prefWidth="303.0" />
+                  <Button mnemonicParsing="false" text="SELECT" />
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+         </children>
+      </HBox>
+   </left>
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="597.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="434.0" prefWidth="563.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="No name selected ">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Pane prefHeight="34.0" prefWidth="563.0" />
+                  <Button mnemonicParsing="false" text="LISTEN TO ORIGINAL" />
+               </children>
+            </VBox>
+            <Label fx:id="playStatus" text="No recording currently playing" />
+            <Label fx:id="playRecording" />
+            <ProgressBar prefHeight="20.0" prefWidth="394.0" progress="0.0" />
+         </children>
+      </VBox>
+   </center>
+   <right>
+      <HBox prefHeight="576.0" prefWidth="329.0" BorderPane.alignment="CENTER">
+         <children>
+            <Separator orientation="VERTICAL" prefHeight="200.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Separator>
+            <VBox alignment="CENTER" prefHeight="576.0" prefWidth="317.0">
+               <children>
+                  <Label text="Your Custom Recordings" />
+                  <ListView prefHeight="509.0" prefWidth="194.0" />
+                  <Button mnemonicParsing="false" text="LISTEN TO PERSONAL" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </right>
+</BorderPane>

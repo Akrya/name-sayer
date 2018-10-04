@@ -47,6 +47,15 @@ public class NewListenController implements Initializable {
     private TextField searchBox;
 
     @FXML
+    private ProgressBar playProgressBar;
+
+    @FXML
+    private Label playStatus;
+
+    @FXML
+    private Label playRecording;
+
+    @FXML
     private ListView<String> playList;
 
     @FXML
@@ -55,7 +64,13 @@ public class NewListenController implements Initializable {
     @FXML
     private TableView<RecordingModel> recordingsTable;
 
-    private ObservableList<RecordingModel> testRec = FXCollections.observableArrayList();
+    @FXML
+    private Label recordingLabel;
+
+    @FXML
+    private Label recordingStatus;
+
+    private ObservableList<RecordingModel> _recordingModels = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<RecordingModel, String> fileCol;
@@ -113,9 +128,9 @@ public class NewListenController implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK){
-            testRec.remove(recordingsTable.getSelectionModel().getSelectedItem());
+            _recordingModels.remove(recordingsTable.getSelectionModel().getSelectedItem());
             recordingsTable.getItems().clear();
-            recordingsTable.getItems().setAll(testRec);
+            recordingsTable.getItems().setAll(_recordingModels);
             String selectionName = selection.substring(selection.lastIndexOf('_')+1,selection.lastIndexOf('.'));
             NamesModel selectionModel = _namesListModel.getName(selectionName);
             List<RecordingModel> records = selectionModel.getRecords();
@@ -144,13 +159,13 @@ public class NewListenController implements Initializable {
                 rater.makeRating();
             }
             recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings list
-            testRec.clear();
+            _recordingModels.clear();
             NamesModel model = _namesListModel.getName(name);
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records) {
-                testRec.add(record);
+                _recordingModels.add(record);
             }
-            recordingsTable.getItems().setAll(testRec);
+            recordingsTable.getItems().setAll(_recordingModels);
         }
     }
 
@@ -160,6 +175,8 @@ public class NewListenController implements Initializable {
         clearBtn.setDisable(true);
         deleteBtn.setDisable(true);
         listenBtn.setDisable(true);
+        playStatus.setText("Now playing: ");
+        playRecording.setText(playList.getSelectionModel().getSelectedItem());
         isPlaying = true;
         String filePath;
         if (playList.getSelectionModel().getSelectedItem().substring(0,8).equals("personal")){
@@ -168,11 +185,16 @@ public class NewListenController implements Initializable {
             filePath = "Original/"+playList.getSelectionModel().getSelectedItem();
         }
         RecordingPlayer player = new RecordingPlayer(filePath);
+        playProgressBar.progressProperty().unbind();
+        playProgressBar.progressProperty().bind(player.progressProperty());
         player.setOnSucceeded(e ->{
             removeBtn.setDisable(false);
             clearBtn.setDisable(false);
             deleteBtn.setDisable(false);
             listenBtn.setDisable(false);
+            playStatus.setText("No recording currently playing");
+            playRecording.setText("");
+            playList.getSelectionModel().selectNext();
             isPlaying = false;
         });
         new Thread(player).start();
@@ -228,14 +250,16 @@ public class NewListenController implements Initializable {
     private void getRecordings(){
 
         String selection = namesList.getSelectionModel().getSelectedItem();
-        if (selection != null){
-            testRec.clear();
+        if (selection != null && !selection.equals("Name not found")){
+            _recordingModels.clear();
             NamesModel model = _namesListModel.getName(selection);
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records){
-                testRec.add(record);
+                _recordingModels.add(record);
             }
-            recordingsTable.getItems().setAll(testRec);
+            recordingsTable.getItems().setAll(_recordingModels);
+            recordingStatus.setText("Recordings for: ");
+            recordingLabel.setText(selection);
         }
     }
 
@@ -258,11 +282,12 @@ public class NewListenController implements Initializable {
         listenBtn.setDisable(true);
         randomiseBtn.setDisable(true);
         rateBtn.setDisable(true);
+        searchBox.setPromptText("Search...");
 
         makeRatingFile();
         fileCol.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
-        recordingsTable.getItems().setAll(testRec);
+        recordingsTable.getItems().setAll(_recordingModels);
         _queuedRecordings = FXCollections.observableArrayList();
         playList.setItems(_queuedRecordings);
 
@@ -276,8 +301,10 @@ public class NewListenController implements Initializable {
                 if (newValue == null || newValue.isEmpty()){
                     return true;
                 }
-                if (element.toUpperCase().contains(newValue.toUpperCase())){
-                    return true;
+                if (element.length() >= newValue.length()){
+                    if (element.toUpperCase().substring(0,newValue.length()).equals(newValue.toUpperCase())){ //filter for names that start with search string
+                        return true;
+                    }
                 }
                 if (element.contains("Name not found")){
                     return true;

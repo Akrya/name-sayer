@@ -20,6 +20,7 @@ public class NamesListModel {
 
         new File( "Personal").mkdir();
         new File("Original").mkdir();
+        new File("Custom").mkdir();
 
     }
 
