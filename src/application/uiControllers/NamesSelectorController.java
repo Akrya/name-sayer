@@ -11,18 +11,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class NamesSelectorController implements Initializable {
@@ -81,22 +79,46 @@ public class NamesSelectorController implements Initializable {
         }
     }
 
-//    @FXML
-//    private void enableAddBtn(MouseEvent mouseEvent){
-//        if (!_filteredNames.isEmpty() && _filteredNames.size() ==1){
-//            if (_filteredNames.get(0).equals("Name not found")){
-//                addBtn.setDisable(true);
-//            } else {
-//                addBtn.setDisable(false);
-//            }
-//        }
-//        if (mouseEvent.getClickCount() == 2){
-//            addSelection();
-//        }
-//    }
+    @FXML
+    private void addToSearch(MouseEvent mouseEvent){
+        if (mouseEvent.getClickCount() == 2){
+            String selection = namesList.getSelectionModel().getSelectedItem();
+            if (selection != null){
+                String currentText = searchBox.getText();
+                currentText = currentText +selection+ " ";
+                searchBox.setText(currentText);
+                searchBox.end();
+            }
+        }
+    }
 
     @FXML
     private void makeFile(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Make a new practice list!");
+        dialog.setHeaderText("You are about to make a new practice list with these names");
+        dialog.setContentText("Please enter a new file name (include .txt extension):");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            File customFile = new File("Custom/"+result.get());
+            if (customFile.exists()){
+                System.out.println("already there");
+            } else {
+                try {
+                    customFile.createNewFile();
+                    BufferedWriter bw = new BufferedWriter(new FileWriter("Custom/"+result.get(), true));
+                    PrintWriter writer = new PrintWriter(bw);
+                    List<String> customNames = selectedList.getItems();
+                    for (String name : customNames){
+                        writer.println(name);
+                    }
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 
@@ -192,8 +214,6 @@ public class NamesSelectorController implements Initializable {
                 if (currentText.contains(" ")){
                     currentText = currentText.substring(currentText.lastIndexOf(' ')+1);
                 }
-//                System.out.println(newValue);
-//                System.out.println(currentText);
                 if (element.length() >= currentText.length()){
                     if (element.toUpperCase().substring(0,currentText.length()).equals(currentText.toUpperCase())){ //filter for names that start with search string
                         return true;

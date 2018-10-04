@@ -120,7 +120,7 @@
                         <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection" text="ADD" />
                      </children>
                   </HBox>
-                  <ListView fx:id="namesList" prefHeight="410.0" prefWidth="416.0" />
+                  <ListView fx:id="namesList" onMouseClicked="#addToSearch" prefHeight="410.0" prefWidth="416.0" />
                   <Label prefHeight="19.0" prefWidth="272.0" text="SELECT WITH A FILE">
                      <font>
                         <Font size="15.0" />
