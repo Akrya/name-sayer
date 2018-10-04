@@ -25,8 +25,8 @@
                   <Font size="22.0" />
                </font>
             </Label>
-            <ListView fx:id="selectedList" onMouseClicked="#enableSelectBtns" prefHeight="413.0" prefWidth="630.0" />
-            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="403.0" styleClass="button-menu-background" stylesheets="@../controllers/NameSelectorStyler.css">
+            <ListView fx:id="selectedList" onMouseClicked="#enableSelectBtns" prefHeight="448.0" prefWidth="550.0" />
+            <HBox alignment="CENTER" prefHeight="56.0" prefWidth="550.0" styleClass="button-menu-background" stylesheets="@../controllers/NameSelectorStyler.css">
                <children>
                   <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefWidth="135.0" styleClass="button-menu-background" text="REMOVE">
                      <HBox.margin>
@@ -49,7 +49,7 @@
             </HBox>
             <VBox prefHeight="116.0" prefWidth="403.0">
                <children>
-                  <Pane prefHeight="25.0" prefWidth="550.0" />
+                  <Pane prefHeight="9.0" prefWidth="550.0" />
                   <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#goToCustomMode" prefHeight="35.0" prefWidth="199.0" text="PRACTICE CUSTOM NAMES">
                      <VBox.margin>
                         <Insets left="180.0" top="20.0" />
@@ -112,7 +112,7 @@
                      </children>
                   </HBox>
                   <ListView fx:id="namesList" onMouseClicked="#addToSearch" prefHeight="410.0" prefWidth="416.0" />
-                  <Label prefHeight="19.0" prefWidth="272.0" text="SELECT WITH A FILE">
+                  <Label alignment="TOP_LEFT" prefHeight="31.0" prefWidth="401.0" text="SELECT WITH A FILE">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -127,6 +127,7 @@
                      <children>
                         <ComboBox fx:id="customFiles" prefWidth="150.0" promptText="custom lists" />
                         <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadCustomFile" prefHeight="24.0" text="LOAD" />
+                        <Pane prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </HBox>
                </children>

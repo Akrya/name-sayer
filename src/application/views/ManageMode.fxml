@@ -93,6 +93,8 @@
                            <children>
                               <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" prefWidth="100.0" text="Add" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
+                              <Button mnemonicParsing="false" prefWidth="90.0" text="Add All" />
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="100.0" text="Delete" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Button fx:id="rateBtn" mnemonicParsing="false" onAction="#rateRecording" prefWidth="100.0" text="Rate" />

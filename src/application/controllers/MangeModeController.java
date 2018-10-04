@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.models.*;
+import com.sun.prism.impl.Disposer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -99,6 +100,22 @@ public class MangeModeController implements Initializable {
             }
         }
     }
+
+    /**Lots of places where being disabled and enabled, will implement later
+    @FXML
+    private void addAllToQueue(){
+        List<RecordingModel> selected;
+        selected = recordingsTable.getItems();
+
+        for (RecordingModel recording: selected){
+            String recordingName = recording.getFileName();
+            _queuedRecordings.add(recordingName);
+        }
+
+        clearBtn.setDisable(false);
+        randomiseBtn.setDisable(false);
+    }
+    */
 
     @FXML
     private void enableRecordingListBtns(MouseEvent mouseEvent){
