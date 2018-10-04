@@ -1,7 +1,6 @@
-package application.uiControllers;
+package application.controllers;
 
 import application.models.*;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -19,10 +18,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.File;
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
@@ -92,7 +88,7 @@ public class PracticeModeController implements Initializable {
     //takes you to home window
     @FXML
     private void goToListenMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/MainMenu.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

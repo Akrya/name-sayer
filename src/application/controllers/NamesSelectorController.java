@@ -1,4 +1,4 @@
-package application.uiControllers;
+package application.controllers;
 
 import application.models.NamesListModel;
 import javafx.collections.FXCollections;
@@ -59,7 +59,7 @@ public class NamesSelectorController implements Initializable {
 
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/MainMenu.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -68,7 +68,7 @@ public class NamesSelectorController implements Initializable {
 
     @FXML
     private void goToCustomMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("CustomPlayMode.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/CustomPlayMode.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -159,9 +159,9 @@ public class NamesSelectorController implements Initializable {
             }
         }
 
-//        if (event.getCode().equals(KeyCode.ENTER)){
-//            addLine(searchBox.getText());
-//        }
+        if (event.getCode().equals(KeyCode.ENTER)){
+            addLine(searchBox.getText());
+        }
     }
 
     @FXML

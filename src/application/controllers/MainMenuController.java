@@ -1,4 +1,4 @@
-package application.uiControllers;
+package application.controllers;
 
 import application.models.NameSelectorSingleton;
 import javafx.event.ActionEvent;
@@ -40,7 +40,7 @@ public class MainMenuController implements Initializable {
     private void openCustomMode(ActionEvent event) throws IOException {
 
         _singleton = NameSelectorSingleton.getInstance();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("NamesSelector.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
         _singleton.setController(controller);
@@ -53,7 +53,7 @@ public class MainMenuController implements Initializable {
     @FXML
     private void openListenMode(ActionEvent event) throws IOException {
         //Parent listenScene = FXMLLoader.load(getClass().getResource("ListenMode.fxml"));
-        Parent listenScene = FXMLLoader.load(getClass().getResource("ManageMode.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/ManageMode.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -62,7 +62,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void openPracticeMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("PracticeMode.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/PracticeMode.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.NamesSelectorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../controllers/FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NamesSelectorController">
    <right>
       <VBox alignment="CENTER" prefHeight="595.0" prefWidth="560.0" BorderPane.alignment="CENTER">
          <children>
@@ -30,7 +30,7 @@
                </font>
             </Label>
             <ListView fx:id="selectedList" onMouseClicked="#enableSelectBtns" prefHeight="413.0" prefWidth="630.0" />
-            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="403.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="403.0" styleClass="button-menu-background" stylesheets="@../controllers/NameSelectorStyler.css">
                <children>
                   <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefWidth="135.0" styleClass="button-menu-background" text="REMOVE">
                      <HBox.margin>
