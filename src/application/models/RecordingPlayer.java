@@ -38,7 +38,6 @@ public class RecordingPlayer extends Task<Void> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     private void waitForPlay() throws InterruptedException {
         int approxLength = (int) (_length*1000);

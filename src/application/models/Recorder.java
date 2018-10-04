@@ -24,7 +24,6 @@ public class Recorder extends Task<String> {
     }
 
     public Recorder(String customName){
-        System.out.println(customName);
         _customName = customName.substring(0,customName.lastIndexOf(' ')).replace(' ','-');
     }
 

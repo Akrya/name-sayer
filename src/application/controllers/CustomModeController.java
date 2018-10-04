@@ -102,7 +102,7 @@ public class CustomModeController implements Initializable {
         if (mouseEvent.getClickCount() == 2 && !inAction){
             listenPersonal();
         }
-        if (!customRecordings.getSelectionModel().isEmpty()){
+        if (!customRecordings.getSelectionModel().isEmpty() && !inAction){
             listenPerBtn.setDisable(false);
         }
 
@@ -160,7 +160,7 @@ public class CustomModeController implements Initializable {
             recorder.setOnSucceeded(e -> {
                 playStatus.setText("Finished recording!");
                 inAction = false;
-                getCustomRecordings();
+                _customRecords.add(recorder.getValue());
                 listenPerBtn.setDisable(false);
                 recordBtn.setDisable(false);
                 listenOgBtn.setDisable(false);
