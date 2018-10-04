@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -12,11 +17,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.NamesSelectorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.uiControllers.NamesSelectorController">
    <right>
       <VBox alignment="CENTER" prefHeight="595.0" prefWidth="640.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="200.0" text="SELECTED NAMES" textFill="WHITE">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="200.0" text="CUSTOM NAMES" textFill="WHITE">
                <padding>
                   <Insets bottom="5.0" />
                </padding>
@@ -35,7 +40,13 @@
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearSelections" prefHeight="25.0" prefWidth="118.0" styleClass="button-menu-background" text="CLEAR">
                      <HBox.margin>
-                        <Insets left="40.0" right="10.0" />
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Separator orientation="VERTICAL" prefHeight="200.0" />
+                  <Button fx:id="makeFileBtn" mnemonicParsing="false" onAction="#makeFile" prefHeight="25.0" prefWidth="120.0" text="MAKE FILE">
+                     <HBox.margin>
+                        <Insets left="40.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -95,7 +106,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="595.0" prefWidth="416.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="200.0" text="SELECT" textFill="WHITE">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="200.0" text="SELECT " textFill="WHITE">
                      <padding>
                         <Insets bottom="5.0" />
                      </padding>
@@ -103,26 +114,13 @@
                         <Font size="22.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="searchBox">
-                     <VBox.margin>
-                        <Insets bottom="5.0" />
-                     </VBox.margin>
-                  </TextField>
-                  <ListView fx:id="namesList" onMouseClicked="#enableAddBtn" prefHeight="410.0" prefWidth="416.0" />
-                  <HBox alignment="CENTER" prefHeight="32.0" prefWidth="344.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                  <HBox alignment="CENTER" prefHeight="41.0" prefWidth="406.0">
                      <children>
-                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection" prefWidth="100.0" styleClass="button-menu-background" text="ADD">
-                           <HBox.margin>
-                              <Insets right="40.0" />
-                           </HBox.margin></Button>
-                        <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Button fx:id="addAllBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addAllSelections" prefWidth="100.0" styleClass="button-menu-background" text="ADD ALL">
-                           <HBox.margin>
-                              <Insets left="40.0" />
-                           </HBox.margin>
-                        </Button>
+                        <TextField fx:id="searchBox" onKeyPressed="#addToSelection" prefHeight="25.0" prefWidth="335.0" />
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection" text="ADD" />
                      </children>
                   </HBox>
+                  <ListView fx:id="namesList" prefHeight="410.0" prefWidth="416.0" />
                   <Label prefHeight="19.0" prefWidth="272.0" text="SELECT WITH A FILE">
                      <font>
                         <Font size="15.0" />

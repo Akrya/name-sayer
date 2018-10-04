@@ -11,9 +11,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -43,6 +46,9 @@ public class NamesSelectorController implements Initializable {
     private Button addBtn;
 
     @FXML
+    private Button makeFileBtn;
+
+    @FXML
     private Button removeBtn;
 
     private ObservableList<String> _selectedNames;
@@ -69,40 +75,79 @@ public class NamesSelectorController implements Initializable {
         window.setScene(scene);
     }
     @FXML
-    private void addSelection(){
-        if (namesList.getSelectionModel().getSelectedItem() != null){
-            if (_selectedNames.indexOf(namesList.getSelectionModel().getSelectedItem()) == -1){
-                if (!namesList.getSelectionModel().getSelectedItem().equals("Name not found")) {
-                    _selectedNames.add(namesList.getSelectionModel().getSelectedItem());
-                    clearBtn.setDisable(false);
+    private void addSelection(){ //add whatever input is in textfield to the custom names list
+        if (!searchBox.getText().isEmpty()){
+            addLine(searchBox.getText());
+        }
+    }
+
+//    @FXML
+//    private void enableAddBtn(MouseEvent mouseEvent){
+//        if (!_filteredNames.isEmpty() && _filteredNames.size() ==1){
+//            if (_filteredNames.get(0).equals("Name not found")){
+//                addBtn.setDisable(true);
+//            } else {
+//                addBtn.setDisable(false);
+//            }
+//        }
+//        if (mouseEvent.getClickCount() == 2){
+//            addSelection();
+//        }
+//    }
+
+    @FXML
+    private void makeFile(){
+
+    }
+
+    @FXML
+    private void addToSelection(KeyEvent event){
+        if (event.getCode().equals(KeyCode.SPACE)){ //autocomplete by taking top result from namesList and replacing it with user entry
+            String topResult = _filteredNames.get(0);
+                String currentText = searchBox.getText();
+                if (!topResult.equals("Name not found")) {
+                    if (currentText.contains(" ")) {
+                        currentText = currentText.substring(0, currentText.lastIndexOf(' '));
+                        currentText = currentText + " " + topResult;
+                        searchBox.setText(currentText);
+                        searchBox.end();
+                    } else {
+                        currentText = topResult;
+                        searchBox.setText(currentText);
+                        searchBox.endOfNextWord();
+                    }
                 }
-            }
+        }
+
+        if (event.getCode().equals(KeyCode.ENTER)){
+            addLine(searchBox.getText());
         }
     }
 
-    @FXML
-    private void enableAddBtn(MouseEvent mouseEvent){
-        if (!_filteredNames.isEmpty() && _filteredNames.size() ==1){
-            if (_filteredNames.get(0).equals("Name not found")){
-                addBtn.setDisable(true);
-            } else {
-                addBtn.setDisable(false);
+    private void addLine(String line){
+        String[] candidateNames = line.split("\\s+");
+        boolean invalid = false; //check if every entry in the string is a valid name in our namesListModel
+        String entryName = "";
+        for (String name : candidateNames){
+            name = name.substring(0,1).toUpperCase()+name.substring(1);
+            entryName = entryName + name+ " ";
+            if (_namesListModel.getName(name) == null){
+                invalid = true;
+                break;
             }
         }
-        if (mouseEvent.getClickCount() == 2){
-            addSelection();
+        if (invalid){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Invalid Name!");
+            alert.setHeaderText(null);
+            alert.setContentText("There seems to be a name in your selection that is not in our database!");
+            alert.showAndWait();
+        } else {
+            searchBox.clear();
+            selectedList.getItems().add(entryName);
+            clearBtn.setDisable(false);
+            makeFileBtn.setDisable(false);
         }
-    }
-
-    @FXML
-    private void addAllSelections(){
-        List<String> currentNames = namesList.getItems();
-        for (String name : currentNames){
-            if (_selectedNames.indexOf(name) == -1 && !name.equals("Name not found")){
-                _selectedNames.add(name);
-            }
-        }
-        clearBtn.setDisable(false);
     }
 
     @FXML
@@ -134,6 +179,8 @@ public class NamesSelectorController implements Initializable {
         selectedList.setItems(_selectedNames);
         clearBtn.setDisable(true);
         removeBtn.setDisable(true);
+        makeFileBtn.setDisable(true);
+        searchBox.setPromptText("Search...");
         //populate listview with names in database
         ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
         _filteredNames = new FilteredList<>(names, e -> true);
@@ -141,8 +188,14 @@ public class NamesSelectorController implements Initializable {
         //same code as other search box reference: https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
         searchBox.textProperty().addListener((observable,oldValue, newValue) ->{
             _filteredNames.setPredicate(element ->{
-                if (element.length() >= newValue.length()){
-                    if (element.toUpperCase().substring(0,newValue.length()).equals(newValue.toUpperCase())){ //filter for names that start with search string
+                String currentText = newValue;
+                if (currentText.contains(" ")){
+                    currentText = currentText.substring(currentText.lastIndexOf(' ')+1);
+                }
+//                System.out.println(newValue);
+//                System.out.println(currentText);
+                if (element.length() >= currentText.length()){
+                    if (element.toUpperCase().substring(0,currentText.length()).equals(currentText.toUpperCase())){ //filter for names that start with search string
                         return true;
                     }
                 }

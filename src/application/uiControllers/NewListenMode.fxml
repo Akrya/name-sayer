@@ -68,7 +68,13 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="496.0" prefWidth="436.0">
                      <children>
-                        <Label text="Recordings" />
+                        <HBox prefHeight="21.0" prefWidth="400.0">
+                           <children>
+                              <Pane prefHeight="15.0" prefWidth="19.0" />
+                              <Label fx:id="recordingStatus" text="Recordings" />
+                              <Label fx:id="recordingLabel" />
+                           </children>
+                        </HBox>
                         <TableView fx:id="recordingsTable" onMouseClicked="#enableRecordingListBtns" prefHeight="454.0" prefWidth="400.0">
                           <columns>
                             <TableColumn fx:id="fileCol" prefWidth="340.0" text="File name" />

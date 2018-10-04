@@ -64,6 +64,12 @@ public class NewListenController implements Initializable {
     @FXML
     private TableView<RecordingModel> recordingsTable;
 
+    @FXML
+    private Label recordingLabel;
+
+    @FXML
+    private Label recordingStatus;
+
     private ObservableList<RecordingModel> _recordingModels = FXCollections.observableArrayList();
 
     @FXML
@@ -169,7 +175,6 @@ public class NewListenController implements Initializable {
         clearBtn.setDisable(true);
         deleteBtn.setDisable(true);
         listenBtn.setDisable(true);
-        //playProgressBar.setProgress(0);
         playStatus.setText("Now playing: ");
         playRecording.setText(playList.getSelectionModel().getSelectedItem());
         isPlaying = true;
@@ -189,6 +194,7 @@ public class NewListenController implements Initializable {
             listenBtn.setDisable(false);
             playStatus.setText("No recording currently playing");
             playRecording.setText("");
+            playList.getSelectionModel().selectNext();
             isPlaying = false;
         });
         new Thread(player).start();
@@ -244,7 +250,7 @@ public class NewListenController implements Initializable {
     private void getRecordings(){
 
         String selection = namesList.getSelectionModel().getSelectedItem();
-        if (selection != null){
+        if (selection != null && !selection.equals("Name not found")){
             _recordingModels.clear();
             NamesModel model = _namesListModel.getName(selection);
             List<RecordingModel> records = model.getRecords();
@@ -252,6 +258,8 @@ public class NewListenController implements Initializable {
                 _recordingModels.add(record);
             }
             recordingsTable.getItems().setAll(_recordingModels);
+            recordingStatus.setText("Recordings for: ");
+            recordingLabel.setText(selection);
         }
     }
 
@@ -274,6 +282,7 @@ public class NewListenController implements Initializable {
         listenBtn.setDisable(true);
         randomiseBtn.setDisable(true);
         rateBtn.setDisable(true);
+        searchBox.setPromptText("Search...");
 
         makeRatingFile();
         fileCol.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class

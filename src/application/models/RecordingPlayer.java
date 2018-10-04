@@ -25,19 +25,18 @@ public class RecordingPlayer extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
-        //playAudio();
+        playAudio();
         waitForPlay();
         return null;
     }
 
     private void playAudio(){
         String cmd = "ffplay -loglevel panic -autoexit -nodisp -i "+"'"+_filePath+"'";
-        System.out.println(cmd);
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
             Process process = builder.start();
-            process.waitFor();
-        } catch (IOException | InterruptedException e) {
+            //process.waitFor();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -46,7 +45,7 @@ public class RecordingPlayer extends Task<Void> {
         int approxLength = (int) (_length*1000);
         for (int i=0;i<approxLength;i++){
             Thread.sleep(1);
-            updateProgress(i+1,approxLength);
+            updateProgress(i+1,approxLength); //update binded progress bar periodically for duration of audio
         }
     }
     private void calcLength() {
