@@ -63,12 +63,12 @@
                   <Pane prefHeight="34.0" prefWidth="563.0" />
                   <Button fx:id="listenOgBtn" mnemonicParsing="false" text="LISTEN TO ORIGINAL" />
                   <Pane layoutX="10.0" layoutY="86.0" prefHeight="47.0" prefWidth="563.0" />
-                  <Button fx:id="recordBtn" mnemonicParsing="false" text="MAKE CUSTOM RECORDING" />
+                  <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordCustom" text="MAKE CUSTOM RECORDING" />
                </children>
             </VBox>
             <Label fx:id="playStatus" text="No recording currently playing" />
             <Label fx:id="playRecording" />
-            <ProgressBar prefHeight="20.0" prefWidth="394.0" progress="0.0" />
+            <ProgressBar fx:id="progressBar" prefHeight="20.0" prefWidth="394.0" progress="0.0" />
          </children>
       </VBox>
    </center>

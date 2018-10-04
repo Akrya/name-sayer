@@ -59,9 +59,15 @@ public class MainMenuController implements Initializable {
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
-
-
     }
 
+    @FXML
+    private void openPracticeMode(ActionEvent event) throws IOException {
+        Parent listenScene = FXMLLoader.load(getClass().getResource("PracticeMode.fxml"));
+        Scene scene = new Scene(listenScene);
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(scene);
+    }
 
 }

@@ -59,11 +59,6 @@
                      </VBox.margin>
                   </Button>
                   <Pane prefHeight="10.0" prefWidth="403.0" />
-                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="LISTEN TO NAMES">
-                     <VBox.margin>
-                        <Insets left="250.0" />
-                     </VBox.margin>
-                  </Button>
                </children>
             </VBox>
          </children>
