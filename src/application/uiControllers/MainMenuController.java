@@ -1,5 +1,6 @@
 package application.uiControllers;
 
+import application.models.NameSelectorSingleton;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,15 +30,22 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button fuseButton;
 
+    private NameSelectorSingleton _singleton;
+
     public void initialize(URL location, ResourceBundle resources) {
         //fill in maybe later
 
     }
 
     @FXML
-    private void openPracticeMode(ActionEvent event) throws IOException {
-        Parent createScene = FXMLLoader.load(getClass().getResource("NamesSelector.fxml"));
-        Scene scene = new Scene(createScene);
+    private void openCustomMode(ActionEvent event) throws IOException {
+
+        _singleton = NameSelectorSingleton.getInstance();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("NamesSelector.fxml"));
+        Parent root = loader.load();
+        NamesSelectorController controller = loader.getController();
+        _singleton.setController(controller);
+        Scene scene = new Scene(root);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);

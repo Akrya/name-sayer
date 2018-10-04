@@ -288,6 +288,9 @@ public class NamesSelectorController implements Initializable {
             }
             namesList.setItems(_filteredNames);
         });
+    }
 
+    public List<String> getSelectedNames(){
+        return _selectedNames;
     }
 }
