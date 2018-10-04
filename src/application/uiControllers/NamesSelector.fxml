@@ -24,8 +24,8 @@
                   <Font size="22.0" />
                </font>
             </Label>
-            <ListView prefHeight="413.0" prefWidth="630.0" />
-            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="403.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+            <ListView prefHeight="372.0" prefWidth="630.0" />
+            <HBox alignment="CENTER" prefHeight="40.0" prefWidth="630.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
                <children>
                   <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" prefWidth="135.0" styleClass="button-menu-background" text="REMOVE">
                      <HBox.margin>
@@ -40,7 +40,7 @@
                   </Button>
                </children>
             </HBox>
-            <VBox prefHeight="116.0" prefWidth="403.0">
+            <VBox prefHeight="132.0" prefWidth="630.0">
                <children>
                   <Button fx:id="addBtn1" mnemonicParsing="false" onAction="#addToQueue" prefHeight="35.0" prefWidth="130.0" text="PRACTICE NAMES">
                      <VBox.margin>
@@ -71,10 +71,10 @@
                <children>
                   <Label text="Name Sayer">
                      <font>
-                        <Font size="48.0" />
+                        <Font size="64.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="78.0" prefWidth="300.0" />
+                  <Pane prefHeight="93.0" prefWidth="570.0" />
                   <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#openRecordScene" prefHeight="35.0" prefWidth="130.0" text="Home" textFill="WHITE" />
                </children>
             </HBox>
@@ -108,8 +108,8 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </TextField>
-                  <ListView prefHeight="410.0" prefWidth="416.0" />
-                  <HBox alignment="CENTER" prefHeight="32.0" prefWidth="344.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                  <ListView prefHeight="388.0" prefWidth="406.0" />
+                  <HBox alignment="CENTER" prefHeight="48.0" prefWidth="406.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
                      <children>
                         <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefWidth="100.0" styleClass="button-menu-background" text="ADD">
                            <HBox.margin>
@@ -128,13 +128,13 @@
                         <Font size="15.0" />
                      </font>
                      <VBox.margin>
-                        <Insets />
+                        <Insets right="60.0" top="10.0" />
                      </VBox.margin>
                      <padding>
                         <Insets top="10.0" />
                      </padding>
                   </Label>
-                  <HBox prefHeight="43.0" prefWidth="343.0">
+                  <HBox prefHeight="0.0" prefWidth="406.0">
                      <children>
                         <TextField prefHeight="25.0" prefWidth="170.0">
                            <HBox.margin>
@@ -144,6 +144,7 @@
                         <Button mnemonicParsing="false" prefHeight="24.0" text="USE" />
                      </children>
                   </HBox>
+                  <Pane prefHeight="36.0" prefWidth="406.0" />
                </children>
                <padding>
                   <Insets left="10.0" />

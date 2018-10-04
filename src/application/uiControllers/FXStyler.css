@@ -1,5 +1,5 @@
 .root{
-    -fx-background-color: #060a2b;   /*root background color*/
+    -fx-background-color: #142646;   /*root background color*/
     -fx-text-fill: #fff;
 }
 
@@ -36,7 +36,7 @@
 
 /*style for name sayer panel*/
 .nameSayer-hbox{
-    -fx-background-color: #040b12;
+    -fx-background-color: #090b2b;
 
 }
 
@@ -62,4 +62,10 @@
 .scene-label{
     -fx-text-fill: #fff5d1;
     -fx-font-weight: bold;
+}
+
+
+
+.button-menu-background{
+    -fx-background-color: #665f5e;
 }
