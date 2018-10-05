@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -49,6 +50,9 @@ public class NamesSelectorController implements Initializable {
     @FXML
     private Button removeBtn;
 
+    @FXML
+    private Button uploadBtn;
+
     private ObservableList<String> _selectedNames;
 
     private FilteredList<String> _filteredNames;
@@ -56,6 +60,8 @@ public class NamesSelectorController implements Initializable {
     private NamesListModel _namesListModel = new NamesListModel();
 
     private ObservableList<String> _customFiles;
+
+
 
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
@@ -268,6 +274,19 @@ public class NamesSelectorController implements Initializable {
             }
         }
         _customFiles = FXCollections.observableArrayList(fileNames);
+    }
+
+    @FXML
+    private void uploadFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File f = fileChooser.showOpenDialog(uploadBtn.getScene().getWindow());
+//        fileChooser.getExtensionFilters().add(new E)
+        System.out.println(f.getName());
+
+
+
+
     }
 
     @Override
