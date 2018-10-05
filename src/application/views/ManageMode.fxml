@@ -21,7 +21,7 @@
    <top>
       <VBox prefHeight="103.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="62.0" prefWidth="1200.0" styleClass="nameSayer-hbox">
+            <HBox alignment="CENTER" prefHeight="93.0" prefWidth="1200.0" styleClass="nameSayer-hbox">
                <children>
                   <Label text="Name Sayer">
                      <font>
