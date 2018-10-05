@@ -83,7 +83,12 @@
                <children>
                   <Label text="Your Custom Recordings" />
                   <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="509.0" prefWidth="194.0" />
-                  <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" text="LISTEN TO PERSONAL" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" text="LISTEN TO PERSONAL" />
+                        <Button mnemonicParsing="false" text="DELETE" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

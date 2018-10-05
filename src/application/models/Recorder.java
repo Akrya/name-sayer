@@ -24,7 +24,10 @@ public class Recorder extends Task<String> {
     }
 
     public Recorder(String customName){
-        _customName = customName.substring(0,customName.lastIndexOf(' ')).replace(' ','-');
+        if (customName.charAt(customName.length()-1) == ' '){
+            customName = customName.substring(0,customName.length()-1);
+        }
+        _customName = customName.replace(' ','-');
     }
 
     private void createAudio() { //run the bash command to record for 5 seconds
