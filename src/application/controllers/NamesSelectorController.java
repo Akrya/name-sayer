@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -52,6 +53,9 @@ public class NamesSelectorController implements Initializable {
 
     @FXML
     private Button uploadBtn;
+
+    @FXML
+    private Text fileUpload;
 
     private ObservableList<String> _selectedNames;
 
@@ -154,7 +158,6 @@ public class NamesSelectorController implements Initializable {
             if (!topResult.equals("Name not found")) {
                 if (currentText.contains(" ") && currentText.contains("-")) {
                     currentText = (currentText.lastIndexOf(' ') >= currentText.lastIndexOf('-')) ? currentText.substring(0, currentText.lastIndexOf(' '))+" "+topResult : currentText.substring(0, currentText.lastIndexOf('-'))+"-"+topResult;
-//                    currentText = currentText + " " + topResult;
                 }else if (currentText.contains(" ")) {
                     currentText = currentText.substring(0, currentText.lastIndexOf(' '));
                     currentText = currentText + " " + topResult;
@@ -180,21 +183,8 @@ public class NamesSelectorController implements Initializable {
     private void loadCustomFile(){ //load the current txt file in combo box onto the selected names list
         String selectedFile = customFiles.getSelectionModel().getSelectedItem();
         if (selectedFile != null){
-            try {
-                List<String> customNames = new ArrayList<>();
-                Scanner scanner = new Scanner(new File("Custom/"+selectedFile));
-                while (scanner.hasNextLine()) { //loop through each line and add the name to a string arraylist
-                    String line = scanner.nextLine();
-                    customNames.add(line);
-                }
-                scanner.close();
-                _selectedNames.clear(); //set the observable list to contain the string arraylist
-                _selectedNames.addAll(customNames);
-                clearBtn.setDisable(false);
-            } catch (FileNotFoundException e){
-                e.printStackTrace();
-            }
-
+            File fileName = new File("Custom/"+selectedFile);
+            loadFile(fileName);
         }
     }
 
@@ -280,13 +270,48 @@ public class NamesSelectorController implements Initializable {
     private void uploadFile(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
-        File f = fileChooser.showOpenDialog(uploadBtn.getScene().getWindow());
-//        fileChooser.getExtensionFilters().add(new E)
-        System.out.println(f.getName());
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("text files (*.txt)","*.txt"));
+        File file = fileChooser.showOpenDialog(uploadBtn.getScene().getWindow());
+        if (file != null){
+            fileUpload.setText(file.getName());
+            loadFile(file);
+        }
+
+    }
 
 
-
-
+    private void loadFile(File file){
+        Scanner sc = null;
+        try {
+            sc = new Scanner(file);
+            List<String> names = new ArrayList<>();
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                String[] candidateNames = line.split("[-\\s]"); //split line on text file by spaces and hyphen
+                boolean invalid = false;
+                for (String name: candidateNames) {
+                    if (!name.isEmpty()) {
+                        name = name.substring(0, 1).toUpperCase() + name.substring(1);
+                        if (_namesListModel.getName(name) == null) {
+                            invalid = true;
+                            break;
+                        }
+                    } else {
+                        invalid = true;
+                    }
+                }
+                if (invalid) {
+                    names.add(line+" (invalid name)");
+                } else {
+                    names.add(line);
+                }
+            }
+            _selectedNames.clear();
+            _selectedNames.addAll(names);
+            clearBtn.setDisable(false);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
