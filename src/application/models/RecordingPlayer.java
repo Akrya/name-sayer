@@ -47,6 +47,7 @@ public class RecordingPlayer extends Task<Void> {
         }
     }
     private void calcLength() {
+        //reference to calculate wav file length https://stackoverflow.com/questions/3009908/how-do-i-get-a-sound-files-total-time-in-java
         AudioInputStream audioInputStream = null;
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(_filePath));

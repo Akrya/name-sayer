@@ -146,21 +146,27 @@ public class NamesSelectorController implements Initializable {
             String topResult = _filteredNames.get(0);
             String currentText = searchBox.getText();
             if (!topResult.equals("Name not found")) {
-                if (currentText.contains(" ")) {
+                if (currentText.contains(" ") && currentText.contains("-")) {
+                    currentText = (currentText.lastIndexOf(' ') >= currentText.lastIndexOf('-')) ? currentText.substring(0, currentText.lastIndexOf(' '))+" "+topResult : currentText.substring(0, currentText.lastIndexOf('-'))+"-"+topResult;
+//                    currentText = currentText + " " + topResult;
+                }else if (currentText.contains(" ")) {
                     currentText = currentText.substring(0, currentText.lastIndexOf(' '));
                     currentText = currentText + " " + topResult;
-                    searchBox.setText(currentText);
-                    searchBox.end();
+                } else if (currentText.contains("-")) {
+                    currentText = currentText.substring(0, currentText.lastIndexOf('-'));
+                    currentText = currentText + "-" + topResult;
                 } else {
                     currentText = topResult;
-                    searchBox.setText(currentText);
-                    searchBox.endOfNextWord();
                 }
+                searchBox.setText(currentText);
+                searchBox.end();
             }
         }
 
         if (event.getCode().equals(KeyCode.ENTER)){
-            addLine(searchBox.getText());
+            if (!searchBox.getText().isEmpty()) {
+                addLine(searchBox.getText());
+            }
         }
     }
 
@@ -191,11 +197,28 @@ public class NamesSelectorController implements Initializable {
         boolean invalid = false; //check if every entry in the string is a valid name in our namesListModel
         String entryName = "";
         for (String name : candidateNames){
-            name = name.substring(0,1).toUpperCase()+name.substring(1);
-            entryName = entryName + name+ " ";
-            if (_namesListModel.getName(name) == null){
-                invalid = true;
-                break;
+            if (name.contains("-")){
+                String[] hyphenatedName = name.split("-");
+                for (String hyphenName : hyphenatedName){
+                    if (hyphenName.length() != 0) {
+                        hyphenName = hyphenName.substring(0, 1).toUpperCase() + hyphenName.substring(1);
+                        entryName = entryName + hyphenName + "-";
+                        if (_namesListModel.getName(hyphenName) == null) {
+                            invalid = true;
+                            break;
+                        }
+                    }
+                }
+            }else {
+                name = name.substring(0, 1).toUpperCase() + name.substring(1);
+                if (entryName.contains("-")){
+                    entryName = entryName.substring(0, entryName.lastIndexOf('-'))+" "+entryName.substring(entryName.lastIndexOf('-')+1);
+                }
+                entryName = entryName + name + " ";
+                if (_namesListModel.getName(name) == null) {
+                    invalid = true;
+                    break;
+                }
             }
         }
         if (invalid){
@@ -205,6 +228,7 @@ public class NamesSelectorController implements Initializable {
             alert.setContentText("There seems to be a name in your selection that is not in our database!");
             alert.showAndWait();
         } else {
+            entryName = entryName.substring(0,entryName.length()-1);
             searchBox.clear();
             selectedList.getItems().add(entryName);
             clearBtn.setDisable(false);
@@ -265,8 +289,12 @@ public class NamesSelectorController implements Initializable {
         searchBox.textProperty().addListener((observable,oldValue, newValue) ->{
             _filteredNames.setPredicate(element ->{
                 String currentText = newValue;
-                if (currentText.contains(" ")){ //checks if there is a space character, if there is then mark current string from last instance of space character
+                if (currentText.contains(" ") && currentText.contains("-")){
+                    currentText = (currentText.lastIndexOf(' ') >= currentText.lastIndexOf('-')) ? currentText.substring(currentText.lastIndexOf(' ')+1) : currentText.substring(currentText.lastIndexOf('-')+1);
+                }else if (currentText.contains(" ")){ //checks if there is a space character, if there is then mark current string from last instance of space character
                     currentText = currentText.substring(currentText.lastIndexOf(' ')+1);
+                } else if (currentText.contains("-")){
+                    currentText = currentText.substring(currentText.lastIndexOf('-')+1);
                 }
                 if (element.length() >= currentText.length()){
                     if (element.toUpperCase().substring(0,currentText.length()).equals(currentText.toUpperCase())){ //filter for names that start with search string

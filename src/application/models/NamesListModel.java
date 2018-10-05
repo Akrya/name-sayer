@@ -38,28 +38,6 @@ public class NamesListModel {
         return _names;
     }
 
-    public List<String> getNamesForLetter(char heading, int identifier){ //return list of name strings that start with the heading in its respective database given by the identifier
-        List<String> names = new ArrayList<>();
-        List<RecordingModel> records;
-        boolean contains = false;
-        for (NamesModel nameModel : _names){
-           records = nameModel.getRecords();
-           for (RecordingModel record : records){
-               if (record.getIdentifier() == identifier){
-                   if (nameModel.toString().toUpperCase().charAt(0) == heading){
-                       contains = true;
-                   }
-               }
-           }
-
-           if (contains){
-               names.add(nameModel.toString());
-           }
-           contains = false;
-        }
-        return names;
-    }
-
     public NamesModel getName(String name){
         name = name.substring(0,1).toUpperCase()+name.substring(1);
         NamesModel targetName = null;
