@@ -14,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -186,6 +188,7 @@ public class MangeModeController implements Initializable {
         }
     }
 
+
     @FXML
     private void playRecording(){
         removeBtn.setDisable(true);
@@ -265,9 +268,11 @@ public class MangeModeController implements Initializable {
 
     @FXML
     private void getRecordings(){
-
         String selection = namesList.getSelectionModel().getSelectedItem();
-        if (selection != null && !selection.equals("Name not found")){
+        if (selection == null){
+            selection = _filteredNames.get(0);
+        }
+        if (!selection.equals("Name not found")){
             _recordingModels.clear();
             NamesModel model = _namesListModel.getName(selection);
             List<RecordingModel> records = model.getRecords();
@@ -332,6 +337,9 @@ public class MangeModeController implements Initializable {
                 names.add("Name not found");
             } else if (!_filteredNames.isEmpty() && names.indexOf("Name not found") != -1 && _filteredNames.size() !=1){
                 names.remove("Name not found");
+            }
+            if (_filteredNames.size() == 1) { //automatically update recordings table if only one item in the search results
+                getRecordings();
             }
             namesList.setItems(_filteredNames);
         });

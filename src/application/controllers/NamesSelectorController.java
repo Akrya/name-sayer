@@ -303,6 +303,7 @@ public class NamesSelectorController implements Initializable {
                 if (invalid) {
                     names.add(line+" (invalid name)");
                 } else {
+
                     names.add(line);
                 }
             }
