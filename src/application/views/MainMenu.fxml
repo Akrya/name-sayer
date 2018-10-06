@@ -14,7 +14,7 @@
    <children>
       <VBox prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #cf605e;">
          <children>
-            <HBox prefHeight="130.0" prefWidth="600.0" style="-fx-background-color: 97516d;" stylesheets="@FXStyler.css">
+            <HBox prefHeight="130.0" prefWidth="600.0" style="-fx-background-color: #677077;" stylesheets="@FXStyler.css">
                <children>
                   <Pane prefHeight="130.0" prefWidth="442.0" />
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Name Sayer" textAlignment="CENTER" wrappingWidth="300.0">
@@ -28,7 +28,7 @@
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
-            <VBox prefHeight="566.0" prefWidth="1200.0" style="-fx-background-color: #97516d;">
+            <VBox prefHeight="566.0" prefWidth="1200.0" style="-fx-background-color: #252839;">
                <children>
                   <Pane prefHeight="203.0" prefWidth="1200.0" />
                   <HBox prefHeight="125.0" prefWidth="800.0">

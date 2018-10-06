@@ -1,13 +1,13 @@
 .root{
-    -fx-background-color: #97516d;   /*root background color*/
+    -fx-background-color: #252839;   /*root background color*/
     -fx-text-fill: #fff;
 }
 
 /*default hover and click system for buttons*/
 .button{
     -fx-background-radius: 0;
-    -fx-background-color: #ff984d;
-    -fx-text-fill: #fff7ff;
+    -fx-background-color: #f2b632;
+    -fx-text-fill: #595159;
 
 }
 .button:hover{
@@ -36,8 +36,7 @@
 
 /*style for name sayer panel*/
 .nameSayer-hbox{
-    -fx-background-color: #cf605e;
-    -fx-text-fill: #000;
+    -fx-background-color: #677077;
 
 }
 
@@ -81,17 +80,11 @@
     -fx-padding: 0.20em;
 }
 
-
-/* 97516d
-    cf605e
-    ff984d
- */
-
 /*list style
 
  */
 .list-view{
-    -fx-background-color: #d16858;
+    -fx-background-color: #677077;
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
@@ -101,14 +94,14 @@
 
 .list-cell{
     -fx-text-fill: white;
-    -fx-background-color: #d16858;
+    -fx-background-color: #677077;
 }
 
 /*table style
 
  */
 .table-view{
-    -fx-background-color: #d16858;
+    -fx-background-color: #677077;
 }
 
 .table-view .table-cell{
@@ -129,7 +122,7 @@
 }
 
 .table-row-cell{
-    -fx-background-color: #d16858;
+    -fx-background-color: #677077;
     -fx-table-cell-border-color: #fff;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
