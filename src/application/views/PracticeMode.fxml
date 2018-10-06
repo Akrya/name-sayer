@@ -116,7 +116,7 @@
                               <Insets />
                            </VBox.margin>
                         </ListView>
-                        <Pane prefHeight="60.0" prefWidth="250.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                        <Pane prefHeight="60.0" prefWidth="250.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                            <children>
                               <Button fx:id="listenOgBtn" contentDisplay="CENTER" layoutX="1.0" layoutY="5.0" mnemonicParsing="false" onAction="#playOgRecording" prefHeight="25.0" prefWidth="249.0" text="Listen Original" />
                            </children>
@@ -145,7 +145,7 @@
                               <Insets />
                            </VBox.margin>
                         </ListView>
-                        <Pane prefHeight="60.0" prefWidth="250.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                        <Pane prefHeight="60.0" prefWidth="250.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                            <children>
                               <Button fx:id="listenPerBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="5.0" mnemonicParsing="false" onAction="#playPerRecording" prefHeight="25.0" prefWidth="241.0" text="Listen Personal" />
                            </children>

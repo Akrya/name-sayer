@@ -24,7 +24,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="93.0" prefWidth="1200.0" styleClass="nameSayer-hbox">
                <children>
-                  <Label text="Name Sayer">
+                  <Label text="Name Sayer" textFill="#723a3a">
                      <font>
                         <Font size="64.0" />
                      </font>
@@ -90,7 +90,7 @@
                               <Insets left="5.0" />
                            </VBox.margin>
                         </TableView>
-                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="400.0" styleClass="button-menu-background">
+                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="400.0" styleClass="button-panel-background">
                            <children>
                               <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" prefWidth="100.0" text="Add" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -116,7 +116,7 @@
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin></ListView>
-                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="355.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="355.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                            <children>
                               <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefWidth="90.0" text="Listen" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
