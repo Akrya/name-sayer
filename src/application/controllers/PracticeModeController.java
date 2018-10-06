@@ -328,7 +328,7 @@ public class PracticeModeController implements Initializable {
             public void invalidated(Observable observable) {
                 double volume = volumeSlider.getValue();
                 System.out.println(volume);
-                String cmd = "pactl set-sink-volume 0 " + volume + "";
+                String cmd = "amixer set 'Master' " + volume + "%";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
                 try {
                     builder.start();
