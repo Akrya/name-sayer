@@ -171,8 +171,8 @@
                      <children>
                         <HBox prefHeight="26.0" prefWidth="838.0">
                            <children>
-                              <Pane prefHeight="26.0" prefWidth="330.0" />
-                              <Slider fx:id="volumeSlider" style="-fx-control-inner-background: palegreen;" />
+                              <Pane prefHeight="25.0" prefWidth="325.0" />
+                              <Slider fx:id="volumeSlider" prefWidth="150.0" style="-fx-control-inner-background: palegreen;" />
                            </children>
                         </HBox>
                         <HBox prefHeight="26.0" prefWidth="838.0">

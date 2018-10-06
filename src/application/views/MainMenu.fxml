@@ -34,11 +34,20 @@
                   <HBox prefHeight="125.0" prefWidth="800.0">
                      <children>
                         <Pane prefHeight="125.0" prefWidth="156.0" />
-                        <Button fx:id="viewRecordings" mnemonicParsing="false" onAction="#openListenMode" prefHeight="110.0" prefWidth="190.0" text="MANAGE NAMES" />
+                        <Button fx:id="viewRecordings" mnemonicParsing="false" onAction="#openListenMode" prefHeight="120.0" prefWidth="210.0" text="MANAGE NAMES">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Button>
                         <Pane prefHeight="125.0" prefWidth="160.0" />
-                        <Button fx:id="practiceModeButton" mnemonicParsing="false" onAction="#openPracticeMode" prefHeight="110.0" prefWidth="190.0" text="PRACTICE MODE SINGLE" />
+                        <Button fx:id="practiceModeButton" mnemonicParsing="false" onAction="#openPracticeMode" prefHeight="120.0" prefWidth="210.0" text="PRACTICE MODE SINGLE">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Button>
                         <Pane prefHeight="125.0" prefWidth="160.0" />
-                        <Button mnemonicParsing="false" onAction="#openCustomMode" prefHeight="110.0" prefWidth="190.0" text="PRACTICE MODE CUSTOM" />
+                        <Button mnemonicParsing="false" onAction="#openCustomMode" prefHeight="120.0" prefWidth="210.0" text="PRACTICE MODE CUSTOM">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Button>
                      </children>
                   </HBox>
                   <Pane prefHeight="199.0" prefWidth="1200.0" />

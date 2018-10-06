@@ -22,9 +22,11 @@ import javafx.stage.Stage;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.*;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
+
+import static java.lang.Math.log10;
 
 public class PracticeModeController implements Initializable {
 
@@ -321,15 +323,36 @@ public class PracticeModeController implements Initializable {
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
 
+
+
         //initiliazing volume slider
-        volumeSlider.setValue(50.0);
+
+        //running command to get current volume
+        String cmd1 = "amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%'";
+        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);
+
+        try{
+            //reading current volume level
+            Process volumeInitializer = builder.start();
+            InputStream inputStream = volumeInitializer.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            String volumeLevel = br.readLine();
+            System.out.println(volumeLevel);
+
+            double vlevel = Double.parseDouble(volumeLevel);
+            volumeSlider.setValue(vlevel);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
         volumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 double volume = volumeSlider.getValue();
-                System.out.println(volume);
-                String cmd = "amixer set 'Master' " + volume + "%";
-                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+                //System.out.println(volume);
+                String cmd2 = "amixer set 'Master' " + volume + "%";
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd2);
                 try {
                     builder.start();
                 } catch (IOException e){
@@ -370,6 +393,7 @@ public class PracticeModeController implements Initializable {
                     byte[] audioData = new byte[line.getBufferSize() / 10];
                     line.read(audioData, 0, audioData.length);
 
+
                     long lSum = 0;
                     for (int i = 0; i < audioData.length; i++)
                         lSum = lSum + audioData[i];
@@ -384,7 +408,12 @@ public class PracticeModeController implements Initializable {
                     int x = (int) (Math.pow(averageMeanSquare, 0.5d) + 0.5);
 
                     double num = x;
+
+
+
                     updateProgress(num, 100);
+
+
                 }
 
             }
