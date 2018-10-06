@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -17,17 +18,17 @@
    <top>
       <VBox prefHeight="103.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="nameSayer-hbox">
                <children>
                   <Label text="Name Sayer">
                      <font>
                         <Font size="64.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="100.0" prefWidth="315.0" />
-                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" text="Back to Selection" />
-                  <Pane layoutX="456.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" />
-                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" text="Home" />
+                  <Pane prefHeight="100.0" prefWidth="405.0" />
+                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" prefHeight="35.0" prefWidth="130.0" text="Back to Selection" />
+                  <Pane layoutX="456.0" layoutY="10.0" prefHeight="100.0" prefWidth="57.0" />
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="130.0" text="Home" />
                </children>
             </HBox>
          </children>
@@ -40,7 +41,11 @@
                <children>
                   <Label text="Selected Custom Names" />
                   <ListView fx:id="selectedNames" onMouseClicked="#enableSelect" prefHeight="500.0" prefWidth="303.0" />
-                  <Button fx:id="listenOgBtn" mnemonicParsing="false" text="LISTEN TO ORIGINAL" />
+                  <HBox prefHeight="28.0" prefWidth="287.0">
+                     <children>
+                        <Button fx:id="listenOgBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="287.0" stylesheets="@NameSelectorStyler.css" text="LISTEN TO ORIGINAL" />
+                     </children>
+                  </HBox>
                </children>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -81,8 +86,20 @@
                   <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordCustom" text="MAKE CUSTOM RECORDING" />
                </children>
             </VBox>
-            <Label fx:id="playStatus" text="No recording currently playing" />
-            <Label fx:id="playRecording" />
+            <Label fx:id="playStatus" text="No recording currently playing">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Label>
+            <Label fx:id="playRecording">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Label>
+            <HBox prefHeight="24.0" prefWidth="563.0">
+               <children>
+                  <Pane prefHeight="53.0" prefWidth="203.0" />
+                  <Slider prefHeight="14.0" prefWidth="150.0" />
+               </children>
+            </HBox>
             <ProgressBar fx:id="progressBar" prefHeight="20.0" prefWidth="394.0" progress="0.0" />
          </children>
       </VBox>
@@ -99,10 +116,11 @@
                <children>
                   <Label text="Your Custom Recordings" />
                   <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="509.0" prefWidth="194.0" />
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="28.0" prefWidth="308.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
                      <children>
-                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" text="LISTEN TO PERSONAL" />
-                        <Button mnemonicParsing="false" text="DELETE" />
+                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" prefHeight="25.0" prefWidth="140.0" text="LISTEN TO PERSONAL" />
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <Button mnemonicParsing="false" prefWidth="140.0" text="DELETE" />
                      </children>
                   </HBox>
                </children>
