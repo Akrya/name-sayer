@@ -13,12 +13,18 @@ public class CustomPlayer extends Task<Void> {
     private String[] _splitNames;
     List<NamesModel> _nameModels;
     List<RecordingModel> _recordings;
+    List<String> _trimmedFiles;
+    int queueNum = 1;
 
 
     public CustomPlayer(String customName){
         _splitNames = customName.split("[-\\s]");
         getModels(new NamesListModel());
         getRecordings();
+        _trimmedFiles = new ArrayList<>();
+        for (RecordingModel record : _recordings){
+            trimAudio("Original/"+record.getFileName());
+        }
     }
 
     private void getModels(NamesListModel namesListModel){
@@ -56,38 +62,64 @@ public class CustomPlayer extends Task<Void> {
             e.printStackTrace();
         }
     }
+//
+//    private void makeoOutputFile(){
+//        String cmd = "ffmpeg -f concat -safe 0 -i concat.txt -c copy output.wav";
+//        ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
+//        try {
+//            builder.start();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    private void playOutputFile(){
+//        String cmd = "ffplay -loglevel panic -autoexit -nodisp -i output.wav";
+//        ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
+//        try {
+//            builder.start();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    private void makeoOutputFile(){
-        String cmd = "ffmpeg -f concat -safe 0 -i concat.txt -c copy output.wav";
+    private void playAudio(String filePath){
+        String cmd = "ffplay -loglevel panic -autoexit -nodisp -i '"+filePath+"'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
-            builder.start();
-        } catch (IOException e) {
+            Process process = builder.start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void playOutputFile(){
-        String cmd = "ffplay -loglevel panic -autoexit -nodisp -i output.wav";
+    private void trimAudio(String filePath){
+        String cmd = "ffmpeg -i '"+filePath+"' -af silenceremove=1:0:-30dB silenced"+queueNum+".wav";
+        _trimmedFiles.add("silenced"+queueNum+".wav");
+        queueNum++;
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
-            builder.start();
-        } catch (IOException e) {
+            Process process = builder.start();
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
-    private void removeOutputFile(){
-        File outputFile = new File("output.wav");
-        outputFile.delete();
+    private void cleanUpFiles(){
+        for (String filePath : _trimmedFiles){
+            new File(filePath).delete();
+        }
     }
 
     @Override
     protected Void call() throws Exception {
-        concatFiles();
-        makeoOutputFile();
-        playOutputFile();
-        removeOutputFile();
+        for (String filePath : _trimmedFiles){
+            playAudio(filePath);
+        }
+        cleanUpFiles();
         return null;
     }
 }

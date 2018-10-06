@@ -153,6 +153,20 @@ public class CustomModeController implements Initializable {
     private void listenOriginal(){
         String selection =  selectedName.getText();
         if (selection != null){
+//            String[] splitNames = selection.split("[-\\s]");
+//            List<NamesModel> models = new ArrayList<>();
+//            for (String name : splitNames){
+//                models.add(_namesListModel.getName(name);
+//            }
+//            List<RecordingModel> goodRecords = new ArrayList<>();
+//            for (NamesModel model : models){
+//                goodRecords.add(model.getBestRecord());
+//            }
+//            for (RecordingModel record : goodRecords){
+//                RecordingPlayer player = new RecordingPlayer("Original/"+record.getFileName());
+////                progressBar.progressProperty().unbind();
+////                progressBar.progressProperty().bind(player.progressProperty());
+//            }
             CustomPlayer player = new CustomPlayer(selection);
             new Thread(player).start();
         }
