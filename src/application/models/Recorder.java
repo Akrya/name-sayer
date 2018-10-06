@@ -5,6 +5,7 @@ import javafx.concurrent.Task;
 import org.omg.CORBA.VM_CUSTOM;
 import sun.util.resources.ca.CalendarData_ca;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,11 +31,13 @@ public class Recorder extends Task<String> {
         _customName = customName.replace(' ','-');
     }
 
-    private void createAudio() { //run the bash command to record for 5 seconds
+    private void makeAudio() { //run the bash command to record for 5 seconds
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
         _fileName = "personal_"+currentTime+"_"+"ver_"+"("+_versionNum+")"+"_"+_name.toString()+".wav";
 
         String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Personal/"+"'"+_fileName+"'";
+        System.out.println(cmd);
+
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c", cmd);
         try {
             audioBuilder.start();
@@ -43,9 +46,10 @@ public class Recorder extends Task<String> {
         }
     }
 
-    private void createCustomAudio(){
+    private void makeCustomAudio(){
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
         _fileName = "custom_"+currentTime+"_"+_customName+".wav";
+
         String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 CustomRecords/"+"'"+_fileName+"'";
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
@@ -76,9 +80,9 @@ public class Recorder extends Task<String> {
     @Override
     protected String call() throws Exception {
         if (_name != null){
-            createAudio();
+            makeAudio();
         } else {
-            createCustomAudio();
+            makeCustomAudio();
         }
         waitForRecord(); //sleep thread while recording
         return _fileName;

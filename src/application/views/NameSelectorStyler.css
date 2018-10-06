@@ -5,14 +5,12 @@
 
 
 .button{
-    -fx-background-color: #665f5e;
+    -fx-background-color: #ff984d;
 }
-.ff {
-    -fx-background-color: #9d9291;
-}
+
 .button:hover{
 
-    -fx-background-color: #665f5e;
+    -fx-background-color: #e17e49;
     -fx-text-fill: #fff7ff;
     -fx-font-weight: bold;
 }

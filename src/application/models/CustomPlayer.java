@@ -45,44 +45,6 @@ public class CustomPlayer extends Task<Void> {
         }
     }
 
-    private void concatFiles(){
-        try {
-            File concatFile = new File("concat.txt");
-            if (concatFile.exists()){
-                concatFile.delete();
-            }
-            concatFile.createNewFile();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(concatFile, true));
-            PrintWriter writer = new PrintWriter(bw);
-            for (RecordingModel record : _recordings){
-                writer.println("file 'Original/"+record.getFileName()+"'");
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-//
-//    private void makeoOutputFile(){
-//        String cmd = "ffmpeg -f concat -safe 0 -i concat.txt -c copy output.wav";
-//        ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
-//        try {
-//            builder.start();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private void playOutputFile(){
-//        String cmd = "ffplay -loglevel panic -autoexit -nodisp -i output.wav";
-//        ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
-//        try {
-//            builder.start();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     private void playAudio(String filePath){
         String cmd = "ffplay -loglevel panic -autoexit -nodisp -i '"+filePath+"'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);

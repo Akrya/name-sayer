@@ -68,6 +68,9 @@ public class CustomModeController implements Initializable {
     private Button recordBtn;
 
     @FXML
+    private Button deleteBtn;
+
+    @FXML
     private Slider volumeSlider;
 
     @FXML
@@ -137,9 +140,11 @@ public class CustomModeController implements Initializable {
             recordBtn.setDisable(true);
             listenPerBtn.setDisable(true);
             listenOgBtn.setDisable(true);
+            deleteBtn.setDisable(true);
             player.setOnSucceeded(e ->{
                 playStatus.setText("No recording currently playing");
                 playRecording.setText("");
+                deleteBtn.setDisable(false);
                 inAction = false;
                 listenPerBtn.setDisable(false);
                 recordBtn.setDisable(false);
@@ -167,22 +172,39 @@ public class CustomModeController implements Initializable {
     private void listenOriginal(){
         String selection =  selectedName.getText();
         if (selection != null){
-//            String[] splitNames = selection.split("[-\\s]");
-//            List<NamesModel> models = new ArrayList<>();
-//            for (String name : splitNames){
-//                models.add(_namesListModel.getName(name);
-//            }
-//            List<RecordingModel> goodRecords = new ArrayList<>();
-//            for (NamesModel model : models){
-//                goodRecords.add(model.getBestRecord());
-//            }
-//            for (RecordingModel record : goodRecords){
-//                RecordingPlayer player = new RecordingPlayer("Original/"+record.getFileName());
-////                progressBar.progressProperty().unbind();
-////                progressBar.progressProperty().bind(player.progressProperty());
-//            }
+            listenOgBtn.setDisable(true);
+            listenPerBtn.setDisable(true);
+            recordBtn.setDisable(true);
+            inAction = true;
+            deleteBtn.setDisable(true);
             CustomPlayer player = new CustomPlayer(selection);
+            progressBar.progressProperty().unbind();
+            progressBar.setProgress(-1.0f);
+            player.setOnSucceeded(e ->{
+                progressBar.setProgress(0);
+                inAction = false;
+                listenOgBtn.setDisable(false);
+                listenPerBtn.setDisable(false);
+                recordBtn.setDisable(false);
+                deleteBtn.setDisable(false);
+            });
             new Thread(player).start();
+        }
+    }
+
+    @FXML
+    private void deleteRecording(){
+
+        String selection = customRecordings.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete?");
+        alert.setHeaderText("You are about to delete '"+ selection+"'");
+        alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            new File("CustomRecords/"+selection).delete();
+            _customRecords.remove(selection);
         }
     }
 
@@ -203,6 +225,7 @@ public class CustomModeController implements Initializable {
                 listenPerBtn.setDisable(false);
                 recordBtn.setDisable(false);
                 listenOgBtn.setDisable(false);
+                new File("temp.wav").delete();
             });
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(recorder.progressProperty());

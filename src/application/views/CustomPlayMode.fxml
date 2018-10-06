@@ -115,11 +115,11 @@
                <children>
                   <Label text="Your Custom Recordings" />
                   <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="501.0" prefWidth="308.0" />
-                  <HBox alignment="CENTER" prefHeight="28.0" prefWidth="308.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                  <HBox alignment="CENTER" prefHeight="28.0" prefWidth="308.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                      <children>
                         <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" prefHeight="25.0" prefWidth="140.0" text="LISTEN TO PERSONAL" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Button mnemonicParsing="false" prefWidth="140.0" text="DELETE" />
+                        <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="140.0" text="DELETE" />
                      </children>
                   </HBox>
                </children>

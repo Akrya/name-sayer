@@ -1,12 +1,12 @@
 .root{
-    -fx-background-color: #9090ae;   /*root background color*/
+    -fx-background-color: #97516d;   /*root background color*/
     -fx-text-fill: #fff;
 }
 
 /*default hover and click system for buttons*/
 .button{
     -fx-background-radius: 0;
-    -fx-background-color: #bb5e56;
+    -fx-background-color: #ff984d;
     -fx-text-fill: #fff7ff;
 
 }
@@ -36,7 +36,8 @@
 
 /*style for name sayer panel*/
 .nameSayer-hbox{
-    -fx-background-color: #2e2e39;
+    -fx-background-color: #cf605e;
+    -fx-text-fill: #000;
 
 }
 
@@ -66,8 +67,8 @@
 
 
 
-.button-menu-background{
-    -fx-background-color: #665f5e;
+.button-panel-background{
+    -fx-background-color: #ff984d;
 }
 
 
@@ -78,4 +79,58 @@
 .progress-bar > .bar {
     -fx-background-insets: 1 1 2 1;
     -fx-padding: 0.20em;
+}
+
+
+/* 97516d
+    cf605e
+    ff984d
+ */
+
+/*list style
+
+ */
+.list-view{
+    -fx-background-color: #d16858;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #b5617f;
+
+}
+
+.list-cell{
+    -fx-text-fill: white;
+    -fx-background-color: #d16858;
+}
+
+/*table style
+
+ */
+.table-view{
+    -fx-background-color: #d16858;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+}
+
+.table-view .column-header {
+    -fx-background-color: #a7544b;
+}
+
+.table-view:selected {
+    -fx-background-color: #b5617f;
+
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+}
+
+.table-row-cell{
+    -fx-background-color: #d16858;
+    -fx-table-cell-border-color: #fff;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
 }

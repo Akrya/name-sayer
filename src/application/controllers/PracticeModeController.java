@@ -283,6 +283,7 @@ public class PracticeModeController implements Initializable {
             isRecording = false;
             ogPlayStatus.setText("Finished recording!");
             _practiceRecordings.add(recorder.getValue());
+            //new File("temp.wav").delete();
         });
 
         ogProgressBar.progressProperty().unbind();
