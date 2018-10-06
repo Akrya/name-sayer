@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -13,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -23,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.MangeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.MangeModeController">
    <top>
       <VBox prefHeight="103.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
@@ -66,7 +61,7 @@
                   </HBox>
                </children>
             </VBox>
-            <HBox prefHeight="496.0" prefWidth="1000.0">
+            <HBox prefHeight="519.0" prefWidth="1067.0">
                <children>
                   <VBox prefHeight="496.0" prefWidth="343.0">
                      <children>
@@ -99,7 +94,7 @@
                            <children>
                               <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" prefWidth="100.0" text="Add" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button mnemonicParsing="false" prefWidth="90.0" text="Add All" />
+                              <Button fx:id="addAllBtn" mnemonicParsing="false" onAction="#addAllToQueue" prefWidth="90.0" text="Add All" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
                               <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="100.0" text="Delete" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -117,11 +112,11 @@
                   <VBox prefHeight="496.0" prefWidth="396.0">
                      <children>
                         <Label text="Playlist Queue" />
-                        <ListView fx:id="playList" onMouseClicked="#enablePlayBtns" prefHeight="370.0" prefWidth="360.0">
+                        <ListView fx:id="playList" onMouseClicked="#enablePlayBtns" prefHeight="370.0" prefWidth="355.0">
                            <VBox.margin>
                               <Insets left="5.0" />
                            </VBox.margin></ListView>
-                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="350.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
+                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="355.0" styleClass="button-menu-background" stylesheets="@NameSelectorStyler.css">
                            <children>
                               <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefWidth="90.0" text="Listen" />
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
@@ -135,11 +130,24 @@
                               <Insets left="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <VBox alignment="CENTER" prefHeight="73.0" prefWidth="360.0">
+                        <VBox alignment="CENTER" prefHeight="98.0" prefWidth="360.0">
                            <children>
-                              <Label fx:id="playStatus" text="No recording currently playing" />
+                              <Label fx:id="playStatus" text="No recording currently playing">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin></Label>
                               <Label fx:id="playRecording" />
-                              <ProgressBar fx:id="playProgressBar" prefWidth="200.0" progress="0.0" />
+                              <HBox prefHeight="14.0" prefWidth="360.0">
+                                 <children>
+                                    <Pane prefHeight="14.0" prefWidth="103.0" />
+                                    <Slider prefHeight="14.0" prefWidth="150.0" />
+                                 </children>
+                              </HBox>
+                              <ProgressBar fx:id="playProgressBar" prefHeight="10.0" prefWidth="250.0" progress="0.0">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </ProgressBar>
                            </children>
                         </VBox>
                      </children>

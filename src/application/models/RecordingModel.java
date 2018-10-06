@@ -14,7 +14,7 @@ public class RecordingModel {
 
     private int _versionNum;
 
-    private boolean _goodRating; //by default each recording has good rating unless stating otherwise by the rating button
+    private boolean _goodRating; //by default each recording has good rating unless stating otherwise by rating.txt
 
     public RecordingModel(String fileName, String name, int identifier){
         _fileName = fileName;
@@ -59,12 +59,8 @@ public class RecordingModel {
         _goodRating = rating;
     }
 
-    public String getRating(){
-        if (_goodRating){
-            return "Good";
-        } else {
-            return "Bad";
-        }
+    public boolean getRating(){
+        return _goodRating;
     }
 
 }

@@ -34,6 +34,20 @@ public class NamesModel {
         }
     }
 
+    public RecordingModel getBestRecord(){
+        RecordingModel goodRecord = null;
+        for (RecordingModel record : _records){
+            if (record.getRating()){
+                goodRecord = record;
+                break;
+            }
+        }
+        if (goodRecord == null){
+            goodRecord = _records.get(0);
+        }
+        return goodRecord;
+    }
+
     public List<RecordingModel> getRecords(){
         getNewRecords();
         return _records;
