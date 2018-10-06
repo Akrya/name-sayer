@@ -225,6 +225,7 @@ public class CustomModeController implements Initializable {
                 listenPerBtn.setDisable(false);
                 recordBtn.setDisable(false);
                 listenOgBtn.setDisable(false);
+                new File("temp.wav").delete();
             });
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(recorder.progressProperty());
