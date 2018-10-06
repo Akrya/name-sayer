@@ -183,6 +183,7 @@ public class CustomModeController implements Initializable {
 
         listenPerBtn.setDisable(true);
         recordBtn.setDisable(true);
+        listenOgBtn.setDisable(true);
 
     }
 

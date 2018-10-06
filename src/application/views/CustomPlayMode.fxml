@@ -76,6 +76,7 @@
                      </font>
                   </Text>
                   <Pane prefHeight="34.0" prefWidth="563.0" />
+                  <Button fx:id="listenOgBtn" mnemonicParsing="false" text="LISTEN TO ORIGINAL" />
                   <Pane layoutX="10.0" layoutY="86.0" prefHeight="47.0" prefWidth="563.0" />
                   <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordCustom" text="MAKE CUSTOM RECORDING" />
                </children>
@@ -97,8 +98,13 @@
             <VBox alignment="CENTER" prefHeight="576.0" prefWidth="317.0">
                <children>
                   <Label text="Your Custom Recordings" />
-                  <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="500.0" prefWidth="194.0" />
-                  <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" text="LISTEN TO PERSONAL" />
+                  <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="509.0" prefWidth="194.0" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" text="LISTEN TO PERSONAL" />
+                        <Button mnemonicParsing="false" text="DELETE" />
+                     </children>
+                  </HBox>
                </children>
                <HBox.margin>
                   <Insets left="10.0" right="10.0" />

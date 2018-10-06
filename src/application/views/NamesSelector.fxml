@@ -133,7 +133,7 @@
                         <ComboBox fx:id="customFiles" prefWidth="150.0" promptText="custom lists" />
                         <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadCustomFile" prefHeight="24.0" text="LOAD" />
                         <Pane prefHeight="43.0" prefWidth="135.0" />
-                        <Text fx:id="fileUpload" strokeType="OUTSIDE" strokeWidth="0.0" text="No file uploaded">
+                        <Text fx:id="fileUpload" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No file uploaded">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
