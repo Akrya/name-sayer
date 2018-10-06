@@ -5,6 +5,7 @@ import javafx.concurrent.Task;
 import org.omg.CORBA.VM_CUSTOM;
 import sun.util.resources.ca.CalendarData_ca;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,11 +31,12 @@ public class Recorder extends Task<String> {
         _customName = customName.replace(' ','-');
     }
 
-    private void trimAudio() { //run the bash command to record for 5 seconds
+    private void makeAudio() { //run the bash command to record for 5 seconds
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
         _fileName = "personal_"+currentTime+"_"+"ver_"+"("+_versionNum+")"+"_"+_name.toString()+".wav";
 
-        String cmd = "ffmpeg -i temp.wav -af silenceremove=1:0:-30dB Personal/"+"'"+_fileName+"'";
+        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Personal/"+"'"+_fileName+"'";
+        System.out.println(cmd);
 
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c", cmd);
         try {
@@ -44,11 +46,11 @@ public class Recorder extends Task<String> {
         }
     }
 
-    private void trimCustomAudio(){
+    private void makeCustomAudio(){
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
         _fileName = "custom_"+currentTime+"_"+_customName+".wav";
 
-        String cmd = "ffmpeg -i temp.wav -af silenceremove=1:0:-30dB CustomRecords/"+"'"+_fileName+"'";
+        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 CustomRecords/"+"'"+_fileName+"'";
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
             audioBuilder.start();
@@ -69,16 +71,6 @@ public class Recorder extends Task<String> {
         }
     }
 
-    private void createTempAudio(){
-        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 temp.wav";
-        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c", cmd);
-        try { audioBuilder.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
     private void waitForRecord() throws InterruptedException {
         for (int i=0;i<5000;i++){
             Thread.sleep(1);
@@ -87,13 +79,12 @@ public class Recorder extends Task<String> {
     }
     @Override
     protected String call() throws Exception {
-        createTempAudio();
-        waitForRecord(); //sleep thread while recording
         if (_name != null){
-            trimAudio();
+            makeAudio();
         } else {
-            trimCustomAudio();
+            makeCustomAudio();
         }
+        waitForRecord(); //sleep thread while recording
         return _fileName;
     }
 }
