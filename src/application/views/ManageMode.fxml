@@ -81,7 +81,7 @@
                               <Label fx:id="recordingLabel" />
                            </children>
                         </HBox>
-                        <TableView fx:id="recordingsTable" onMouseClicked="#enableRecordingListBtns" prefHeight="370.0" prefWidth="400.0">
+                        <TableView fx:id="recordingsTable" onMouseClicked="#enableRecordingListBtns" prefHeight="370.0" prefWidth="380.0">
                           <columns>
                             <TableColumn fx:id="fileCol" prefWidth="340.0" text="File name" />
                             <TableColumn fx:id="ratingCol" prefWidth="60.0" text="Rating" />
