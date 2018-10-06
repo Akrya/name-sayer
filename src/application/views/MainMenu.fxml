@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.MainMenuController">
    <children>
-      <VBox prefHeight="700.0" prefWidth="1200.0">
+      <VBox prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #2e2e39;">
          <children>
             <HBox prefHeight="130.0" prefWidth="600.0" stylesheets="@FXStyler.css">
                <children>
@@ -33,7 +33,7 @@
                   <Pane prefHeight="203.0" prefWidth="1200.0" />
                   <HBox prefHeight="125.0" prefWidth="800.0">
                      <children>
-                        <Pane prefHeight="125.0" prefWidth="156.0" />
+                        <Pane prefHeight="125.0" prefWidth="125.0" />
                         <Button fx:id="viewRecordings" mnemonicParsing="false" onAction="#openListenMode" prefHeight="120.0" prefWidth="210.0" text="MANAGE NAMES">
                            <font>
                               <Font size="13.0" />

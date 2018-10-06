@@ -85,14 +85,14 @@ public class PracticeModeController implements Initializable {
 
     private boolean isRecording = false;
 
-    private double volumeValue;
+    private AudioVisualizerModel audioVM;
 
     @FXML
     private ProgressBar audioVisualizer;
 
     private Task copyWorker;
 
-    private TargetDataLine line = null;
+    //private TargetDataLine line = null;
 
     //takes you to home window
     @FXML
@@ -104,7 +104,7 @@ public class PracticeModeController implements Initializable {
         window.setScene(scene);
 
         //Closing TargetDataLine when switching back to listen mode
-        line.close();
+        audioVM.endTask();
     }
 
     @FXML
@@ -284,6 +284,7 @@ public class PracticeModeController implements Initializable {
             ogPlayStatus.setText("Finished recording!");
             _practiceRecordings.add(recorder.getValue());
         });
+
         ogProgressBar.progressProperty().unbind();
         ogProgressBar.progressProperty().bind(recorder.progressProperty());
         new Thread(recorder).start();
@@ -318,7 +319,8 @@ public class PracticeModeController implements Initializable {
 
         //initializing mic level bar
         audioVisualizer.setProgress(0.0);
-        copyWorker = createWorker();
+        audioVM = new AudioVisualizerModel();
+        copyWorker = audioVM.createWorker();
         audioVisualizer.progressProperty().unbind();
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
@@ -364,7 +366,7 @@ public class PracticeModeController implements Initializable {
 
     }
 
-
+        /**
     //Reference for mic-testing: https://stackoverflow.com/questions/15870666/calculating-microphone-volume-trying-to-find-max
     public Task createWorker() {
         return new Task() {
@@ -422,88 +424,8 @@ public class PracticeModeController implements Initializable {
 
     }
 
+         */
 
     //NOT WORKING YET
-    /**
 
-    @FXML
-    private void lowV(){
-
-        System.out.println("lowV");
-        Mixer.Info[] mixers = AudioSystem.getMixerInfo();
-        //System.out.println("There are " + mixers.length + " mixer info objects");
-        for (Mixer.Info mixerInfo : mixers) {
-            //System.out.println("mixer name: " + mixerInfo.getName());
-            Mixer mixer = AudioSystem.getMixer(mixerInfo);
-            Line.Info[] lineInfos = mixer.getTargetLineInfo(); // target, not source
-            //changes all the volumes
-
-            for (Line.Info lineInfo : lineInfos) {
-                //System.out.println("  Line.Info: " + lineInfo);
-                Line line = null;
-                boolean opened = true;
-                try {
-                    line = mixer.getLine(lineInfo);
-                    opened = line.isOpen() || line instanceof Clip;
-                    if (!opened) {
-                        line.open();
-                    }
-                    FloatControl volCtrl = (FloatControl) line.getControl(FloatControl.Type.VOLUME);
-                    //System.out.println(volCtrl.getMinimum());
-                    volCtrl.setValue((float)0.5);
-                    //System.out.println("    volCtrl.getValue() = " + volCtrl.getValue());
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                } catch (IllegalArgumentException iaEx) {
-                    //System.out.println("  -!-  " + iaEx);
-                } finally {
-                    if (line != null && !opened) {
-                        line.close();
-                    }
-                }
-            }
-        }
-
-    }
-
-    @FXML
-    private void inV(){
-        System.out.println("increase V");
-        Mixer.Info[] mixers = AudioSystem.getMixerInfo();
-        //System.out.println("There are " + mixers.length + " mixer info objects");
-        for (Mixer.Info mixerInfo : mixers) {
-            //System.out.println("mixer name: " + mixerInfo.getName());
-            Mixer mixer = AudioSystem.getMixer(mixerInfo);
-            Line.Info[] lineInfos = mixer.getTargetLineInfo(); // target, not source
-            //changes all the volumes
-
-            for (Line.Info lineInfo : lineInfos) {
-                //System.out.println("  Line.Info: " + lineInfo);
-                Line line = null;
-                boolean opened = true;
-                try {
-                    line = mixer.getLine(lineInfo);
-                    opened = line.isOpen() || line instanceof Clip;
-                    if (!opened) {
-                        line.open();
-                    }
-                    FloatControl volCtrl = (FloatControl) line.getControl(FloatControl.Type.VOLUME);
-                    //System.out.println(volCtrl.getMinimum());
-                    volCtrl.setValue((float)200.0);
-                    //System.out.println("    volCtrl.getValue() = " + volCtrl.getValue());
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                } catch (IllegalArgumentException iaEx) {
-                    //System.out.println("  -!-  " + iaEx);
-                } finally {
-                    if (line != null && !opened) {
-                        line.close();
-                    }
-                }
-            }
-        }
-
-    }
-
-    */
 }

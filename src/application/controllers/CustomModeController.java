@@ -1,8 +1,11 @@
 package application.controllers;
 
 import application.models.*;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +20,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -68,7 +70,18 @@ public class CustomModeController implements Initializable {
     @FXML
     private Button deleteBtn;
 
+    @FXML
+    private Slider volumeSlider;
+
+    @FXML
+    private ProgressBar audioVisualizer;
+
+
+
     private boolean inAction = false;
+    private Task copyWorker;
+
+    private AudioVisualizerModel audioVM;
 
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
@@ -77,6 +90,8 @@ public class CustomModeController implements Initializable {
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
+
+        audioVM.endTask();
     }
 
     @FXML
@@ -90,6 +105,8 @@ public class CustomModeController implements Initializable {
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
+
+        audioVM.endTask();
     }
 
     @FXML
@@ -228,6 +245,51 @@ public class CustomModeController implements Initializable {
         listenPerBtn.setDisable(true);
         recordBtn.setDisable(true);
         listenOgBtn.setDisable(true);
+
+        //initializin mic
+        audioVisualizer.setProgress(0.0);
+        audioVM = new AudioVisualizerModel();
+        copyWorker = audioVM.createWorker();
+        audioVisualizer.progressProperty().unbind();
+        audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
+        new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
+
+
+        //initiliazing volume slider
+
+        //running command to get current volume
+        String cmd1 = "amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%'";
+        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);
+
+        try{
+            //reading current volume level
+            Process volumeInitializer = builder.start();
+            InputStream inputStream = volumeInitializer.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            String volumeLevel = br.readLine();
+            System.out.println(volumeLevel);
+
+            double vlevel = Double.parseDouble(volumeLevel);
+            volumeSlider.setValue(vlevel);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                double volume = volumeSlider.getValue();
+                //System.out.println(volume);
+                String cmd2 = "amixer set 'Master' " + volume + "%";
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd2);
+                try {
+                    builder.start();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
