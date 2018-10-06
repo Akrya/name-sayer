@@ -1,6 +1,8 @@
 package application.controllers;
 
 import application.models.*;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -68,6 +70,9 @@ public class PracticeModeController implements Initializable {
     @FXML
     private ProgressBar ogProgressBar;
 
+    @FXML
+    private Slider volumeSlider;
+
     private NamesListModel _namesListModel = new NamesListModel();
 
     private ObservableList<String> _practiceRecordings;
@@ -77,6 +82,8 @@ public class PracticeModeController implements Initializable {
     private ObservableList<String> _ogNames;
 
     private boolean isRecording = false;
+
+    private double volumeValue;
 
     @FXML
     private ProgressBar audioVisualizer;
@@ -313,6 +320,24 @@ public class PracticeModeController implements Initializable {
         audioVisualizer.progressProperty().unbind();
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
+
+        //initiliazing volume slider
+        volumeSlider.setValue(50.0);
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                double volume = volumeSlider.getValue();
+                System.out.println(volume);
+                String cmd = "pactl set-sink-volume 0 " + volume + "";
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+                try {
+                    builder.start();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
     }
 

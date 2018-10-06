@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="600.0" style="-fx-background-color: #090b2b;" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.HelpWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="600.0" style="-fx-background-color: #090b2b;" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.HelpWindowController">
    <children>
-      <VBox prefHeight="644.0" prefWidth="600.0" style="-fx-background-color: #090b2b;" styleClass="helpWindowBack">
+      <VBox prefHeight="746.0" prefWidth="600.0" style="-fx-background-color: #090b2b;" styleClass="helpWindowBack">
          <children>
             <HBox prefHeight="50.0" prefWidth="580.0">
                <children>
@@ -30,7 +30,7 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
             </HBox>
-            <ScrollPane prefHeight="542.0" prefWidth="580.0" style="-fx-background-color: #b4afb6;">
+            <ScrollPane prefHeight="629.0" prefWidth="580.0" style="-fx-background-color: #b4afb6;">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1276.0" prefWidth="565.0" style="-fx-background-color: #b4afb6;">
                      <children>

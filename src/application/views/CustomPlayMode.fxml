@@ -76,7 +76,7 @@
                      </font>
                   </Text>
                   <Pane prefHeight="34.0" prefWidth="563.0" />
-                  <Button fx:id="listenOgBtn" mnemonicParsing="false" text="LISTEN TO ORIGINAL" />
+                  <ProgressBar prefHeight="16.0" prefWidth="200.0" progress="0.0" styleClass="mic-bar" />
                   <Pane layoutX="10.0" layoutY="86.0" prefHeight="47.0" prefWidth="563.0" />
                   <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordCustom" text="MAKE CUSTOM RECORDING" />
                </children>
