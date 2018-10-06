@@ -148,6 +148,15 @@ public class CustomModeController implements Initializable {
     }
 
     @FXML
+    private void listenOriginal(){
+        String selection =  selectedName.getText();
+        if (selection != null){
+            CustomPlayer player = new CustomPlayer(selection);
+            new Thread(player).start();
+        }
+    }
+
+    @FXML
     private void recordCustom(){
 
         String selection = selectedName.getText();
