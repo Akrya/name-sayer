@@ -10,10 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -67,6 +64,9 @@ public class CustomModeController implements Initializable {
 
     @FXML
     private Button recordBtn;
+
+    @FXML
+    private Button deleteBtn;
 
     private boolean inAction = false;
 
@@ -123,9 +123,11 @@ public class CustomModeController implements Initializable {
             recordBtn.setDisable(true);
             listenPerBtn.setDisable(true);
             listenOgBtn.setDisable(true);
+            deleteBtn.setDisable(true);
             player.setOnSucceeded(e ->{
                 playStatus.setText("No recording currently playing");
                 playRecording.setText("");
+                deleteBtn.setDisable(false);
                 inAction = false;
                 listenPerBtn.setDisable(false);
                 recordBtn.setDisable(false);
@@ -153,22 +155,39 @@ public class CustomModeController implements Initializable {
     private void listenOriginal(){
         String selection =  selectedName.getText();
         if (selection != null){
-//            String[] splitNames = selection.split("[-\\s]");
-//            List<NamesModel> models = new ArrayList<>();
-//            for (String name : splitNames){
-//                models.add(_namesListModel.getName(name);
-//            }
-//            List<RecordingModel> goodRecords = new ArrayList<>();
-//            for (NamesModel model : models){
-//                goodRecords.add(model.getBestRecord());
-//            }
-//            for (RecordingModel record : goodRecords){
-//                RecordingPlayer player = new RecordingPlayer("Original/"+record.getFileName());
-////                progressBar.progressProperty().unbind();
-////                progressBar.progressProperty().bind(player.progressProperty());
-//            }
+            listenOgBtn.setDisable(true);
+            listenPerBtn.setDisable(true);
+            recordBtn.setDisable(true);
+            inAction = true;
+            deleteBtn.setDisable(true);
             CustomPlayer player = new CustomPlayer(selection);
+            progressBar.progressProperty().unbind();
+            progressBar.setProgress(-1.0f);
+            player.setOnSucceeded(e ->{
+                progressBar.setProgress(0);
+                inAction = false;
+                listenOgBtn.setDisable(false);
+                listenPerBtn.setDisable(false);
+                recordBtn.setDisable(false);
+                deleteBtn.setDisable(false);
+            });
             new Thread(player).start();
+        }
+    }
+
+    @FXML
+    private void deleteRecording(){
+
+        String selection = customRecordings.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete?");
+        alert.setHeaderText("You are about to delete '"+ selection+"'");
+        alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            new File("CustomRecords/"+selection).delete();
+            _customRecords.remove(selection);
         }
     }
 

@@ -125,7 +125,7 @@
                      <children>
                         <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" prefHeight="25.0" prefWidth="140.0" text="LISTEN TO PERSONAL" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Button mnemonicParsing="false" prefWidth="140.0" text="DELETE" />
+                        <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="140.0" text="DELETE" />
                      </children>
                   </HBox>
                </children>

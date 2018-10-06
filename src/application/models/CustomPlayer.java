@@ -45,23 +45,23 @@ public class CustomPlayer extends Task<Void> {
         }
     }
 
-    private void concatFiles(){
-        try {
-            File concatFile = new File("concat.txt");
-            if (concatFile.exists()){
-                concatFile.delete();
-            }
-            concatFile.createNewFile();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(concatFile, true));
-            PrintWriter writer = new PrintWriter(bw);
-            for (RecordingModel record : _recordings){
-                writer.println("file 'Original/"+record.getFileName()+"'");
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void concatFiles(){
+//        try {
+//            File concatFile = new File("concat.txt");
+//            if (concatFile.exists()){
+//                concatFile.delete();
+//            }
+//            concatFile.createNewFile();
+//            BufferedWriter bw = new BufferedWriter(new FileWriter(concatFile, true));
+//            PrintWriter writer = new PrintWriter(bw);
+//            for (RecordingModel record : _recordings){
+//                writer.println("file 'Original/"+record.getFileName()+"'");
+//            }
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 //
 //    private void makeoOutputFile(){
 //        String cmd = "ffmpeg -f concat -safe 0 -i concat.txt -c copy output.wav";
