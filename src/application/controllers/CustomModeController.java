@@ -15,6 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -159,6 +161,29 @@ public class CustomModeController implements Initializable {
             }
         }
 
+    }
+
+    @FXML
+    private void listenOriginal(){
+        String selection =  selectedName.getText();
+        if (selection != null){
+//            String[] splitNames = selection.split("[-\\s]");
+//            List<NamesModel> models = new ArrayList<>();
+//            for (String name : splitNames){
+//                models.add(_namesListModel.getName(name);
+//            }
+//            List<RecordingModel> goodRecords = new ArrayList<>();
+//            for (NamesModel model : models){
+//                goodRecords.add(model.getBestRecord());
+//            }
+//            for (RecordingModel record : goodRecords){
+//                RecordingPlayer player = new RecordingPlayer("Original/"+record.getFileName());
+////                progressBar.progressProperty().unbind();
+////                progressBar.progressProperty().bind(player.progressProperty());
+//            }
+            CustomPlayer player = new CustomPlayer(selection);
+            new Thread(player).start();
+        }
     }
 
     @FXML
