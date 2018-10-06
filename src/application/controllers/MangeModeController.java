@@ -41,6 +41,9 @@ public class MangeModeController implements Initializable {
     private Button addBtn;
 
     @FXML
+    private Button addAllBtn;
+
+    @FXML
     private Button removeBtn;
 
     @FXML
@@ -103,21 +106,22 @@ public class MangeModeController implements Initializable {
         }
     }
 
-    /**Lots of places where being disabled and enabled, will implement later
+
     @FXML
     private void addAllToQueue(){
-        List<RecordingModel> selected;
-        selected = recordingsTable.getItems();
+        List<RecordingModel> selected = recordingsTable.getItems();
 
         for (RecordingModel recording: selected){
             String recordingName = recording.getFileName();
-            _queuedRecordings.add(recordingName);
-        }
+            if (_queuedRecordings.indexOf(recordingName) == -1){
+                _queuedRecordings.add(recordingName);
+            }
 
+        }
         clearBtn.setDisable(false);
         randomiseBtn.setDisable(false);
     }
-    */
+
 
     @FXML
     private void enableRecordingListBtns(MouseEvent mouseEvent){
@@ -126,6 +130,7 @@ public class MangeModeController implements Initializable {
         }
         if (recordingsTable.getSelectionModel().getSelectedItem() != null){
             addBtn.setDisable(false);
+            addAllBtn.setDisable(false);
             rateBtn.setDisable(false);
             String recording = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
             if (recording.substring(0,8).equals("personal")){
@@ -298,6 +303,7 @@ public class MangeModeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         addBtn.setDisable(true); //disable all buttons on start up except for testing mic and creating recording
+        addAllBtn.setDisable(true);
         deleteBtn.setDisable(true);
         removeBtn.setDisable(true);
         clearBtn.setDisable(true);

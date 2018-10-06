@@ -70,14 +70,14 @@
                   </Text>
                   <HBox alignment="CENTER" prefHeight="121.0" prefWidth="798.0">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="112.0" prefWidth="193.0">
+                        <VBox alignment="CENTER" prefHeight="67.0" prefWidth="259.0">
                            <children>
                               <Label text="Mic Test">
                                  <VBox.margin>
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Label>
-                              <ProgressBar fx:id="audioVisualizer" prefHeight="9.0" prefWidth="165.0" progress="0.0" styleClass="mic-bar">
+                              <ProgressBar fx:id="audioVisualizer" prefHeight="9.0" prefWidth="200.0" progress="0.0" styleClass="mic-bar">
                                  <VBox.margin>
                                     <Insets bottom="10.0" top="5.0" />
                                  </VBox.margin>
@@ -87,12 +87,12 @@
                               <Insets />
                            </HBox.margin>
                            <padding>
-                              <Insets right="15.0" />
+                              <Insets bottom="10.0" right="15.0" />
                            </padding>
                         </VBox>
                         <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" prefHeight="44.0" prefWidth="109.0" text="Record">
                            <HBox.margin>
-                              <Insets left="40.0" />
+                              <Insets bottom="5.0" left="40.0" />
                            </HBox.margin>
                         </Button>
                      </children>
@@ -177,8 +177,8 @@
                         </HBox>
                         <HBox prefHeight="26.0" prefWidth="838.0">
                            <children>
-                              <Pane prefHeight="26.0" prefWidth="243.0" />
-                              <ProgressBar fx:id="ogProgressBar" prefHeight="11.0" prefWidth="318.0" progress="0.0" />
+                              <Pane prefHeight="25.0" prefWidth="270.0" />
+                              <ProgressBar fx:id="ogProgressBar" prefHeight="10.0" prefWidth="250.0" progress="0.0" />
                            </children>
                         </HBox>
                         <Pane prefHeight="11.0" prefWidth="798.0" />
