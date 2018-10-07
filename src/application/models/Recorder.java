@@ -1,16 +1,11 @@
 package application.models;
 
-import application.models.NamesModel;
 import javafx.concurrent.Task;
-import org.omg.CORBA.VM_CUSTOM;
-import sun.util.resources.ca.CalendarData_ca;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 public class Recorder extends Task<String> {
 

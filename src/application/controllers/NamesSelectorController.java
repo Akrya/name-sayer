@@ -69,7 +69,7 @@ public class NamesSelectorController implements Initializable {
 
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/MainMenu.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -78,7 +78,7 @@ public class NamesSelectorController implements Initializable {
 
     @FXML
     private void goToCustomMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/CustomPlayMode.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/CustomPlayMode.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

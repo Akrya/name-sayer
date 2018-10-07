@@ -40,7 +40,7 @@ public class MainMenuController implements Initializable {
     private void openCustomMode(ActionEvent event) throws IOException {
 
         _singleton = NameSelectorSingleton.getInstance();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/NamesSelector.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
         _singleton.setController(controller);
@@ -52,7 +52,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void openListenMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/ManageMode.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/ManageMode.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -61,7 +61,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void openPracticeMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/PracticeMode.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/PracticeMode.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -73,7 +73,7 @@ public class MainMenuController implements Initializable {
 
         Parent root;
         try{
-            root = FXMLLoader.load(getClass().getResource("../views/HelpScene.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/application/views/HelpWindow.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Help");
             stage.setScene(new Scene(root, 800, 1000));

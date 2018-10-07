@@ -19,14 +19,9 @@ import javafx.scene.text.Text;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-
-import static java.lang.Math.log10;
 
 public class PracticeModeController implements Initializable {
 
@@ -97,7 +92,7 @@ public class PracticeModeController implements Initializable {
     //takes you to home window
     @FXML
     private void goToListenMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/MainMenu.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
