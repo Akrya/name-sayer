@@ -37,7 +37,7 @@ public class NamesModel {
     public RecordingModel getBestRecord(){
         RecordingModel goodRecord = null;
         for (RecordingModel record : _records){
-            if (record.getRating()){
+            if (record.getRating().equals("Good")){
                 goodRecord = record;
                 break;
             }

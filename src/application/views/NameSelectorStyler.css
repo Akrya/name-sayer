@@ -5,16 +5,15 @@
 
 
 .button{
-    -fx-background-color: #ff984d;
+    -fx-background-color: #f2b632;
 }
 
 .button:hover{
-
-    -fx-background-color: #e17e49;
-    -fx-text-fill: #fff7ff;
+    -fx-background-color: #f2b632;
+    -fx-text-fill: #595159;
     -fx-font-weight: bold;
 }
 .button:pressed{
-    -fx-text-fill: #fff7ff;
+    -fx-text-fill: #595159;
     -fx-font-weight: normal;
 }

@@ -349,6 +349,8 @@ public class PracticeModeController implements Initializable {
             e.printStackTrace();
         }
 
+
+        //https://www.youtube.com/watch?v=X9mEBGXX3dA reference
         volumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
