@@ -1,6 +1,9 @@
 package application.controllers;
 
 import application.models.*;
+import com.sun.prism.impl.Disposer;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -86,6 +89,9 @@ public class MangeModeController implements Initializable {
     private FilteredList<String> _filteredNames;
 
     private ObservableList<String> _queuedRecordings;
+
+    @FXML
+    private Slider volumeSlider;
 
     private boolean isPlaying = false;
 
@@ -346,6 +352,45 @@ public class MangeModeController implements Initializable {
             }
             namesList.setItems(_filteredNames);
         });
+
+        //initiliazing volume slider
+
+        //running command to get current volume
+        String cmd1 = "amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%'";
+        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);
+
+        try{
+            //reading current volume level
+            Process volumeInitializer = builder.start();
+            InputStream inputStream = volumeInitializer.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            String volumeLevel = br.readLine();
+            System.out.println(volumeLevel);
+
+            double vlevel = Double.parseDouble(volumeLevel);
+            volumeSlider.setValue(vlevel);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+        //https://www.youtube.com/watch?v=X9mEBGXX3dA reference
+        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                double volume = volumeSlider.getValue();
+                //System.out.println(volume);
+                String cmd2 = "amixer set 'Master' " + volume + "%";
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd2);
+                try {
+                    builder.start();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
     }
 

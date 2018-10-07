@@ -76,7 +76,7 @@ public class MainMenuController implements Initializable {
             root = FXMLLoader.load(getClass().getResource("/application/views/HelpWindow.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Help");
-            stage.setScene(new Scene(root, 600, 900));
+            stage.setScene(new Scene(root, 800, 1000));
             stage.show();
 
         }
