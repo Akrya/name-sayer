@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 
 public class HelpWindowController {
 
-    ///Feels like theres a better way to do this.
 
     @FXML
     public Button closeButton;

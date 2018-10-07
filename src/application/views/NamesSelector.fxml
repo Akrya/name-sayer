@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -34,22 +35,58 @@
             <ListView fx:id="selectedList" onMouseClicked="#enableSelectBtns" prefHeight="448.0" prefWidth="550.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="550.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                <children>
-                  <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefWidth="135.0" styleClass="button-menu-background" text="Remove">
+                  <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefWidth="135.0" styleClass="button-menu-background">
                      <HBox.margin>
                         <Insets right="40.0" />
                      </HBox.margin>
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="15.0" prefWidth="105.0">
+                           <children>
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove" wrappingWidth="63.33935546875" />
+                              <ImageView fitHeight="24.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/substract.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </graphic>
                   </Button>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearSelections" prefHeight="25.0" prefWidth="118.0" styleClass="button-menu-background" text="Clear">
+                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearSelections" prefHeight="25.0" prefWidth="118.0" styleClass="button-menu-background">
                      <HBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin>
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Clear" wrappingWidth="42.998046875" />
+                              <ImageView fitHeight="15.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/clear-button.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </graphic>
                   </Button>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button fx:id="makeFileBtn" mnemonicParsing="false" onAction="#makeFile" prefHeight="25.0" prefWidth="120.0" text="Save Names">
+                  <Button fx:id="makeFileBtn" mnemonicParsing="false" onAction="#makeFile" prefHeight="25.0" prefWidth="120.0">
                      <HBox.margin>
                         <Insets left="40.0" />
                      </HBox.margin>
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Save Names" wrappingWidth="90.16748046875" />
+                              <ImageView fitHeight="19.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/save.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </graphic>
                   </Button>
                </children>
             </HBox>
@@ -83,7 +120,19 @@
                      </font>
                   </Label>
                   <Pane prefHeight="93.0" prefWidth="600.0" />
-                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="125.0" text="Home" textFill="WHITE" />
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="125.0" textFill="WHITE">
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Home" wrappingWidth="47.390625" />
+                              <ImageView fitHeight="24.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/house.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </graphic></Button>
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
@@ -114,7 +163,19 @@
                   <HBox alignment="CENTER" prefHeight="41.0" prefWidth="406.0">
                      <children>
                         <TextField fx:id="searchBox" onKeyPressed="#addToSelection" prefHeight="25.0" prefWidth="481.0" />
-                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection" text="Add" />
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection">
+                           <graphic>
+                              <HBox alignment="CENTER" prefHeight="10.0" prefWidth="44.0">
+                                 <children>
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Add" wrappingWidth="33.39697265625" />
+                                    <ImageView fitHeight="14.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/add.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic></Button>
                      </children>
                   </HBox>
                   <ListView fx:id="namesList" onMouseClicked="#addToSearch" prefHeight="410.0" prefWidth="416.0" />
@@ -132,14 +193,26 @@
                   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="343.0">
                      <children>
                         <ComboBox fx:id="customFiles" prefWidth="150.0" promptText="custom lists" />
-                        <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadCustomFile" prefHeight="24.0" text="Load" />
+                        <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadCustomFile" prefHeight="25.0" prefWidth="70.0" text="Load" />
                         <Pane prefHeight="43.0" prefWidth="135.0" />
                         <Text fx:id="fileUpload" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No file uploaded">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Text>
-                        <Button fx:id="uploadBtn" mnemonicParsing="false" onAction="#uploadFile" text="Upload" />
+                        <Button fx:id="uploadBtn" mnemonicParsing="false" onAction="#uploadFile">
+                           <graphic>
+                              <HBox alignment="CENTER" prefHeight="21.0" prefWidth="70.0">
+                                 <children>
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Upload" wrappingWidth="52.55078125" />
+                                    <ImageView fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/add.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic></Button>
                      </children>
                   </HBox>
                </children>

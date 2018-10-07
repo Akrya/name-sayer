@@ -102,7 +102,7 @@ public class MangeModeController implements Initializable {
      */
     @FXML
     private void addToQueue(){
-        RecordingModel selected = recordingsTable.getSelectionModel().getSelectedItem();
+        RecordingModel selected = recordingsTable.getSelectionModel().getSelectedItem(); //get the selected recording and put in playlist
         if (selected != null){
             String recording = selected.getFileName();
             if (_queuedRecordings.indexOf(recording) == -1){
@@ -116,7 +116,7 @@ public class MangeModeController implements Initializable {
     //method for adding all selected names into the playlist, names already in the playlist will not be added
     @FXML
     private void addAllToQueue(){
-        List<RecordingModel> selected = recordingsTable.getItems();
+        List<RecordingModel> selected = recordingsTable.getItems(); //get all entries in recordings and add to playlist
 
         for (RecordingModel recording: selected){
             String recordingName = recording.getFileName();
@@ -134,10 +134,10 @@ public class MangeModeController implements Initializable {
 
     @FXML
     private void enableRecordingListBtns(MouseEvent mouseEvent){
-        if (mouseEvent.getClickCount() == 2){
+        if (mouseEvent.getClickCount() == 2){ //allow double click to also add
             addToQueue();
         }
-        if (recordingsTable.getSelectionModel().getSelectedItem() != null){
+        if (recordingsTable.getSelectionModel().getSelectedItem() != null){ //enable buttons if recording selected is not null
             addBtn.setDisable(false);
             addAllBtn.setDisable(false);
             rateBtn.setDisable(false);
@@ -184,8 +184,8 @@ public class MangeModeController implements Initializable {
         RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
             String name = selection.getFileName().substring(selection.getFileName().lastIndexOf('_') + 1, selection.getFileName().lastIndexOf('.'));
-            RecordingRater rater = new RecordingRater(selection.getFileName(), selection);
-            boolean exists = rater.checkFile();
+            RecordingRater rater = new RecordingRater(selection.getFileName(), selection); //make new rater object
+            boolean exists = rater.checkFile(); //if rating exists ask if they want to overwrite
             if (exists) {
                 rater.overWriteRating();
             } else {
@@ -216,7 +216,7 @@ public class MangeModeController implements Initializable {
         if (playList.getSelectionModel().getSelectedItem().substring(0,8).equals("personal")){
             filePath = "Personal/"+playList.getSelectionModel().getSelectedItem();
         } else {
-            filePath = "Original/"+playList.getSelectionModel().getSelectedItem();
+            filePath = "Original/"+playList.getSelectionModel().getSelectedItem(); //get file path to the recording and pass it into player
         }
         RecordingPlayer player = new RecordingPlayer(filePath);
         playProgressBar.progressProperty().unbind();
@@ -241,7 +241,7 @@ public class MangeModeController implements Initializable {
 
     @FXML
     private void removeQueue(){
-        String selection = playList.getSelectionModel().getSelectedItem();
+        String selection = playList.getSelectionModel().getSelectedItem(); //get selection and take it off the list
         _queuedRecordings.remove(selection);
         if (_queuedRecordings.isEmpty()) {
             clearBtn.setDisable(true);
@@ -414,7 +414,7 @@ public class MangeModeController implements Initializable {
 
 
     private void makeRatingFile(){
-        File rateFile = new File("Ratings.txt");
+        File rateFile = new File("Ratings.txt"); //make file if it doesnt exist ie on first start of program
         if(rateFile.exists()) {
             getRatings();
             return;
@@ -433,7 +433,7 @@ public class MangeModeController implements Initializable {
         }
     }
 
-    private void getRatings(){ //can be improved greatly right now O(n^2)
+    private void getRatings(){ //can be improved greatly right now O(n^2), function loops through rating.txt and finds the model associated with the recording then assigns a bad rating
         List<NamesModel> models = _namesListModel.getModels();
         Map<String, Integer> fileMap = new HashMap<>();
         List<String> fileNames = new ArrayList<>();

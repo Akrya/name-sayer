@@ -25,7 +25,7 @@ import java.util.*;
 public class CustomModeController implements Initializable {
 
 
-    private NameSelectorSingleton _singleton;
+    private ControllerManager _singleton;
 
     private NamesSelectorController _controller;
 
@@ -99,7 +99,7 @@ public class CustomModeController implements Initializable {
     //takes you back to the select screen
     @FXML
     private void goToSelect(ActionEvent event) throws IOException {
-        _singleton = NameSelectorSingleton.getInstance();
+        _singleton = ControllerManager.getInstance();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
@@ -139,13 +139,13 @@ public class CustomModeController implements Initializable {
     private void listenPersonal(){
         if (customRecordings.getSelectionModel().getSelectedItem() != null){
             String filePath = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
-            RecordingPlayer player = new RecordingPlayer(filePath);
+            RecordingPlayer player = new RecordingPlayer(filePath); //make new player and bind progress bar to player
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(player.progressProperty());
             playStatus.setText("Now playing: ");
             playRecording.setText(customRecordings.getSelectionModel().getSelectedItem());
             inAction = true;
-            recordBtn.setDisable(true);
+            recordBtn.setDisable(true); //disable buttons while playing
             listenPerBtn.setDisable(true);
             listenOgBtn.setDisable(true);
             deleteBtn.setDisable(true);
@@ -154,7 +154,7 @@ public class CustomModeController implements Initializable {
                 playRecording.setText("");
                 deleteBtn.setDisable(false);
                 inAction = false;
-                listenPerBtn.setDisable(false);
+                listenPerBtn.setDisable(false); //renable buttons
                 recordBtn.setDisable(false);
                 listenOgBtn.setDisable(false);
             });
@@ -182,7 +182,7 @@ public class CustomModeController implements Initializable {
     private void listenOriginal(){
         String selection =  selectedName.getText();
         if (selection != null){
-            listenOgBtn.setDisable(true);
+            listenOgBtn.setDisable(true); //same as other listen function except we use a customplayer instead
             listenPerBtn.setDisable(true);
             recordBtn.setDisable(true);
             inAction = true;
@@ -225,7 +225,7 @@ public class CustomModeController implements Initializable {
 
         String selection = selectedName.getText();
         if (selection != null && !selection.isEmpty()){
-            Recorder recorder = new Recorder(selection);
+            Recorder recorder = new Recorder(selection); //make a new Recorder model that runs the bash commands for recording
             inAction = true;
             listenPerBtn.setDisable(true);
             recordBtn.setDisable(true);
@@ -247,7 +247,7 @@ public class CustomModeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        _singleton = NameSelectorSingleton.getInstance();
+        _singleton = ControllerManager.getInstance();
         _controller = _singleton.getController();
         _selectedNames = FXCollections.observableArrayList(_controller.getSelectedNames());
         selectedNames.setItems(_selectedNames);
