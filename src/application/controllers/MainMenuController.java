@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.models.NameSelectorSingleton;
+import application.models.ControllerManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +29,7 @@ public class MainMenuController implements Initializable {
     @FXML
     private Button fuseButton;
 
-    private NameSelectorSingleton _singleton;
+    private ControllerManager _singleton;
 
     public void initialize(URL location, ResourceBundle resources) {
         //fill in maybe later
@@ -39,7 +39,7 @@ public class MainMenuController implements Initializable {
     @FXML
     private void openCustomMode(ActionEvent event) throws IOException {
 
-        _singleton = NameSelectorSingleton.getInstance();
+        _singleton = ControllerManager.getInstance();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
