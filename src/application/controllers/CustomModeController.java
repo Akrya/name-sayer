@@ -81,6 +81,8 @@ public class CustomModeController implements Initializable {
 
     private AudioVisualizerModel audioVM;
 
+
+    
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
         Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
