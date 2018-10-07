@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -31,9 +32,21 @@
                      </font>
                   </Label>
                   <Pane prefHeight="100.0" prefWidth="405.0" />
-                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" prefHeight="35.0" prefWidth="130.0" text="Back to Selection" />
+                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" prefHeight="35.0" prefWidth="152.0" text="Back to Selection" />
                   <Pane layoutX="456.0" layoutY="10.0" prefHeight="100.0" prefWidth="57.0" />
-                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="130.0" text="Home" />
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="130.0">
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Home" wrappingWidth="51.390625" />
+                              <ImageView fitHeight="21.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/house.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </graphic></Button>
                </children>
             </HBox>
          </children>
@@ -48,7 +61,19 @@
                   <ListView fx:id="selectedNames" onMouseClicked="#enableSelect" prefHeight="500.0" prefWidth="287.0" />
                   <HBox prefHeight="28.0" prefWidth="287.0">
                      <children>
-                        <Button fx:id="listenOgBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listenOriginal" prefHeight="25.0" prefWidth="287.0" stylesheets="@NameSelectorStyler.css" text="LISTEN TO ORIGINAL" />
+                        <Button fx:id="listenOgBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listenOriginal" prefHeight="25.0" prefWidth="287.0" stylesheets="@NameSelectorStyler.css">
+                           <graphic>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Original" wrappingWidth="108.96435546875" />
+                                    <ImageView fitHeight="14.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/musical-note.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic></Button>
                      </children>
                   </HBox>
                </children>
@@ -86,17 +111,41 @@
                      </font>
                   </Text>
                   <Pane prefHeight="34.0" prefWidth="563.0" />
-                  <ProgressBar fx:id="audioVisualizer" prefHeight="9.0" prefWidth="200.0" progress="0.0" styleClass="mic-bar" />
-                  <Pane layoutX="10.0" layoutY="86.0" prefHeight="47.0" prefWidth="563.0" />
-                  <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordCustom" text="MAKE CUSTOM RECORDING" />
-                  <Pane prefHeight="58.0" prefWidth="563.0" />
-                  <HBox alignment="CENTER" prefHeight="35.0" prefWidth="563.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Label text="Volume">
+                        <Label text="Mic levels">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Label>
+                        <ProgressBar fx:id="audioVisualizer" prefHeight="9.0" prefWidth="200.0" progress="0.0" styleClass="mic-bar" />
+                     </children>
+                  </HBox>
+                  <Pane layoutX="10.0" layoutY="86.0" prefHeight="47.0" prefWidth="563.0" />
+                  <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordCustom" prefHeight="58.0" prefWidth="199.0">
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record Custom" wrappingWidth="114.66455078125" />
+                              <ImageView fitHeight="41.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/microphone.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </graphic></Button>
+                  <Pane prefHeight="58.0" prefWidth="563.0" />
+                  <HBox alignment="CENTER" prefHeight="35.0" prefWidth="563.0">
+                     <children>
+                        <ImageView fitHeight="36.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/volume-up-indicator.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </ImageView>
                         <Slider fx:id="volumeSlider" prefHeight="14.0" prefWidth="150.0" />
                      </children>
                   </HBox>
@@ -133,9 +182,33 @@
                   <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="501.0" prefWidth="308.0" />
                   <HBox alignment="CENTER" prefHeight="28.0" prefWidth="308.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                      <children>
-                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" prefHeight="25.0" prefWidth="140.0" text="LISTEN TO PERSONAL" />
+                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" prefHeight="25.0" prefWidth="140.0">
+                           <graphic>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Personal" wrappingWidth="113.8203125" />
+                                    <ImageView fitHeight="12.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/musical-note.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic></Button>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="140.0" text="DELETE" />
+                        <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="140.0">
+                           <graphic>
+                              <HBox alignment="CENTER" prefHeight="10.0" prefWidth="117.0">
+                                 <children>
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" wrappingWidth="54.71337890625" />
+                                    <ImageView fitHeight="15.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/garbage.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic></Button>
                      </children>
                   </HBox>
                </children>
