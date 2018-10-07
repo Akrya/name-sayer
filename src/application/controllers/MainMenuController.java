@@ -73,10 +73,10 @@ public class MainMenuController implements Initializable {
 
         Parent root;
         try{
-            root = FXMLLoader.load(getClass().getResource("/application/views/HelpWindow.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/application/views/HelpScene.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Help");
-            stage.setScene(new Scene(root, 800, 1000));
+            stage.setScene(new Scene(root, 1200, 1000));
             stage.show();
 
         }

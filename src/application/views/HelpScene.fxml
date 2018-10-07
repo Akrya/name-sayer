@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
@@ -12,161 +18,141 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.HelpWindowController">
-   <children>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Manual" textAlignment="CENTER" wrappingWidth="800.0">
-         <font>
-            <Font size="48.0" />
-         </font>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </Text>
-      <ScrollPane prefHeight="856.0" prefWidth="800.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2400.0" prefWidth="780.0">
-               <children>
-                  <VBox prefHeight="2400.0" prefWidth="780.0" AnchorPane.rightAnchor="-7.0">
+<BorderPane prefHeight="2000.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.HelpWindowController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User Guide">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Text>
+            <ScrollPane prefHeight="1983.0" prefWidth="1200.0">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="2167.0" prefWidth="1001.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Main Menu">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="15.0" top="5.0" />
-                           </VBox.margin>
-                        </Text>
-                        <HBox prefHeight="260.0" prefWidth="780.0">
+                        <VBox layoutY="27.0" prefHeight="2373.0" prefWidth="1177.0" AnchorPane.rightAnchor="-384.0">
                            <children>
-                              <TextArea editable="false" prefHeight="260.0" prefWidth="366.0" text="Main Menu:&#10;" />
-                              <ImageView fitHeight="312.0" fitWidth="448.0" pickOnBounds="true" preserveRatio="true">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Names" wrappingWidth="198.13671875">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="15.0" top="5.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <HBox prefHeight="272.0" prefWidth="780.0">
+                                 <children>
+                                    <ImageView fitHeight="531.0" fitWidth="945.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/viewNamesSC.png" />
+                                       </image>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </ImageView>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="14.0" right="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <TextArea editable="false" prefHeight="128.0" prefWidth="1152.0" text="&#10;-Use the search bar to look up names in the database, the search bar filters out names as you type and if theres one selection, then it displays &#10;the recordings for that name in the recordings table. &#10;&#10;-You can manage individual recordings in the Recordings table, here you can flag bad recordings or add them to the playlist to listen. &#10;&#10;-The Playlist Queue on the right allows you to listen to recordings you have selected, with the option to shuffle your selections.&#10;">
+                                 <VBox.margin>
+                                    <Insets left="15.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextArea>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Mode Single">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="15.0" top="5.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <ImageView fitHeight="445.0" fitWidth="786.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../mainMenuSC.jpg" />
+                                    <Image url="@../Images/practiceNamesSC.jpg" />
                                  </image>
+                                 <VBox.margin>
+                                    <Insets left="15.0" top="10.0" />
+                                 </VBox.margin>
                               </ImageView>
-                           </children>
-                           <VBox.margin>
-                              <Insets left="15.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Names" wrappingWidth="198.13671875">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="15.0" top="5.0" />
-                           </VBox.margin>
-                        </Text>
-                        <HBox prefHeight="272.0" prefWidth="780.0">
-                           <children>
-                              <ImageView fitHeight="462.0" fitWidth="770.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../viewNamesSC.png" />
-                                 </image>
-                                 <HBox.margin>
+                              <TextArea editable="false" prefHeight="162.0" prefWidth="1152.0" text="-In the single practice mode, you can select a single database name you wish to practice. &#10;&#10;-All previous recordings for that name will appear with database recordings on the left list and your own recordings on the right. &#10;&#10;-You can listen to either recordings on their own or you can compare them with the 'compare' button&#10;&#10;-Finally you can practice new recordings with the record button.&#10;&#10;-The mic test bar allows you to check if your recording capabalities is sound, while the volume slider allows you to adjust playback &#10;volumes to your liking.&#10;">
+                                 <VBox.margin>
+                                    <Insets left="15.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </TextArea>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Mode Custom">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="15.0" top="5.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Names Selection">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="15.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <ImageView fitHeight="366.0" fitWidth="531.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/customNameCreatorSC.png" />
+                                       </image>
+                                    </ImageView>
+                                    <TextArea editable="false" prefHeight="244.0" prefWidth="520.0" text="In custom mode, you first select custom names you wish to practice, you &#10;can build new names using the search bar. &#10;&#10;-the search bar has a special autocomplete feature which allows you to &#10;quickly create a new name, the autocomplete feature can be activated &#10;by entering 'space' which fills in the top search result for you. &#10;&#10;-Alternatively you can load custom names from a txt file, you can upload &#10;them from anywhere on your computer or you can select them from our &#10;own directory&#10;&#10;-Once you have created a list of custom names you have the chance to save &#10;these to a new txt file or you can pass them into the custom practice mode." />
+                                 </children>
+                                 <opaqueInsets>
                                     <Insets />
-                                 </HBox.margin>
-                              </ImageView>
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets left="15.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Custom Names">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="15.0" top="5.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <HBox prefHeight="249.0" prefWidth="782.0">
+                                 <children>
+                                    <ImageView fitHeight="317.0" fitWidth="530.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/practiceCustomNamesSC.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <TextArea editable="false" prefHeight="249.0" prefWidth="523.0" text="After creating and selecting custom names, you can now practice them,.&#10;&#10;You have the option to listen to the database version of your custom name or &#10;you can record your own version of the custom name. Previous attempts at &#10;recording your own custom name is saved on the right, while on the left are &#10;the custom names you selected previously. " />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="15.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
                            </children>
-                           <VBox.margin>
-                              <Insets left="14.0" right="10.0" top="10.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <TextArea editable="false" prefHeight="242.0" prefWidth="782.0" text="Names List&#10;&#10;&#10;&#10;Recordings For Name List&#10;&#10;&#10;Playlist Queue">
-                           <VBox.margin>
-                              <Insets left="15.0" right="10.0" top="5.0" />
-                           </VBox.margin>
-                        </TextArea>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Mode Single">
-                           <VBox.margin>
-                              <Insets left="15.0" top="5.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Text>
-                        <ImageView fitHeight="445.0" fitWidth="786.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../practiceNamesSC.jpg" />
-                           </image>
-                           <VBox.margin>
-                              <Insets left="15.0" top="10.0" />
-                           </VBox.margin>
-                        </ImageView>
-                        <TextArea editable="false" prefHeight="259.0" prefWidth="766.0" text="Names List&#10;&#10;Personal Names&#10;&#10;Original Names&#10;&#10;Compare&#10;&#10;Mictest&#10;&#10;Record&#10;">
-                           <VBox.margin>
-                              <Insets left="15.0" right="10.0" top="5.0" />
-                           </VBox.margin>
-                        </TextArea>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Mode Custom">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="15.0" top="5.0" />
-                           </VBox.margin>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Names Selection">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="15.0" />
-                           </VBox.margin>
-                        </Text>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <ImageView fitHeight="285.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../customNameCreatorSC.png" />
-                                 </image>
-                              </ImageView>
-                              <TextArea editable="false" prefHeight="244.0" prefWidth="365.0" />
-                           </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <VBox.margin>
-                              <Insets left="15.0" right="10.0" top="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Custom Names">
-                           <VBox.margin>
-                              <Insets left="15.0" top="5.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Text>
-                        <HBox prefHeight="249.0" prefWidth="782.0">
-                           <children>
-                              <ImageView fitHeight="294.0" fitWidth="420.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../practiceCustomNamesSC.jpg" />
-                                 </image>
-                              </ImageView>
-                              <TextArea editable="false" prefHeight="249.0" prefWidth="360.0" />
-                           </children>
-                           <VBox.margin>
-                              <Insets left="15.0" right="10.0" top="5.0" />
-                           </VBox.margin>
-                        </HBox>
+                        </VBox>
                      </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-        </content>
-         <VBox.margin>
-            <Insets top="10.0" />
-         </VBox.margin>
-      </ScrollPane>
-      <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefWidth="100.0" text="Close" textAlignment="CENTER">
-         <font>
-            <Font size="20.0" />
-         </font>
-         <VBox.margin>
-            <Insets left="350.0" top="10.0" />
-         </VBox.margin>
-      </Button>
-   </children>
-</VBox>
+                  </AnchorPane>
+               </content>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ScrollPane>
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefWidth="100.0" text="Close" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="350.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
