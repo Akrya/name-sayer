@@ -206,15 +206,17 @@ public class CustomModeController implements Initializable {
     private void deleteRecording(){
 
         String selection = customRecordings.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete?");
-        alert.setHeaderText("You are about to delete '"+ selection+"'");
-        alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
+        if (selection != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete?");
+            alert.setHeaderText("You are about to delete '" + selection + "'");
+            alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            new File("CustomRecords/"+selection).delete();
-            _customRecords.remove(selection);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                new File("CustomRecords/" + selection).delete();
+                _customRecords.remove(selection);
+            }
         }
     }
 
