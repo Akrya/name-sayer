@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -14,11 +19,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NamesSelectorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NamesSelectorController">
    <right>
       <VBox alignment="CENTER" prefHeight="595.0" prefWidth="560.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="200.0" text="CUSTOM NAMES" textFill="WHITE">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="42.0" prefWidth="200.0" text="Practice List" textFill="WHITE">
                <padding>
                   <Insets bottom="5.0" />
                </padding>
@@ -29,19 +34,19 @@
             <ListView fx:id="selectedList" onMouseClicked="#enableSelectBtns" prefHeight="448.0" prefWidth="550.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="550.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                <children>
-                  <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefWidth="135.0" styleClass="button-menu-background" text="REMOVE">
+                  <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefWidth="135.0" styleClass="button-menu-background" text="Remove">
                      <HBox.margin>
                         <Insets right="40.0" />
                      </HBox.margin>
                   </Button>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearSelections" prefHeight="25.0" prefWidth="118.0" styleClass="button-menu-background" text="CLEAR">
+                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearSelections" prefHeight="25.0" prefWidth="118.0" styleClass="button-menu-background" text="Clear">
                      <HBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin>
                   </Button>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button fx:id="makeFileBtn" mnemonicParsing="false" onAction="#makeFile" prefHeight="25.0" prefWidth="120.0" text="MAKE FILE">
+                  <Button fx:id="makeFileBtn" mnemonicParsing="false" onAction="#makeFile" prefHeight="25.0" prefWidth="120.0" text="Save Names">
                      <HBox.margin>
                         <Insets left="40.0" />
                      </HBox.margin>
@@ -51,7 +56,7 @@
             <VBox prefHeight="116.0" prefWidth="403.0">
                <children>
                   <Pane prefHeight="9.0" prefWidth="550.0" />
-                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#goToCustomMode" prefHeight="35.0" prefWidth="199.0" text="PRACTICE CUSTOM NAMES">
+                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#goToCustomMode" prefHeight="35.0" prefWidth="199.0" text="Practice Custom Names">
                      <VBox.margin>
                         <Insets left="180.0" top="20.0" />
                      </VBox.margin>
@@ -82,7 +87,7 @@
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
-            <Label prefHeight="28.0" prefWidth="105.0" styleClass="scene-label" text="Select Mode" textFill="WHITE">
+            <Label prefHeight="16.0" prefWidth="233.0" styleClass="scene-label" text="Custom Seleciton Mode" textFill="WHITE">
                <VBox.margin>
                   <Insets left="20.0" top="5.0" />
                </VBox.margin>
@@ -98,7 +103,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="595.0" prefWidth="572.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="390.0" text="please enter a custom name to practice " textFill="WHITE">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="390.0" text="Please enter a custom name to practice " textFill="WHITE">
                      <padding>
                         <Insets bottom="5.0" />
                      </padding>
@@ -109,7 +114,7 @@
                   <HBox alignment="CENTER" prefHeight="41.0" prefWidth="406.0">
                      <children>
                         <TextField fx:id="searchBox" onKeyPressed="#addToSelection" prefHeight="25.0" prefWidth="481.0" />
-                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection" text="ADD" />
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection" text="Add" />
                      </children>
                   </HBox>
                   <ListView fx:id="namesList" onMouseClicked="#addToSearch" prefHeight="410.0" prefWidth="416.0" />
@@ -127,14 +132,14 @@
                   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="343.0">
                      <children>
                         <ComboBox fx:id="customFiles" prefWidth="150.0" promptText="custom lists" />
-                        <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadCustomFile" prefHeight="24.0" text="LOAD" />
+                        <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadCustomFile" prefHeight="24.0" text="Load" />
                         <Pane prefHeight="43.0" prefWidth="135.0" />
                         <Text fx:id="fileUpload" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No file uploaded">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Text>
-                        <Button fx:id="uploadBtn" mnemonicParsing="false" onAction="#uploadFile" text="UPLOAD" />
+                        <Button fx:id="uploadBtn" mnemonicParsing="false" onAction="#uploadFile" text="Upload" />
                      </children>
                   </HBox>
                </children>
