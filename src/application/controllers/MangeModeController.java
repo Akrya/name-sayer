@@ -96,6 +96,10 @@ public class MangeModeController implements Initializable {
     private boolean isPlaying = false;
 
 
+
+    /*
+    method for adding selected name into the playlist, a name already in the playlist cannot be added
+     */
     @FXML
     private void addToQueue(){
         RecordingModel selected = recordingsTable.getSelectionModel().getSelectedItem();
@@ -103,13 +107,13 @@ public class MangeModeController implements Initializable {
             String recording = selected.getFileName();
             if (_queuedRecordings.indexOf(recording) == -1){
                 _queuedRecordings.add(recording);
-                clearBtn.setDisable(false);
+                clearBtn.setDisable(false);           //buttons related to the playlist are enabled
                 randomiseBtn.setDisable(false);
             }
         }
     }
 
-
+    //method for adding all selected names into the playlist, names already in the playlist will not be added
     @FXML
     private void addAllToQueue(){
         List<RecordingModel> selected = recordingsTable.getItems();
@@ -121,9 +125,11 @@ public class MangeModeController implements Initializable {
             }
 
         }
-        clearBtn.setDisable(false);
+        clearBtn.setDisable(false);       //buttons related to the playlist are enabled
         randomiseBtn.setDisable(false);
     }
+
+
 
 
     @FXML
@@ -274,6 +280,7 @@ public class MangeModeController implements Initializable {
 
     }
 
+
     @FXML
     private void getRecordings(){
         String selection = namesList.getSelectionModel().getSelectedItem();
@@ -293,6 +300,7 @@ public class MangeModeController implements Initializable {
         }
     }
 
+    //takes you to the main menu
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
         Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
@@ -362,14 +370,13 @@ public class MangeModeController implements Initializable {
 
 
     private void startVolumeSlider(){
-        //initiliazing volume slider
 
         //running command to get current volume
         String cmd1 = "amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);
 
+        //setting the slider to the current volume
         try{
-            //reading current volume level
             Process volumeInitializer = builder.start();
             InputStream inputStream = volumeInitializer.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
@@ -383,6 +390,8 @@ public class MangeModeController implements Initializable {
             e.printStackTrace();
         }
 
+
+        //A listener gets the value from slider and runs a bash command with that changes the volume based on the value
 
         //https://www.youtube.com/watch?v=X9mEBGXX3dA reference
         volumeSlider.valueProperty().addListener(new InvalidationListener() {

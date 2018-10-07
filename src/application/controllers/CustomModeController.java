@@ -81,6 +81,9 @@ public class CustomModeController implements Initializable {
 
     private AudioVisualizerModel audioVM;
 
+
+
+    //takes you back to the main menu
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
         Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
@@ -92,6 +95,8 @@ public class CustomModeController implements Initializable {
         audioVM.endTask();
     }
 
+
+    //takes you back to the select screen
     @FXML
     private void goToSelect(ActionEvent event) throws IOException {
         _singleton = NameSelectorSingleton.getInstance();
@@ -107,13 +112,17 @@ public class CustomModeController implements Initializable {
         audioVM.endTask();
     }
 
+
+    //Selects a Name if an entry exists in the row
     @FXML
     private void enableSelect(){
         if (selectedNames.getSelectionModel().getSelectedItem() != null){
-            selectName();
+            selectName();  //selectName is called which enables other Buttons for use
         }
     }
 
+
+    //Enables the personalListen button if there's a double click
     @FXML
     private void enablePersonalListen(MouseEvent mouseEvent){
         if (mouseEvent.getClickCount() == 2 && !inAction){
@@ -125,6 +134,7 @@ public class CustomModeController implements Initializable {
 
     }
 
+    //Plays the currently selected recording in the list view for personal recordings
     @FXML
     private void listenPersonal(){
         if (customRecordings.getSelectionModel().getSelectedItem() != null){
@@ -166,6 +176,8 @@ public class CustomModeController implements Initializable {
 
     }
 
+
+    //plays the currently selected recording for the list view for original recordings
     @FXML
     private void listenOriginal(){
         String selection =  selectedName.getText();
@@ -206,6 +218,8 @@ public class CustomModeController implements Initializable {
         }
     }
 
+
+    //Method for making a recording for the currently selected CustomName
     @FXML
     private void recordCustom(){
 
@@ -258,6 +272,8 @@ public class CustomModeController implements Initializable {
 
     }
 
+
+    
     private void startVolumeSlider(){
         //initiliazing volume slider
 
