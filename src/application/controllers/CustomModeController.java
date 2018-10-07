@@ -216,6 +216,11 @@ public class CustomModeController implements Initializable {
             new File("CustomRecords/"+selection).delete();
             _customRecords.remove(selection);
         }
+
+        if (customRecordings.getItems().isEmpty()){
+            deleteBtn.setDisable(true);
+            listenPerBtn.setDisable(true);
+        }
     }
 
 
