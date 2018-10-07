@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -14,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PracticeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PracticeModeController">
    <top>
       <VBox prefHeight="105.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,12 +33,19 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Pane prefHeight="93.0" prefWidth="600.0" />
+                  <Pane prefHeight="83.0" prefWidth="331.0" />
+                  <HBox alignment="CENTER" prefHeight="83.0" prefWidth="256.0">
+                     <children>
+                        <Label prefHeight="15.0" prefWidth="61.0" text="Volume " />
+                        <Pane prefHeight="83.0" prefWidth="19.0" />
+                        <Slider fx:id="volumeSlider" prefWidth="150.0" style="-fx-control-inner-background: palegreen;" />
+                     </children>
+                  </HBox>
                   <Button fx:id="listenModeBtn" mnemonicParsing="false" onAction="#goToListenMode" prefHeight="35.0" prefWidth="130.0" text="Home" />
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
-            <Label styleClass="scene-label" text="Practice Mode">
+            <Label styleClass="scene-label" text="Practice Mode Single">
                <VBox.margin>
                   <Insets left="20.0" top="5.0" />
                </VBox.margin>
@@ -159,7 +171,7 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="147.0" prefWidth="838.0">
                <children>
-                  <Text fx:id="ogPlayStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" wrappingWidth="162.052734375">
+                  <Text fx:id="ogPlayStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No recording currently playing" wrappingWidth="257.052734375">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
@@ -169,12 +181,6 @@
                   <Pane prefHeight="47.0" prefWidth="798.0" />
                   <VBox prefHeight="91.0" prefWidth="798.0">
                      <children>
-                        <HBox prefHeight="26.0" prefWidth="838.0">
-                           <children>
-                              <Pane prefHeight="25.0" prefWidth="325.0" />
-                              <Slider fx:id="volumeSlider" prefWidth="150.0" style="-fx-control-inner-background: palegreen;" />
-                           </children>
-                        </HBox>
                         <HBox prefHeight="26.0" prefWidth="838.0">
                            <children>
                               <Pane prefHeight="25.0" prefWidth="270.0" />

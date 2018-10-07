@@ -17,11 +17,17 @@ public class RecordingPlayer extends Task<Void> {
 
     private String _filePath;
     private double _length;
+    private boolean _playOriginal;
 
     public RecordingPlayer(String filePath){
         _filePath =filePath;
+        _playOriginal = false;
         trimAudio();
-        calcLength();
+        calcLength("silenced.wav");
+        if (_length == 0){
+            _playOriginal = true;
+            calcLength(filePath);
+        }
     }
 
     @Override
@@ -51,7 +57,12 @@ public class RecordingPlayer extends Task<Void> {
 
 
     private void playAudio(){
-        String cmd = "ffplay -loglevel panic -autoexit -nodisp -i silenced.wav";
+        String cmd;
+        if (_playOriginal){
+            cmd = "ffplay -loglevel panic -autoexit -nodisp -i '"+_filePath+"'";
+        } else {
+            cmd = "ffplay -loglevel panic -autoexit -nodisp -i silenced.wav";
+        }
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
             builder.start();
@@ -66,11 +77,11 @@ public class RecordingPlayer extends Task<Void> {
             updateProgress(i+1,approxLength); //update binded progress bar periodically for duration of audio
         }
     }
-    private void calcLength() {
+    private void calcLength(String filePath) {
         //reference to calculate wav file length https://stackoverflow.com/questions/3009908/how-do-i-get-a-sound-files-total-time-in-java
         AudioInputStream audioInputStream = null;
         try {
-            audioInputStream = AudioSystem.getAudioInputStream(new File("silenced.wav"));
+            audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
             AudioFormat format = audioInputStream.getFormat();
             long frames = audioInputStream.getFrameLength();
             _length =  ((frames+0.0) / format.getFrameRate());

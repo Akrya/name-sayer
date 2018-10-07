@@ -31,7 +31,7 @@ public class RecordingModel {
         } else {
             _date = _fileName.substring(_fileName.indexOf('_')+1,_fileName.indexOf('v')-1);
         }
-        _time = _date.substring(_date.indexOf('_')+1);
+        _time = _date.substring(_date.indexOf('_')+1); //date and time fields currently unused but may be useful in the final release
         _date = _date.substring(0,_date.indexOf('_'));
     }
 
@@ -59,8 +59,12 @@ public class RecordingModel {
         _goodRating = rating;
     }
 
-    public boolean getRating(){
-        return _goodRating;
+    public String getRating(){
+        if (_goodRating){
+            return "Good";
+        } else {
+            return "Bad";
+        }
     }
 
 }
