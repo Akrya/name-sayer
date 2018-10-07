@@ -2,22 +2,22 @@ package application.models;
 
 import application.controllers.NamesSelectorController;
 
-public class NameSelectorSingleton {
+public class ControllerManager {
 
     //singleton class that holds a reference to NameSelectorController, reference to controller is passed to CustomPlayMode so it can load the selected names
 
-    private static NameSelectorSingleton _instance = null;
+    private static ControllerManager _instance = null;
 
     private NamesSelectorController _controller;
 
-    public static NameSelectorSingleton getInstance(){
+    public static ControllerManager getInstance(){
         if (_instance == null){
-            _instance = new NameSelectorSingleton();
+            _instance = new ControllerManager();
         }
         return _instance;
     }
 
-    private NameSelectorSingleton(){ }
+    private ControllerManager(){ }
 
     public void setController(NamesSelectorController controller){
         _controller = controller;

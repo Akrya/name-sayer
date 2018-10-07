@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -36,12 +37,28 @@
                   <Pane prefHeight="83.0" prefWidth="331.0" />
                   <HBox alignment="CENTER" prefHeight="83.0" prefWidth="256.0">
                      <children>
-                        <Label prefHeight="15.0" prefWidth="61.0" text="Volume " />
+                        <ImageView fitHeight="57.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/volume-up-indicator.png" />
+                           </image>
+                        </ImageView>
                         <Pane prefHeight="83.0" prefWidth="19.0" />
                         <Slider fx:id="volumeSlider" prefWidth="150.0" style="-fx-control-inner-background: palegreen;" />
                      </children>
                   </HBox>
-                  <Button fx:id="listenModeBtn" mnemonicParsing="false" onAction="#goToListenMode" prefHeight="35.0" prefWidth="130.0" text="Home" />
+                  <Button fx:id="listenModeBtn" mnemonicParsing="false" onAction="#goToListenMode" prefHeight="35.0" prefWidth="130.0">
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Home" wrappingWidth="52.390625" />
+                              <ImageView fitHeight="25.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/house.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </graphic></Button>
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
@@ -102,10 +119,22 @@
                               <Insets bottom="10.0" right="15.0" />
                            </padding>
                         </VBox>
-                        <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" prefHeight="44.0" prefWidth="109.0" text="Record">
+                        <Button fx:id="recordBtn" mnemonicParsing="false" onAction="#recordNewName" prefHeight="44.0" prefWidth="109.0">
                            <HBox.margin>
                               <Insets bottom="5.0" left="40.0" />
                            </HBox.margin>
+                           <graphic>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record" />
+                                    <ImageView fitHeight="30.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/microphone.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </Button>
                      </children>
                   </HBox>
@@ -130,7 +159,19 @@
                         </ListView>
                         <Pane prefHeight="60.0" prefWidth="250.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                            <children>
-                              <Button fx:id="listenOgBtn" contentDisplay="CENTER" layoutX="1.0" layoutY="5.0" mnemonicParsing="false" onAction="#playOgRecording" prefHeight="25.0" prefWidth="249.0" text="Listen Original" />
+                              <Button fx:id="listenOgBtn" contentDisplay="CENTER" layoutX="1.0" layoutY="5.0" mnemonicParsing="false" onAction="#playOgRecording" prefHeight="25.0" prefWidth="249.0">
+                                 <graphic>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Original" wrappingWidth="115.96435546875" />
+                                          <ImageView fitHeight="16.0" fitWidth="98.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Images/musical-note.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </graphic></Button>
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -159,7 +200,19 @@
                         </ListView>
                         <Pane prefHeight="60.0" prefWidth="250.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                            <children>
-                              <Button fx:id="listenPerBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="5.0" mnemonicParsing="false" onAction="#playPerRecording" prefHeight="25.0" prefWidth="241.0" text="Listen Personal" />
+                              <Button fx:id="listenPerBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="5.0" mnemonicParsing="false" onAction="#playPerRecording" prefHeight="25.0" prefWidth="241.0">
+                                 <graphic>
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Personal" wrappingWidth="120.8203125" />
+                                          <ImageView fitHeight="15.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Images/musical-note.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </graphic></Button>
                            </children>
                         </Pane>
                      </children>
@@ -214,7 +267,19 @@
                      </VBox.margin></ListView>
                   <Pane prefHeight="34.0" prefWidth="313.0" styleClass="button-menu-background">
                      <children>
-                        <Button fx:id="selectBtn" layoutY="2.0" mnemonicParsing="false" onAction="#addToOgRecordings" prefHeight="30.0" prefWidth="309.0" stylesheets="@NameSelectorStyler.css" text="Select" />
+                        <Button fx:id="selectBtn" layoutY="2.0" mnemonicParsing="false" onAction="#addToOgRecordings" prefHeight="30.0" prefWidth="309.0" stylesheets="@NameSelectorStyler.css">
+                           <graphic>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Select" wrappingWidth="56.1044921875" />
+                                    <ImageView fitHeight="18.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Images/add.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic></Button>
                      </children>
                      <VBox.margin>
                         <Insets left="10.0" />

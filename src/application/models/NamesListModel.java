@@ -51,7 +51,7 @@ public class NamesListModel {
     }
 
     private void makeNames(){
-        File[] ogFiles = new File("Original").listFiles();
+        File[] ogFiles = new File("Original").listFiles(); //loop through the two directories and get all unique names
         List<File> files = new ArrayList<>();
         files.addAll(Arrays.asList(ogFiles));
         File[] perFiles = new File("Personal").listFiles();

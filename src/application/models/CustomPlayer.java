@@ -27,7 +27,7 @@ public class CustomPlayer extends Task<Void> {
         getRecordings();
         _playListFiles = new ArrayList<>();
         _trimmedFiles = new ArrayList<>();
-        for (RecordingModel record : _recordings){
+        for (RecordingModel record : _recordings){ //trim the recordings, if the trimmed file is empty then add original into the queue
             String trimFile = null;
             try {
                 trimFile = trimAudio("Original/"+record.getFileName());
@@ -110,7 +110,7 @@ public class CustomPlayer extends Task<Void> {
     @Override
     protected Void call() throws Exception {
         for (String filePath : _playListFiles){
-            playAudio(filePath);
+            playAudio(filePath); //loop through and play each name in the concatenated name
         }
         cleanUpFiles();
         return null;
