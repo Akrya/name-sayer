@@ -256,6 +256,11 @@ public class CustomModeController implements Initializable {
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
 
 
+        startVolumeSlider();
+
+    }
+
+    private void startVolumeSlider(){
         //initiliazing volume slider
 
         //running command to get current volume
@@ -277,6 +282,8 @@ public class CustomModeController implements Initializable {
             e.printStackTrace();
         }
 
+
+        //https://www.youtube.com/watch?v=X9mEBGXX3dA reference
         volumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
@@ -291,9 +298,10 @@ public class CustomModeController implements Initializable {
                 }
             }
         });
-
     }
 
+
+    
     private void getCustomRecordings(){
         _customRecords.clear();
         File[] files = new File("CustomRecords").listFiles();

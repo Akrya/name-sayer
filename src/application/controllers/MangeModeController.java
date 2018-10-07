@@ -357,6 +357,15 @@ public class MangeModeController implements Initializable {
             namesList.setItems(_filteredNames);
         });
 
+
+        startVolumeSlider();
+
+
+
+    }
+
+
+    private void startVolumeSlider(){
         //initiliazing volume slider
 
         //running command to get current volume
@@ -394,9 +403,10 @@ public class MangeModeController implements Initializable {
                 }
             }
         });
-
-
     }
+
+
+
 
     private void makeRatingFile(){
         File rateFile = new File("Ratings.txt");
