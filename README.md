@@ -21,8 +21,14 @@ Here is a list of "special" features in the application
 
 - The Table for recordings of a Name is dynamically updated and constantly displays the current rating status of each recording.
 
-- There is a Help button in the Main Menu which opens a Manual with an indepth discription on how to use the application
+- There is a Help button in the Main Menu which opens a Manual with an indepth description on how to use the application
 
 - There is a Dynamic search engine for all lists which narrows down the entires as you type your string
 
 - In Custom Name Selector for the list view of Names, you can auto complete as you type in the search bar by pressing space. The top entry will be selected.
+
+icons for buttons was retrieved from https://www.flaticon.com/packs
+
+
+
+
