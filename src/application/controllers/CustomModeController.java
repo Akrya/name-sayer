@@ -15,8 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -85,7 +83,7 @@ public class CustomModeController implements Initializable {
 
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("../views/MainMenu.fxml"));
+        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
         Scene scene = new Scene(listenScene);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -97,7 +95,7 @@ public class CustomModeController implements Initializable {
     @FXML
     private void goToSelect(ActionEvent event) throws IOException {
         _singleton = NameSelectorSingleton.getInstance();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/NamesSelector.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
         _singleton.setController(controller);

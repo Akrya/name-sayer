@@ -1,6 +1,6 @@
 package application.models;
 
-import javafx.scene.control.TreeView;
+import application.models.RecordingModel;
 
 import java.io.File;
 import java.io.IOException;
