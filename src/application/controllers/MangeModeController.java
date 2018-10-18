@@ -371,7 +371,7 @@ public class MangeModeController implements Initializable {
 
     private void startVolumeSlider(){
 
-        //running command to get current volume
+        //running command to get current volume https://unix.stackexchange.com/questions/89571/how-to-get-volume-level-from-the-command-line/89581
         String cmd1 = "amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);
 
@@ -381,8 +381,6 @@ public class MangeModeController implements Initializable {
             InputStream inputStream = volumeInitializer.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String volumeLevel = br.readLine();
-            System.out.println(volumeLevel);
-
             double vlevel = Double.parseDouble(volumeLevel);
             volumeSlider.setValue(vlevel);
 

@@ -339,8 +339,6 @@ public class PracticeModeController implements Initializable {
             InputStream inputStream = volumeInitializer.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String volumeLevel = br.readLine();
-            System.out.println(volumeLevel);
-
             double vlevel = Double.parseDouble(volumeLevel);
             volumeSlider.setValue(vlevel);
 
