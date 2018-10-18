@@ -23,21 +23,19 @@ public class RecordingPlayer extends Task<Void> {
         _filePath = filePath;
         _playOriginal = false;
 
-//        trimAudio();
-//        calcLength("silenced.wav");
-//        if (_length == 0) {
-//            _playOriginal = true;
-//            calcLength(filePath);
-//        }
+        trimAudio();
+        calcLength("silenced.wav");
+        if (_length == 0) {
+            _playOriginal = true;
+            calcLength(filePath);
+        }
     }
 
     @Override
     protected Void call() throws Exception {
-        normaliseAudio();
-        playNormal();
-//        playAudio();
-//        waitForPlay();
-//        removeTemp();
+        playAudio();
+        waitForPlay();
+        removeTemp();
         return null;
     }
 
@@ -99,41 +97,5 @@ public class RecordingPlayer extends Task<Void> {
             e.printStackTrace();
         }
 
-    }
-
-    private void normaliseAudio() {
-
-        //extract the mean volume from the audio file using ffmpeg
-        String cmd = "ffmpeg -i '" + _filePath + "' -filter:a volumedetect -f null /dev/null 2>&1| grep mean_volume";
-        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-        Process volume;
-        try {
-            volume = builder.start();
-            volume.waitFor();
-            BufferedReader br = new BufferedReader(new InputStreamReader(volume.getInputStream()));
-            String output = br.readLine();
-            System.out.println(output);
-            int originalVolume = Integer.valueOf(output.substring(output.lastIndexOf(':')+2,output.lastIndexOf('.')));
-            _adjustedVolume = _targetVolume - originalVolume;
-            String cmd2 = "ffmpeg -i '"+_filePath+"' -filter:a \"volume="+_adjustedVolume+"dB\" normal1.wav";
-            System.out.println(cmd2);
-            ProcessBuilder builder2 = new ProcessBuilder("/bin/bash","-c",cmd2);
-            Process normalise = builder2.start();
-            normalise.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void playNormal() {
-        String cmd = "ffplay -loglevel panic -autoexit -nodisp -i normal1.wav";
-        ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
-        Process play = null;
-        try {
-            play = builder.start();
-            play.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
