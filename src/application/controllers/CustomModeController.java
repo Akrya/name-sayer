@@ -82,7 +82,10 @@ public class CustomModeController implements Initializable {
     private AudioVisualizerModel audioVM;
 
 
-    
+
+    //takes you back to the main menu
+
+
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
         Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
@@ -94,6 +97,8 @@ public class CustomModeController implements Initializable {
         audioVM.endTask();
     }
 
+
+    //takes you back to the select screen
     @FXML
     private void goToSelect(ActionEvent event) throws IOException {
         _singleton = ControllerManager.getInstance();
@@ -109,13 +114,17 @@ public class CustomModeController implements Initializable {
         audioVM.endTask();
     }
 
+
+    //Selects a Name if an entry exists in the row
     @FXML
     private void enableSelect(){
         if (selectedNames.getSelectionModel().getSelectedItem() != null){
-            selectName();
+            selectName();  //selectName is called which enables other Buttons for use
         }
     }
 
+
+    //Enables the personalListen button if there's a double click
     @FXML
     private void enablePersonalListen(MouseEvent mouseEvent){
         if (mouseEvent.getClickCount() == 2 && !inAction){
@@ -127,6 +136,7 @@ public class CustomModeController implements Initializable {
 
     }
 
+    //Plays the currently selected recording in the list view for personal recordings
     @FXML
     private void listenPersonal(){
         if (customRecordings.getSelectionModel().getSelectedItem() != null){
@@ -168,6 +178,8 @@ public class CustomModeController implements Initializable {
 
     }
 
+
+    //plays the currently selected recording for the list view for original recordings
     @FXML
     private void listenOriginal(){
         String selection =  selectedName.getText();
@@ -196,18 +208,22 @@ public class CustomModeController implements Initializable {
     private void deleteRecording(){
 
         String selection = customRecordings.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete?");
-        alert.setHeaderText("You are about to delete '"+ selection+"'");
-        alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
+        if (selection != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete?");
+            alert.setHeaderText("You are about to delete '" + selection + "'");
+            alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            new File("CustomRecords/"+selection).delete();
-            _customRecords.remove(selection);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                new File("CustomRecords/" + selection).delete();
+                _customRecords.remove(selection);
+            }
         }
     }
 
+
+    //Method for making a recording for the currently selected CustomName
     @FXML
     private void recordCustom(){
 
@@ -256,6 +272,13 @@ public class CustomModeController implements Initializable {
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
 
 
+        startVolumeSlider();
+
+    }
+
+
+
+    private void startVolumeSlider(){
         //initiliazing volume slider
 
         //running command to get current volume
@@ -277,6 +300,8 @@ public class CustomModeController implements Initializable {
             e.printStackTrace();
         }
 
+
+        //https://www.youtube.com/watch?v=X9mEBGXX3dA reference
         volumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
@@ -291,8 +316,9 @@ public class CustomModeController implements Initializable {
                 }
             }
         });
-
     }
+
+
 
     private void getCustomRecordings(){
         _customRecords.clear();

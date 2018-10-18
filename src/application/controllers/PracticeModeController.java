@@ -320,6 +320,13 @@ public class PracticeModeController implements Initializable {
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
 
 
+
+        startVolumeSlider();
+
+
+    }
+
+    private void startVolumeSlider(){
         //initiliazing volume slider
 
         //running command to get current volume
@@ -357,7 +364,6 @@ public class PracticeModeController implements Initializable {
                 }
             }
         });
-
-
     }
+
 }
