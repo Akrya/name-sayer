@@ -7,7 +7,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +19,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 
 public class NamesSelectorController {
@@ -64,8 +62,11 @@ public class NamesSelectorController {
 
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
-        Scene scene = new Scene(listenScene);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
+        Parent root = loader.load();
+        MainMenuController controller = loader.getController();
+        controller.initialise(_namesListModel);
+        Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
@@ -76,7 +77,7 @@ public class NamesSelectorController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/CustomPlayMode.fxml"));
         Parent root = loader.load();
         CustomModeController controller = loader.getController();
-        controller.setModel(_namesListModel);
+        controller.initialise(_namesListModel);
         Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -313,7 +314,7 @@ public class NamesSelectorController {
         }
     }
 
-    public void setModel(NamesListModel model){
+    public void initialise(NamesListModel model){
         _namesListModel = model;
         _selectedNames = FXCollections.observableArrayList();
         selectedList.setItems(_selectedNames);

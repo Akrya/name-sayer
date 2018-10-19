@@ -1,7 +1,6 @@
 package application.controllers;
 
 import application.models.*;
-import com.sun.prism.impl.Disposer;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -10,7 +9,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 
 public class MangeModeController{
@@ -317,14 +314,14 @@ public class MangeModeController{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
-        controller.setModel(_namesListModel);
+        controller.initialise(_namesListModel);
         Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
     }
 
-    public void setModel(NamesListModel model) {
+    public void initialise(NamesListModel model) {
         _namesListModel = model;
 
         //disable all buttons on start up except for testing mic and creating recording

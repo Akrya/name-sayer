@@ -20,7 +20,7 @@ public class MainApplication extends Application {
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
         NamesListModel model = new NamesListModel();
-        controller.setModel(model);
+        controller.initialise(model);
         primaryStage.setTitle("Name Sayer");
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
