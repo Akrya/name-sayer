@@ -117,7 +117,6 @@ public class CustomPlayer extends Task<Void> {
 
         //calculate the difference between target volume and extracted volume
         int originalVolume = Integer.valueOf(output.substring(output.lastIndexOf(':')+2,output.lastIndexOf('.')));
-        System.out.println(originalVolume+"");
         int difference = _targetVolume - originalVolume;
 
         //normalise the audio by increasing or decreasing by the difference

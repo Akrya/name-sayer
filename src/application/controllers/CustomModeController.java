@@ -183,7 +183,48 @@ public class CustomModeController {
             alert.setContentText("Please select a personal recording to do a comparision with!");
             alert.showAndWait();
         } else {
+            List<String> choices = new ArrayList<>();
+            choices.add("1");
+            choices.add("2");
+            choices.add("3");
+            choices.add("4");
 
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("1", choices);
+            dialog.setTitle("Comparison");
+            dialog.setHeaderText("You are comparing recordings for '"+playRecording.getText()+"'");
+            dialog.setContentText("Please choose how many times you want to compare: ");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                String ogSelection = selectedName.getText();
+                playStatus.setText("Currently comparing database version of '"+ogSelection+"'");
+                String perSelection = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
+                playRecording.setText("'"+customRecordings.getSelectionModel().getSelectedItem()+"'");
+                compare(ogSelection,perSelection,Integer.valueOf(result.get()));
+            }
+        }
+    }
+
+    /**Recursive function that repeats the comparison for however many times the user specified,
+     * it first plays the concatenated recording and then plays the user's own version
+     */
+    private void compare(String ogSelection, String perSelection, int repeat){
+        if (repeat == 0){
+            return;
+        } else {
+            CustomPlayer player = new CustomPlayer(ogSelection);
+            progressBar.progressProperty().unbind();
+            progressBar.progressProperty().bind(player.progressProperty());
+            player.setOnSucceeded(e -> {
+                RecordingPlayer player2 = new RecordingPlayer(perSelection);
+                progressBar.progressProperty().unbind();
+                progressBar.progressProperty().bind(player2.progressProperty());
+                player2.setOnSucceeded(m -> {
+                    compare(ogSelection, perSelection, repeat - 1);
+                });
+                new Thread(player2).start();
+            });
+            new Thread(player).start();
         }
     }
 
@@ -196,6 +237,7 @@ public class CustomModeController {
                 selectedName.setText(selection);
                 listenOgBtn.setDisable(false);
                 recordBtn.setDisable(false);
+                compareBtn.setDisable(false);
             }
         }
 
