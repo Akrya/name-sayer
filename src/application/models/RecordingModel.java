@@ -16,11 +16,14 @@ public class RecordingModel {
 
     private boolean _goodRating; //by default each recording has good rating unless stating otherwise by rating.txt
 
+    private boolean _favourite;
+
     public RecordingModel(String fileName, String name, int identifier){
         _fileName = fileName;
         _name = name;
         _identifier = identifier;
         _goodRating = true;
+        _favourite = false;
         findDate();
         findVersion();
     }
@@ -59,8 +62,14 @@ public class RecordingModel {
         _goodRating = rating;
     }
 
+    public void setFavourite(boolean favourite){
+        _favourite = favourite;
+    }
+
     public String getRating(){
-        if (_goodRating){
+        if (_favourite){
+            return "Good ★";
+        } else if (_goodRating){
             return "Good";
         } else {
             return "Bad";

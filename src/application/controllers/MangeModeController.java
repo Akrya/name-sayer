@@ -1,7 +1,6 @@
 package application.controllers;
 
 import application.models.*;
-import com.sun.prism.impl.Disposer;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -10,7 +9,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,34 +18,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 
-public class MangeModeController implements Initializable {
+public class MangeModeController{
 
     @FXML
     private Button rateBtn;
-
-    @FXML
-    private Button randomiseBtn;
 
     @FXML
     private Button deleteBtn;
 
     @FXML
     private Button listenBtn;
-
-    @FXML
-    private Button addBtn;
-
-    @FXML
-    private Button addAllBtn;
-
-    @FXML
-    private Button removeBtn;
-
-    @FXML
-    private Button clearBtn;
 
     @FXML
     private TextField searchBox;
@@ -62,9 +44,6 @@ public class MangeModeController implements Initializable {
     private Label playRecording;
 
     @FXML
-    private ListView<String> playList;
-
-    @FXML
     private ListView<String> namesList;
 
     @FXML
@@ -76,6 +55,9 @@ public class MangeModeController implements Initializable {
     @FXML
     private Label recordingStatus;
 
+    @FXML
+    private Button bookMarkBtn;
+
     private ObservableList<RecordingModel> _recordingModels = FXCollections.observableArrayList();
 
     @FXML
@@ -84,11 +66,9 @@ public class MangeModeController implements Initializable {
     @FXML
     private TableColumn<RecordingModel, String> ratingCol;
 
-    private NamesListModel _namesListModel = new NamesListModel();
+    private NamesListModel _namesListModel;
 
     private FilteredList<String> _filteredNames;
-
-    private ObservableList<String> _queuedRecordings;
 
     @FXML
     private Slider volumeSlider;
@@ -100,55 +80,55 @@ public class MangeModeController implements Initializable {
     /*
     method for adding selected name into the playlist, a name already in the playlist cannot be added
      */
-    @FXML
-    private void addToQueue(){
-        RecordingModel selected = recordingsTable.getSelectionModel().getSelectedItem(); //get the selected recording and put in playlist
-        if (selected != null){
-            String recording = selected.getFileName();
-            if (_queuedRecordings.indexOf(recording) == -1){
-                _queuedRecordings.add(recording);
-                clearBtn.setDisable(false);           //buttons related to the playlist are enabled
-                randomiseBtn.setDisable(false);
-            }
-        }
-    }
+//    @FXML
+//    private void addToQueue(){
+//        RecordingModel selected = recordingsTable.getSelectionModel().getSelectedItem(); //get the selected recording and put in playlist
+//        if (selected != null){
+//            String recording = selected.getFileName();
+//            if (_queuedRecordings.indexOf(recording) == -1){
+//                _queuedRecordings.add(recording);
+//                clearBtn.setDisable(false);           //buttons related to the playlist are enabled
+//                randomiseBtn.setDisable(false);
+//            }
+//        }
+//    }
 
-    //method for adding all selected names into the playlist, names already in the playlist will not be added
-    @FXML
-    private void addAllToQueue(){
-        List<RecordingModel> selected = recordingsTable.getItems(); //get all entries in recordings and add to playlist
+//    //method for adding all selected names into the playlist, names already in the playlist will not be added
+//    @FXML
+//    private void addAllToQueue(){
+//        List<RecordingModel> selected = recordingsTable.getItems(); //get all entries in recordings and add to playlist
+//
+//        for (RecordingModel recording: selected){
+//            String recordingName = recording.getFileName();
+//            if (_queuedRecordings.indexOf(recordingName) == -1){
+//                _queuedRecordings.add(recordingName);
+//            }
+//
+//        }
+//        clearBtn.setDisable(false);       //buttons related to the playlist are enabled
+//        randomiseBtn.setDisable(false);
+//    }
+//
+//
 
-        for (RecordingModel recording: selected){
-            String recordingName = recording.getFileName();
-            if (_queuedRecordings.indexOf(recordingName) == -1){
-                _queuedRecordings.add(recordingName);
-            }
-
-        }
-        clearBtn.setDisable(false);       //buttons related to the playlist are enabled
-        randomiseBtn.setDisable(false);
-    }
-
-
-
-
-    @FXML
-    private void enableRecordingListBtns(MouseEvent mouseEvent){
-        if (mouseEvent.getClickCount() == 2){ //allow double click to also add
-            addToQueue();
-        }
-        if (recordingsTable.getSelectionModel().getSelectedItem() != null){ //enable buttons if recording selected is not null
-            addBtn.setDisable(false);
-            addAllBtn.setDisable(false);
-            rateBtn.setDisable(false);
-            String recording = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
-            if (recording.substring(0,8).equals("personal")){
-                deleteBtn.setDisable(false);
-            } else {
-                deleteBtn.setDisable(true);
-            }
-        }
-    }
+//
+//    @FXML
+//    private void enableRecordingListBtns(MouseEvent mouseEvent){
+//        if (mouseEvent.getClickCount() == 2){ //allow double click to also add
+//            addToQueue();
+//        }
+//        if (recordingsTable.getSelectionModel().getSelectedItem() != null){ //enable buttons if recording selected is not null
+//            addBtn.setDisable(false);
+//            addAllBtn.setDisable(false);
+//            rateBtn.setDisable(false);
+//            String recording = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
+//            if (recording.substring(0,8).equals("personal")){
+//                deleteBtn.setDisable(false);
+//            } else {
+//                deleteBtn.setDisable(true);
+//            }
+//        }
+//    }
 
     @FXML
     private void deleteRecording(){
@@ -172,9 +152,6 @@ public class MangeModeController implements Initializable {
                     selectionModel.delete(record.getFileName());
                     break;
                 }
-            }
-            if (_queuedRecordings.indexOf(selection) != -1){ //remove the recording if its been queued in play list
-                _queuedRecordings.remove(selection);
             }
         }
     }
@@ -205,33 +182,36 @@ public class MangeModeController implements Initializable {
 
     @FXML
     private void playRecording(){
-        removeBtn.setDisable(true);
-        clearBtn.setDisable(true);
         deleteBtn.setDisable(true);
+        rateBtn.setDisable(true);
+        bookMarkBtn.setDisable(true);
         listenBtn.setDisable(true);
-        playStatus.setText("Now playing: ");
-        playRecording.setText(playList.getSelectionModel().getSelectedItem());
-        isPlaying = true;
-        String filePath;
-        if (playList.getSelectionModel().getSelectedItem().substring(0,8).equals("personal")){
-            filePath = "Personal/"+playList.getSelectionModel().getSelectedItem();
-        } else {
-            filePath = "Original/"+playList.getSelectionModel().getSelectedItem(); //get file path to the recording and pass it into player
+        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
+        if (selection != null) {
+            playStatus.setText("Now playing: ");
+            playRecording.setText(selection.getFileName());
+            isPlaying = true;
+            String filePath;
+            if (selection.getFileName().substring(0, 8).equals("personal")) {
+                filePath = "Personal/" + selection.getFileName();
+            }else {
+                filePath = "Original/" + selection.getFileName(); //get file path to the recording and pass it into player
+            }
+            RecordingPlayer player = new RecordingPlayer(filePath);
+            playProgressBar.progressProperty().unbind();
+            playProgressBar.progressProperty().bind(player.progressProperty());
+            player.setOnSucceeded(e -> {
+                deleteBtn.setDisable(false);
+                rateBtn.setDisable(false);
+                listenBtn.setDisable(false);
+                bookMarkBtn.setDisable(false);
+                playStatus.setText("No recording currently playing");
+                playRecording.setText("");
+                recordingsTable.getSelectionModel().selectNext();
+                isPlaying = false;
+            });
+            new Thread(player).start();
         }
-        RecordingPlayer player = new RecordingPlayer(filePath);
-        playProgressBar.progressProperty().unbind();
-        playProgressBar.progressProperty().bind(player.progressProperty());
-        player.setOnSucceeded(e ->{
-            removeBtn.setDisable(false);
-            clearBtn.setDisable(false);
-            deleteBtn.setDisable(false);
-            listenBtn.setDisable(false);
-            playStatus.setText("No recording currently playing");
-            playRecording.setText("");
-            playList.getSelectionModel().selectNext();
-            isPlaying = false;
-        });
-        new Thread(player).start();
     }
 
     @FXML
@@ -239,47 +219,42 @@ public class MangeModeController implements Initializable {
         searchBox.setText("");
     }
 
+//    @FXML
+//    private void randomiseQueue(){
+//        Collections.shuffle(_queuedRecordings);
+//    }
+//
+//    @FXML
+//    private void enablePlayBtns(MouseEvent mouseEvent){
+//        if (!playList.getSelectionModel().isEmpty()){
+//            listenBtn.setDisable(false);
+//            removeBtn.setDisable(false);
+//        } else {
+//            listenBtn.setDisable(true);
+//        }
+//
+//        if (mouseEvent.getClickCount() == 2 && !isPlaying){
+//            playRecording();
+//        }
+//
+//    }
     @FXML
-    private void removeQueue(){
-        String selection = playList.getSelectionModel().getSelectedItem(); //get selection and take it off the list
-        _queuedRecordings.remove(selection);
-        if (_queuedRecordings.isEmpty()) {
-            clearBtn.setDisable(true);
-            removeBtn.setDisable(true);
-            listenBtn.setDisable(true);
-            randomiseBtn.setDisable(true);
-        }
-    }
-
-    @FXML
-    private void clearQueue(){
-        _queuedRecordings.clear();
-        clearBtn.setDisable(true);
-        removeBtn.setDisable(true);
-        listenBtn.setDisable(true);
-        randomiseBtn.setDisable(true);
-    }
-
-    @FXML
-    private void randomiseQueue(){
-        Collections.shuffle(_queuedRecordings);
-    }
-
-    @FXML
-    private void enablePlayBtns(MouseEvent mouseEvent){
-        if (!playList.getSelectionModel().isEmpty()){
+    private void enableListen(MouseEvent mouseEvent){
+        if (recordingsTable.getSelectionModel().getSelectedItem() != null){
+            rateBtn.setDisable(false);
+            bookMarkBtn.setDisable(false);
             listenBtn.setDisable(false);
-            removeBtn.setDisable(false);
-        } else {
-            listenBtn.setDisable(true);
+            String recording = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
+            if (recording.substring(0,8).equals("personal")){
+                deleteBtn.setDisable(false);
+            } else {
+                deleteBtn.setDisable(true);
+            }
         }
-
-        if (mouseEvent.getClickCount() == 2 && !isPlaying){
+        if (mouseEvent.getClickCount() == 2){
             playRecording();
         }
-
     }
-
 
     @FXML
     private void getRecordings(){
@@ -300,35 +275,66 @@ public class MangeModeController implements Initializable {
         }
     }
 
+
+    /*this method takes the currently selected recording in the table and asks user
+     *if they would like to set it as their preferred recording which is used in practice mode
+     */
+    @FXML
+    private void bookMarkRecording(){
+        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Rating");
+        alert.setHeaderText("You are bookmarking '"+ selection.getFileName()+"'");
+        alert.setContentText("Would you like to set this recording as your preferred practice recording?");
+
+        ButtonType okayButton = new ButtonType("Okay");
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(okayButton, cancelButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == okayButton) {
+            selection.setFavourite(true);
+            recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings list
+            _recordingModels.clear();
+            NamesModel model = _namesListModel.getName(selection.getFileName().substring(selection.getFileName().lastIndexOf('_') + 1, selection.getFileName().lastIndexOf('.')));
+            List<RecordingModel> records = model.getRecords();
+            for (RecordingModel record : records) {
+                _recordingModels.add(record);
+            }
+            recordingsTable.getItems().setAll(_recordingModels);
+        } else {
+            return;
+        }
+    }
+
     //takes you to the main menu
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
-        Scene scene = new Scene(listenScene);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
+        Parent root = loader.load();
+        MainMenuController controller = loader.getController();
+        controller.initialise(_namesListModel);
+        Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialise(NamesListModel model) {
+        _namesListModel = model;
 
-        addBtn.setDisable(true); //disable all buttons on start up except for testing mic and creating recording
-        addAllBtn.setDisable(true);
+        //disable all buttons on start up except for testing mic and creating recording
         deleteBtn.setDisable(true);
-        removeBtn.setDisable(true);
-        clearBtn.setDisable(true);
-        listenBtn.setDisable(true);
-        randomiseBtn.setDisable(true);
         rateBtn.setDisable(true);
+        bookMarkBtn.setDisable(true);
+        listenBtn.setDisable(true);
         searchBox.setPromptText("Search...");
 
         makeRatingFile();
         fileCol.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class
         ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
         recordingsTable.getItems().setAll(_recordingModels);
-        _queuedRecordings = FXCollections.observableArrayList();
-        playList.setItems(_queuedRecordings);
 
 
         //reference for search box https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
@@ -360,12 +366,7 @@ public class MangeModeController implements Initializable {
             }
             namesList.setItems(_filteredNames);
         });
-
-
         startVolumeSlider();
-
-
-
     }
 
 
@@ -407,9 +408,6 @@ public class MangeModeController implements Initializable {
             }
         });
     }
-
-
-
 
     private void makeRatingFile(){
         File rateFile = new File("Ratings.txt"); //make file if it doesnt exist ie on first start of program

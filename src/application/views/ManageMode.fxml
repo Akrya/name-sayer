@@ -31,12 +31,12 @@
          <children>
             <HBox alignment="CENTER" prefHeight="93.0" prefWidth="1200.0" styleClass="nameSayer-hbox">
                <children>
-                  <Label text="Name Sayer" textFill="#723a3a">
+                  <Label text="Manage Mode" textFill="#723a3a">
                      <font>
                         <Font size="64.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="93.0" prefWidth="319.0" />
+                  <Pane prefHeight="93.0" prefWidth="280.0" />
                   <HBox alignment="CENTER" prefHeight="93.0" prefWidth="249.0">
                      <children>
                         <ImageView fitHeight="36.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
@@ -77,89 +77,94 @@
       </VBox>
    </top>
    <left>
-      <VBox prefHeight="597.0" prefWidth="70.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="499.0" prefWidth="160.0" BorderPane.alignment="CENTER" />
    </left>
-   <right>
-      <VBox prefHeight="597.0" prefWidth="63.0" BorderPane.alignment="CENTER" />
-   </right>
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="86.0" prefWidth="1067.0">
+            <VBox alignment="CENTER" prefHeight="87.0" prefWidth="1040.0">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" Please type in a name in the search bar to select a name for listening">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" Please type in a name to manage its recordings" wrappingWidth="425.63720703125">
                      <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin></Text>
-                  <HBox alignment="CENTER" prefHeight="43.0" prefWidth="1067.0">
+                        <Insets bottom="5.0" right="100.0" top="5.0" />
+                     </VBox.margin>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Text>
+                  <HBox alignment="CENTER" prefHeight="32.0" prefWidth="1035.0">
                      <children>
-                        <TextField fx:id="searchBox" prefHeight="25.0" prefWidth="518.0" />
-                        <Button mnemonicParsing="false" onAction="#clearSearch" prefHeight="25.0" prefWidth="122.0" text="Clear Search" />
-                        <Pane prefHeight="100.0" prefWidth="464.0" />
+                        <Pane prefHeight="32.0" prefWidth="130.0" />
+                        <TextField fx:id="searchBox" prefHeight="25.0" prefWidth="500.0" />
+                        <Button mnemonicParsing="false" onAction="#clearSearch" prefHeight="25.0" prefWidth="135.0" text="Clear Search" />
+                        <Pane prefHeight="25.0" prefWidth="295.0" />
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="15.0" right="5.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>
-            <HBox prefHeight="519.0" prefWidth="1067.0">
+            <HBox prefHeight="425.0" prefWidth="1040.0">
                <children>
-                  <VBox prefHeight="496.0" prefWidth="343.0">
+                  <VBox prefHeight="453.0" prefWidth="380.0">
                      <children>
-                        <Label text="Names" />
-                        <ListView fx:id="namesList" onMouseClicked="#getRecordings" prefHeight="401.0" prefWidth="307.0">
+                        <Label text="Names">
+                           <VBox.margin>
+                              <Insets right="5.0" />
+                           </VBox.margin></Label>
+                        <ListView fx:id="namesList" onMouseClicked="#getRecordings" prefHeight="438.0" prefWidth="373.0">
                            <VBox.margin>
                               <Insets right="5.0" />
                            </VBox.margin></ListView>
                      </children>
+                     <VBox.margin>
+                        <Insets right="5.0" />
+                     </VBox.margin>
                   </VBox>
-                  <VBox prefHeight="496.0" prefWidth="436.0">
+                  <Pane prefHeight="443.0" prefWidth="50.0" />
+                  <VBox prefHeight="419.0" prefWidth="460.0">
                      <children>
                         <HBox prefHeight="4.0" prefWidth="400.0">
                            <children>
                               <Pane prefHeight="15.0" prefWidth="19.0" />
-                              <Label fx:id="recordingStatus" text="Recordings" />
+                              <Label fx:id="recordingStatus" text="Recordings">
+                                 <VBox.margin>
+                                    <Insets right="5.0" top="15.0" />
+                                 </VBox.margin></Label>
                               <Label fx:id="recordingLabel" />
                            </children>
                         </HBox>
-                        <TableView fx:id="recordingsTable" onMouseClicked="#enableRecordingListBtns" prefHeight="370.0" prefWidth="380.0">
+                        <TableView fx:id="recordingsTable" onMouseClicked="#enableListen" prefHeight="409.0" prefWidth="436.0">
                           <columns>
-                            <TableColumn fx:id="fileCol" prefWidth="340.0" text="File name" />
-                            <TableColumn fx:id="ratingCol" prefWidth="60.0" text="Rating" />
+                            <TableColumn fx:id="fileCol" prefWidth="380.0" text="File name" />
+                            <TableColumn fx:id="ratingCol" text="Rating" />
                           </columns>
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </TableView>
-                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="400.0" styleClass="button-panel-background">
+                        <HBox prefHeight="66.0" prefWidth="450.0">
                            <children>
-                              <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addToQueue" prefHeight="12.0" prefWidth="99.0">
+                              <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefHeight="87.0" prefWidth="114.0">
                                  <graphic>
-                                    <HBox alignment="CENTER" prefHeight="19.0" prefWidth="78.0">
+                                    <HBox alignment="CENTER" prefHeight="85.0" prefWidth="186.0">
                                        <children>
-                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Add" wrappingWidth="33.39697265625" />
-                                          <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen" wrappingWidth="51.7294921875">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </Text>
+                                          <ImageView fitHeight="16.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Images/add.png" />
+                                                <Image url="@../Images/musical-note.png" />
                                              </image>
                                           </ImageView>
                                        </children>
                                     </HBox>
-                                 </graphic></Button>
+                                 </graphic>
+                              </Button>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="addAllBtn" mnemonicParsing="false" onAction="#addAllToQueue" prefWidth="100.0">
-                                 <graphic>
-                                    <HBox alignment="CENTER" prefHeight="0.0" prefWidth="81.0">
-                                       <children>
-                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Add All" wrappingWidth="59.39697265625" />
-                                          <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Images/add.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </HBox>
-                                 </graphic></Button>
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="100.0">
+                              <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="65.0" prefWidth="115.0">
                                  <graphic>
                                     <HBox alignment="CENTER" prefHeight="13.0" prefWidth="79.0">
                                        <children>
@@ -175,130 +180,46 @@
                                           </ImageView>
                                        </children>
                                     </HBox>
-                                 </graphic></Button>
+                                 </graphic>
+                              </Button>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Pane prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #d4303b;">
-                                 <children>
-                                    <Button fx:id="rateBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#rateRecording" prefHeight="10.0" prefWidth="100.0" style="-fx-background-color: #d4303b; -fx-text-fill: white;" textAlignment="CENTER" textFill="WHITE">
-                                       <padding>
-                                          <Insets top="5.0" />
-                                       </padding>
-                                       <graphic>
-                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Label text="Flag">
-                                                   <HBox.margin>
-                                                      <Insets right="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                                <ImageView fitHeight="19.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../Images/flag.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </children>
-                                          </HBox>
-                                       </graphic>
-                                    </Button>
-                                 </children>
-                              </Pane>
-                           </children>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <stylesheets>
-                              <URL value="@NameSelectorStyler.css" />
-                           </stylesheets>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox prefHeight="496.0" prefWidth="396.0">
-                     <children>
-                        <Label text="Playlist Queue" />
-                        <ListView fx:id="playList" onMouseClicked="#enablePlayBtns" prefHeight="370.0" prefWidth="355.0">
-                           <VBox.margin>
-                              <Insets left="5.0" />
-                           </VBox.margin></ListView>
-                        <HBox alignment="CENTER" prefHeight="30.0" prefWidth="355.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
-                           <children>
-                              <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefHeight="26.0" prefWidth="85.0">
-                                 <graphic>
-                                    <HBox alignment="CENTER" prefHeight="85.0" prefWidth="186.0">
-                                       <children>
-                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen" wrappingWidth="49.7294921875">
-                                             <HBox.margin>
-                                                <Insets />
-                                             </HBox.margin>
-                                          </Text>
-                                          <ImageView fitHeight="16.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Images/musical-note.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </HBox>
-                                 </graphic></Button>
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeQueue" prefWidth="90.0">
-                                 <graphic>
-                                    <HBox alignment="CENTER" prefHeight="9.0" prefWidth="75.0">
-                                       <children>
-                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove" wrappingWidth="59.7294921875" />
-                                          <ImageView fitHeight="15.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Images/substract.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </HBox>
-                                 </graphic></Button>
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearQueue" prefWidth="90.0">
-                                 <graphic>
-                                    <HBox prefHeight="0.0" prefWidth="70.0">
-                                       <children>
-                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Clear" wrappingWidth="42.998046875" />
-                                          <ImageView fitHeight="15.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Images/clear-button.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </HBox>
-                                 </graphic></Button>
-                              <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="randomiseBtn" mnemonicParsing="false" onAction="#randomiseQueue" prefWidth="90.0">
-                                 <graphic>
-                                    <HBox alignment="CENTER" prefHeight="16.0" prefWidth="41.0">
-                                       <children>
-                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Shuffle" wrappingWidth="53.49365234375" />
-                                          <ImageView fitHeight="13.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Images/couple-of-arrows-changing-places.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </HBox>
-                                 </graphic></Button>
-                           </children>
-                           <VBox.margin>
-                              <Insets left="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <VBox alignment="CENTER" prefHeight="98.0" prefWidth="360.0">
-                           <children>
-                              <Label fx:id="playStatus" text="No recording currently playing">
-                                 <VBox.margin>
+                              <Button fx:id="rateBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#rateRecording" prefHeight="52.0" prefWidth="114.0" style="-fx-background-color: #d4303b; -fx-text-fill: white;" textAlignment="CENTER" textFill="WHITE">
+                                 <padding>
                                     <Insets top="5.0" />
-                                 </VBox.margin></Label>
-                              <Label fx:id="playRecording" />
-                              <ProgressBar fx:id="playProgressBar" prefHeight="10.0" prefWidth="250.0" progress="0.0">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" top="10.0" />
-                                 </VBox.margin>
-                              </ProgressBar>
+                                 </padding>
+                                 <graphic>
+                                    <HBox alignment="TOP_CENTER" prefHeight="45.0" prefWidth="114.0">
+                                       <children>
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Flag" wrappingWidth="37.3076171875" />
+                                          <ImageView fitHeight="19.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Images/flag.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </graphic>
+                              </Button>
+                              <Separator orientation="VERTICAL" prefHeight="200.0" />
+                              <Button fx:id="bookMarkBtn" mnemonicParsing="false" onAction="#bookMarkRecording" prefHeight="93.0" prefWidth="115.0">
+                                 <graphic>
+                                    <HBox prefHeight="37.0" prefWidth="97.0">
+                                       <children>
+                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Bookmark" wrappingWidth="74.85693359375" />
+                                          <ImageView fitHeight="19.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Images/favorites.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </HBox>
+                                 </graphic>
+                              </Button>
                            </children>
-                        </VBox>
+                           <VBox.margin>
+                              <Insets top="1.0" />
+                           </VBox.margin>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -306,4 +227,21 @@
          </children>
       </VBox>
    </center>
+   <bottom>
+      <VBox alignment="CENTER" prefHeight="98.0" prefWidth="360.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="playStatus" text="No recording currently playing">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="playRecording" />
+            <ProgressBar fx:id="playProgressBar" prefHeight="17.0" prefWidth="634.0" progress="0.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </ProgressBar>
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>
