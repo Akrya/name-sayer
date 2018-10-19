@@ -188,6 +188,7 @@ public class CustomModeController {
             choices.add("2");
             choices.add("3");
             choices.add("4");
+            choices.add("5");
 
             ChoiceDialog<String> dialog = new ChoiceDialog<>("1", choices);
             dialog.setTitle("Comparison");
@@ -220,11 +221,11 @@ public class CustomModeController {
                 progressBar.progressProperty().unbind();
                 progressBar.progressProperty().bind(player2.progressProperty());
                 player2.setOnSucceeded(m -> {
-                    compare(ogSelection, perSelection, repeat - 1);
+                    compare(ogSelection, perSelection, repeat - 1); //recursive call
                 });
-                new Thread(player2).start();
+                new Thread(player2).start(); //when concat version finishes play user's recording before calling compare again
             });
-            new Thread(player).start();
+            new Thread(player).start(); //play the concatenated version first
         }
     }
 
@@ -236,6 +237,8 @@ public class CustomModeController {
                 selectStatus.setText("Currently selected:");
                 selectedName.setText(selection);
                 listenOgBtn.setDisable(false);
+                removeBtn.setDisable(false);
+                shuffleBtn.setDisable(false);
                 recordBtn.setDisable(false);
                 compareBtn.setDisable(false);
             }
@@ -245,12 +248,15 @@ public class CustomModeController {
 
     @FXML
     private void shuffleList(){
-
+        Collections.shuffle(_selectedNames);
     }
 
     @FXML
     private void removeSelection(){
-
+        String selection = selectedNames.getSelectionModel().getSelectedItem();
+        if (selection != null){
+            _selectedNames.remove(selection);
+        }
     }
 
     //plays the currently selected recording for the list view for original recordings
