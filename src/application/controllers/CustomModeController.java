@@ -219,10 +219,6 @@ public class CustomModeController implements Initializable {
             }
         }
 
-        if (customRecordings.getItems().isEmpty()){
-            deleteBtn.setDisable(true);
-            listenPerBtn.setDisable(true);
-        }
     }
 
 
