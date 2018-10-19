@@ -9,7 +9,6 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,10 +18,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 
-public class CustomModeController implements Initializable {
+public class CustomModeController {
 
 
     private ControllerManager _singleton;
@@ -36,8 +34,7 @@ public class CustomModeController implements Initializable {
     @FXML
     private ListView<String> customRecordings;
 
-    private NamesListModel _namesListModel = new NamesListModel();
-
+    private NamesListModel _namesListModel;
     @FXML
     private ProgressBar progressBar;
 
@@ -88,8 +85,11 @@ public class CustomModeController implements Initializable {
 
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
-        Scene scene = new Scene(listenScene);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
+        Parent root = loader.load();
+        MainMenuController controller = loader.getController();
+        controller.initialise(_namesListModel);
+        Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
@@ -105,6 +105,7 @@ public class CustomModeController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
+        controller.initialise(_namesListModel);
         _singleton.setController(controller);
         Scene scene = new Scene(root);
 
@@ -249,8 +250,8 @@ public class CustomModeController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialise(NamesListModel model){
+        _namesListModel = model;
         _singleton = ControllerManager.getInstance();
         _controller = _singleton.getController();
         _selectedNames = FXCollections.observableArrayList(_controller.getSelectedNames());

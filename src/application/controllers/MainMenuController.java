@@ -1,40 +1,22 @@
 package application.controllers;
 
 import application.models.ControllerManager;
+import application.models.NamesListModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class MainMenuController implements Initializable {
-
-    @FXML
-    private Button viewRecordings;
-
-    @FXML
-    private Button practiceModeButton;
-
-    @FXML
-    private Button helpButton;
-
-    @FXML
-    private Button fuseButton;
+public class MainMenuController {
 
     private ControllerManager _singleton;
 
-    public void initialize(URL location, ResourceBundle resources) {
-        //fill in maybe later
-
-    }
+    private NamesListModel _model;
 
     @FXML
     private void openCustomMode(ActionEvent event) throws IOException {
@@ -44,6 +26,7 @@ public class MainMenuController implements Initializable {
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
         _singleton.setController(controller);
+        controller.initialise(_model);
         Scene scene = new Scene(root);
 
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -52,8 +35,11 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void openListenMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/ManageMode.fxml"));
-        Scene scene = new Scene(listenScene);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/ManageMode.fxml"));
+        Parent root = loader.load();
+        MangeModeController controller = loader.getController();
+        controller.initialise(_model);
+        Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
@@ -61,8 +47,11 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private void openPracticeMode(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/PracticeMode.fxml"));
-        Scene scene = new Scene(listenScene);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/PracticeMode.fxml"));
+        Parent root = loader.load();
+        PracticeModeController controller = loader.getController();
+        controller.setModel(_model);
+        Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
@@ -86,5 +75,8 @@ public class MainMenuController implements Initializable {
         }
     }
 
+    public void initialise(NamesListModel model){
+        _model = model;
+    }
 
 }
