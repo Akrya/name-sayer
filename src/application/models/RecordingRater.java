@@ -109,7 +109,5 @@ public class RecordingRater {
             tempFile.renameTo(ratingFile);
         } catch (IOException e) {
         }
-
-
     }
 }

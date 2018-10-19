@@ -70,7 +70,7 @@ public class PracticeModeController implements Initializable {
     @FXML
     private Slider volumeSlider;
 
-    private NamesListModel _namesListModel = new NamesListModel();
+    private NamesListModel _namesListModel;
 
     private ObservableList<String> _practiceRecordings;
 
@@ -322,8 +322,10 @@ public class PracticeModeController implements Initializable {
 
 
         startVolumeSlider();
+    }
 
-
+    public void setModel(NamesListModel model ){
+        _namesListModel = model;
     }
 
     private void startVolumeSlider(){

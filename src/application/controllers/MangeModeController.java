@@ -23,7 +23,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-public class MangeModeController implements Initializable {
+public class MangeModeController{
 
     @FXML
     private Button rateBtn;
@@ -58,6 +58,9 @@ public class MangeModeController implements Initializable {
     @FXML
     private Label recordingStatus;
 
+    @FXML
+    private Button bookMarkBtn;
+
     private ObservableList<RecordingModel> _recordingModels = FXCollections.observableArrayList();
 
     @FXML
@@ -66,7 +69,7 @@ public class MangeModeController implements Initializable {
     @FXML
     private TableColumn<RecordingModel, String> ratingCol;
 
-    private NamesListModel _namesListModel = new NamesListModel();
+    private NamesListModel _namesListModel;
 
     private FilteredList<String> _filteredNames;
 
@@ -183,6 +186,8 @@ public class MangeModeController implements Initializable {
     @FXML
     private void playRecording(){
         deleteBtn.setDisable(true);
+        rateBtn.setDisable(true);
+        bookMarkBtn.setDisable(true);
         listenBtn.setDisable(true);
         RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
@@ -200,7 +205,9 @@ public class MangeModeController implements Initializable {
             playProgressBar.progressProperty().bind(player.progressProperty());
             player.setOnSucceeded(e -> {
                 deleteBtn.setDisable(false);
+                rateBtn.setDisable(false);
                 listenBtn.setDisable(false);
+                bookMarkBtn.setDisable(false);
                 playStatus.setText("No recording currently playing");
                 playRecording.setText("");
                 recordingsTable.getSelectionModel().selectNext();
@@ -238,6 +245,7 @@ public class MangeModeController implements Initializable {
     private void enableListen(MouseEvent mouseEvent){
         if (recordingsTable.getSelectionModel().getSelectedItem() != null){
             rateBtn.setDisable(false);
+            bookMarkBtn.setDisable(false);
             listenBtn.setDisable(false);
             String recording = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
             if (recording.substring(0,8).equals("personal")){
@@ -270,23 +278,60 @@ public class MangeModeController implements Initializable {
         }
     }
 
+
+    /*this method takes the currently selected recording in the table and asks user
+     *if they would like to set it as their preferred recording which is used in practice mode
+     */
+    @FXML
+    private void bookMarkRecording(){
+        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Rating");
+        alert.setHeaderText("You are bookmarking '"+ selection.getFileName()+"'");
+        alert.setContentText("Would you like to set this recording as your preferred practice recording?");
+
+        ButtonType okayButton = new ButtonType("Okay");
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(okayButton, cancelButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == okayButton) {
+            selection.setFavourite(true);
+            recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings list
+            _recordingModels.clear();
+            NamesModel model = _namesListModel.getName(selection.getFileName().substring(selection.getFileName().lastIndexOf('_') + 1, selection.getFileName().lastIndexOf('.')));
+            List<RecordingModel> records = model.getRecords();
+            for (RecordingModel record : records) {
+                _recordingModels.add(record);
+            }
+            recordingsTable.getItems().setAll(_recordingModels);
+        } else {
+            return;
+        }
+    }
+
     //takes you to the main menu
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
-        Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
-        Scene scene = new Scene(listenScene);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
+        Parent root = loader.load();
+        MainMenuController controller = loader.getController();
+        controller.setModel(_namesListModel);
+        Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void setModel(NamesListModel model) {
+        _namesListModel = model;
 
         //disable all buttons on start up except for testing mic and creating recording
         deleteBtn.setDisable(true);
-        listenBtn.setDisable(true);
         rateBtn.setDisable(true);
+        bookMarkBtn.setDisable(true);
+        listenBtn.setDisable(true);
         searchBox.setPromptText("Search...");
 
         makeRatingFile();
@@ -366,9 +411,6 @@ public class MangeModeController implements Initializable {
             }
         });
     }
-
-
-
 
     private void makeRatingFile(){
         File rateFile = new File("Ratings.txt"); //make file if it doesnt exist ie on first start of program

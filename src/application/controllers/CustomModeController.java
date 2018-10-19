@@ -22,7 +22,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-public class CustomModeController implements Initializable {
+public class CustomModeController {
 
 
     private ControllerManager _singleton;
@@ -249,8 +249,7 @@ public class CustomModeController implements Initializable {
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void setModel(NamesListModel model){
         _singleton = ControllerManager.getInstance();
         _controller = _singleton.getController();
         _selectedNames = FXCollections.observableArrayList(_controller.getSelectedNames());
