@@ -18,7 +18,7 @@ public class CustomPlayer extends Task<Void> {
     private List<String> _trimmedFiles;
     private List<String> _playListFiles;
     private int queueNum = 1;
-    private double _length;
+    private double _totalLength = 0;
     private final int _targetVolume = -15;
 
 
@@ -33,14 +33,16 @@ public class CustomPlayer extends Task<Void> {
             try {
                 String normalisedFile = normaliseAudio("Original/"+record.getFileName());
                 trimFile = trimAudio(normalisedFile);
-            } catch (IOException | InterruptedException e) {
+                double length = calcLength(trimFile);
+                if (length == 0){
+                    _playListFiles.add("Original/"+record.getFileName());
+                    _totalLength = _totalLength+calcLength("Original/"+record.getFileName());
+                } else {
+                    _totalLength = _totalLength+length;
+                    _playListFiles.add(trimFile);
+                }
+            } catch (IOException | InterruptedException | UnsupportedAudioFileException e) {
                 e.printStackTrace();
-            }
-            calcLength(trimFile);
-            if (_length == 0){
-                _playListFiles.add("Original/"+record.getFileName());
-            } else {
-                _playListFiles.add(trimFile);
             }
         }
     }
@@ -93,19 +95,13 @@ public class CustomPlayer extends Task<Void> {
         }
     }
 
-    private void calcLength(String filePath) {
+    private double calcLength(String filePath) throws IOException, UnsupportedAudioFileException {
         //reference to calculate wav file length https://stackoverflow.com/questions/3009908/how-do-i-get-a-sound-files-total-time-in-java
-        AudioInputStream audioInputStream = null;
-        try {
-            audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
-            AudioFormat format = audioInputStream.getFormat();
-            long frames = audioInputStream.getFrameLength();
-            _length =  ((frames+0.0) / format.getFrameRate());
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
+        AudioFormat format = audioInputStream.getFormat();
+        long frames = audioInputStream.getFrameLength();
+        double length =  ((frames+0.0) / format.getFrameRate());
+        return length;
     }
 
     private String normaliseAudio(String filePath) throws IOException, InterruptedException {
@@ -121,7 +117,6 @@ public class CustomPlayer extends Task<Void> {
 
         //calculate the difference between target volume and extracted volume
         int originalVolume = Integer.valueOf(output.substring(output.lastIndexOf(':')+2,output.lastIndexOf('.')));
-        System.out.println(originalVolume+"");
         int difference = _targetVolume - originalVolume;
 
         //normalise the audio by increasing or decreasing by the difference
@@ -134,8 +129,19 @@ public class CustomPlayer extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
-        for (String filePath : _playListFiles){
-            playAudio(filePath); //loop through and play each name in the concatenated name
+
+        //play queued audio one by one on separate thread
+        new Thread(()->{
+            for (String filePath : _playListFiles){
+                playAudio(filePath); //loop through and play each name in the concatenated name
+            }
+        }).start();
+
+        //while audio is playing on separate thread, update the GUI progress bar by updating progress property on the event dispatch thread
+        int approxLength = (int) (_totalLength * 1000);
+        for (int i = 0; i < approxLength; i++) {
+            Thread.sleep(1);
+            updateProgress(i + 1, approxLength); //update binded progress bar periodically for duration of audio
         }
         cleanUpFiles();
         return null;

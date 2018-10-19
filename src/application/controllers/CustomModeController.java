@@ -71,6 +71,14 @@ public class CustomModeController {
     @FXML
     private ProgressBar audioVisualizer;
 
+    @FXML
+    private Button compareBtn;
+
+    @FXML
+    private Button removeBtn;
+
+    @FXML
+    private Button shuffleBtn;
 
 
     private boolean inAction = false;
@@ -165,6 +173,62 @@ public class CustomModeController {
         }
     }
 
+
+    @FXML
+    private void compareRecords(){
+        if (customRecordings.getSelectionModel().getSelectedItem() == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No selection !");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a personal recording to do a comparision with!");
+            alert.showAndWait();
+        } else {
+            List<String> choices = new ArrayList<>();
+            choices.add("1");
+            choices.add("2");
+            choices.add("3");
+            choices.add("4");
+            choices.add("5");
+
+            ChoiceDialog<String> dialog = new ChoiceDialog<>("1", choices);
+            dialog.setTitle("Comparison");
+            dialog.setHeaderText("You are comparing recordings for '"+playRecording.getText()+"'");
+            dialog.setContentText("Please choose how many times you want to compare: ");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                String ogSelection = selectedName.getText();
+                playStatus.setText("Currently comparing database version of '"+ogSelection+"'");
+                String perSelection = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
+                playRecording.setText("'"+customRecordings.getSelectionModel().getSelectedItem()+"'");
+                compare(ogSelection,perSelection,Integer.valueOf(result.get()));
+            }
+        }
+    }
+
+    /**Recursive function that repeats the comparison for however many times the user specified,
+     * it first plays the concatenated recording and then plays the user's own version
+     */
+    private void compare(String ogSelection, String perSelection, int repeat){
+        if (repeat == 0){
+            return;
+        } else {
+            CustomPlayer player = new CustomPlayer(ogSelection);
+            progressBar.progressProperty().unbind();
+            progressBar.progressProperty().bind(player.progressProperty());
+            player.setOnSucceeded(e -> {
+                RecordingPlayer player2 = new RecordingPlayer(perSelection);
+                progressBar.progressProperty().unbind();
+                progressBar.progressProperty().bind(player2.progressProperty());
+                player2.setOnSucceeded(m -> {
+                    compare(ogSelection, perSelection, repeat - 1); //recursive call
+                });
+                new Thread(player2).start(); //when concat version finishes play user's recording before calling compare again
+            });
+            new Thread(player).start(); //play the concatenated version first
+        }
+    }
+
     @FXML
     private void selectName(){
         String selection = selectedNames.getSelectionModel().getSelectedItem();
@@ -173,12 +237,27 @@ public class CustomModeController {
                 selectStatus.setText("Currently selected:");
                 selectedName.setText(selection);
                 listenOgBtn.setDisable(false);
+                removeBtn.setDisable(false);
+                shuffleBtn.setDisable(false);
                 recordBtn.setDisable(false);
+                compareBtn.setDisable(false);
             }
         }
 
     }
 
+    @FXML
+    private void shuffleList(){
+        Collections.shuffle(_selectedNames);
+    }
+
+    @FXML
+    private void removeSelection(){
+        String selection = selectedNames.getSelectionModel().getSelectedItem();
+        if (selection != null){
+            _selectedNames.remove(selection);
+        }
+    }
 
     //plays the currently selected recording for the list view for original recordings
     @FXML
@@ -192,9 +271,8 @@ public class CustomModeController {
             deleteBtn.setDisable(true);
             CustomPlayer player = new CustomPlayer(selection);
             progressBar.progressProperty().unbind();
-            progressBar.setProgress(-1.0f);
+            progressBar.progressProperty().bind(player.progressProperty());
             player.setOnSucceeded(e ->{
-                progressBar.setProgress(0);
                 inAction = false;
                 listenOgBtn.setDisable(false);
                 listenPerBtn.setDisable(false);
@@ -250,6 +328,10 @@ public class CustomModeController {
         }
     }
 
+    /**Method is called when the scene is loaded and the controller is instantiated, a reference to the NamesListModel is
+     * passed into the controller and stored as a field, method also sets up the mic levels bar and disables buttons on startup
+     * as well as populate the listviews with names and recordings.
+     */
     public void initialise(NamesListModel model){
         _namesListModel = model;
         _singleton = ControllerManager.getInstance();
@@ -262,16 +344,18 @@ public class CustomModeController {
 
         listenPerBtn.setDisable(true);
         recordBtn.setDisable(true);
+        compareBtn.setDisable(true);
         listenOgBtn.setDisable(true);
+        shuffleBtn.setDisable(true);
+        removeBtn.setDisable(true);
 
-        //initializin mic
+        //initializing mic
         audioVisualizer.setProgress(0.0);
         audioVM = new AudioVisualizerModel();
         copyWorker = audioVM.createWorker();
         audioVisualizer.progressProperty().unbind();
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
-
 
         startVolumeSlider();
 
