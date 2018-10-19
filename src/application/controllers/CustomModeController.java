@@ -71,6 +71,14 @@ public class CustomModeController {
     @FXML
     private ProgressBar audioVisualizer;
 
+    @FXML
+    private Button compareBtn;
+
+    @FXML
+    private Button removeBtn;
+
+    @FXML
+    private Button shuffleBtn;
 
 
     private boolean inAction = false;
@@ -165,6 +173,20 @@ public class CustomModeController {
         }
     }
 
+
+    @FXML
+    private void compareRecords(){
+        if (customRecordings.getSelectionModel().getSelectedItem() == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No selection !");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a personal recording to do a comparision with!");
+            alert.showAndWait();
+        } else {
+
+        }
+    }
+
     @FXML
     private void selectName(){
         String selection = selectedNames.getSelectionModel().getSelectedItem();
@@ -179,6 +201,15 @@ public class CustomModeController {
 
     }
 
+    @FXML
+    private void shuffleList(){
+
+    }
+
+    @FXML
+    private void removeSelection(){
+
+    }
 
     //plays the currently selected recording for the list view for original recordings
     @FXML
@@ -192,9 +223,8 @@ public class CustomModeController {
             deleteBtn.setDisable(true);
             CustomPlayer player = new CustomPlayer(selection);
             progressBar.progressProperty().unbind();
-            progressBar.setProgress(-1.0f);
+            progressBar.progressProperty().bind(player.progressProperty());
             player.setOnSucceeded(e ->{
-                progressBar.setProgress(0);
                 inAction = false;
                 listenOgBtn.setDisable(false);
                 listenPerBtn.setDisable(false);
@@ -250,6 +280,10 @@ public class CustomModeController {
         }
     }
 
+    /**Method is called when the scene is loaded and the controller is instantiated, a reference to the NamesListModel is
+     * passed into the controller and stored as a field, method also sets up the mic levels bar and disables buttons on startup
+     * as well as populate the listviews with names and recordings.
+     */
     public void initialise(NamesListModel model){
         _namesListModel = model;
         _singleton = ControllerManager.getInstance();
@@ -262,16 +296,18 @@ public class CustomModeController {
 
         listenPerBtn.setDisable(true);
         recordBtn.setDisable(true);
+        compareBtn.setDisable(true);
         listenOgBtn.setDisable(true);
+        shuffleBtn.setDisable(true);
+        removeBtn.setDisable(true);
 
-        //initializin mic
+        //initializing mic
         audioVisualizer.setProgress(0.0);
         audioVM = new AudioVisualizerModel();
         copyWorker = audioVM.createWorker();
         audioVisualizer.progressProperty().unbind();
         audioVisualizer.progressProperty().bind(copyWorker.progressProperty());
         new Thread(copyWorker).start(); //run mic testing code on separate thread so GUI is responsive
-
 
         startVolumeSlider();
 
