@@ -84,6 +84,8 @@ public class CustomModeController implements Initializable {
 
 
     //takes you back to the main menu
+
+
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
         Parent listenScene = FXMLLoader.load(getClass().getResource("/application/views/MainMenu.fxml"));
@@ -276,7 +278,7 @@ public class CustomModeController implements Initializable {
     }
 
 
-    
+
     private void startVolumeSlider(){
         //initiliazing volume slider
 
@@ -318,7 +320,7 @@ public class CustomModeController implements Initializable {
     }
 
 
-    
+
     private void getCustomRecordings(){
         _customRecords.clear();
         File[] files = new File("CustomRecords").listFiles();
