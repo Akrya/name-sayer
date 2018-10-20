@@ -16,8 +16,7 @@ public class RecordingPlayer extends Task<Void> {
     private String _filePath;
     private double _length;
     private boolean _playOriginal;
-    private int _adjustedVolume;
-    private final int _targetVolume = -10;
+    private Process _audioProcess;
 
     public RecordingPlayer(String filePath) {
         _filePath = filePath;
@@ -33,14 +32,16 @@ public class RecordingPlayer extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
-        playAudio();
+        new Thread(()->{
+            playAudio();
+        }).start();
         waitForPlay();
-        removeTemp();
+        cleanUpFiles();
         return null;
     }
 
 
-    private void removeTemp() {
+    public void cleanUpFiles() {
         File temp = new File("silenced.wav");
         temp.delete();
     }
@@ -67,12 +68,14 @@ public class RecordingPlayer extends Task<Void> {
         }
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
         try {
-            builder.start();
+            _audioProcess = builder.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-
+    public void stopAudio(){
+        _audioProcess.destroy();
     }
 
     private void waitForPlay() throws InterruptedException {

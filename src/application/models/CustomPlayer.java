@@ -21,6 +21,7 @@ public class CustomPlayer extends Task<Void> {
     private int queueNum = 1;
     private double _totalLength = 0;
     private final int _targetVolume = -15;
+    private Process _audioProcess;
 
 
     public CustomPlayer(String customName, NamesListModel namesListModel) {
@@ -71,11 +72,16 @@ public class CustomPlayer extends Task<Void> {
         String cmd = "ffplay -loglevel panic -autoexit -nodisp -i '"+filePath+"'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
-            Process process = builder.start();
-            process.waitFor();
+            _audioProcess = builder.start();
+            _audioProcess.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void stopAudio(){
+        _audioProcess.destroy();
+        this.cancel();
     }
 
     private String trimAudio(String filePath) throws IOException, InterruptedException {
@@ -91,7 +97,7 @@ public class CustomPlayer extends Task<Void> {
 
     }
 
-    private void cleanUpFiles(){
+    public void cleanUpFiles(){
         for (String filePath : _trimmedFiles){
             new File(filePath).delete();
         }
