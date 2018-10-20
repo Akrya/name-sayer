@@ -173,7 +173,7 @@ public class CustomModeController {
     @FXML
     private void listenPersonal(){
         if (customRecordings.getSelectionModel().getSelectedItem() != null){
-            String filePath = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
+            String filePath = "Concatenated/"+customRecordings.getSelectionModel().getSelectedItem();
             _player = new RecordingPlayer(filePath); //make new player and bind progress bar to player
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(_player.progressProperty());
@@ -244,7 +244,7 @@ public class CustomModeController {
                 playStatus.setText("Currently comparing user and database version of");
                 inAction = true;
                 switchButtonStates(true);
-                String perSelection = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
+                String perSelection = "Concatenated/"+customRecordings.getSelectionModel().getSelectedItem();
                 playRecording.setText("'"+ogSelection+"'");
                 compare(ogSelection,perSelection,Integer.valueOf(result.get()));
             }
@@ -307,6 +307,9 @@ public class CustomModeController {
             _selectedNames.remove(selection);
             selectedName.setText("");
             selectStatus.setText("No name selected");
+            recordingsListLabel.setText("Please select a name to see user recordings");
+            switchButtonStates(true);
+            stopBtn.setDisable(true);
         }
         checkButtons();
     }
@@ -357,7 +360,7 @@ public class CustomModeController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                new File("CustomRecords/" + selection).delete();
+                new File("Concatenated/" + selection).delete();
                 _records.remove(selection);
             }
         }
@@ -408,6 +411,7 @@ public class CustomModeController {
 
         inAction = false;
         switchButtonStates(true);
+        stopBtn.setDisable(true);
 
         //initializing mic
         audioVisualizer.setProgress(0.0);
