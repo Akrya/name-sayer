@@ -54,6 +54,8 @@ public class RecordingModel {
         return _date;
     }
 
+    public String getName(){ return _name; }
+
     public int getIdentifier(){
         return _identifier;
     }

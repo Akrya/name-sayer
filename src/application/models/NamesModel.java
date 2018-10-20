@@ -1,7 +1,5 @@
 package application.models;
 
-import application.models.RecordingModel;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -16,11 +14,14 @@ public class NamesModel {
 
     private String _name;
 
+    private boolean _favourite;
+
     public NamesModel(String name){
         _records = new ArrayList<>();
         _recordFiles = new ArrayList<>();
         _name = name;
         makeRecordings();
+        _favourite = false;
     }
 
     public void delete(String recording){
@@ -127,5 +128,13 @@ public class NamesModel {
                 }
             }
         }
+    }
+
+    public void setFavourite(boolean favourite){
+        _favourite = favourite;
+    }
+
+    public boolean hasFavourite(){
+        return _favourite;
     }
 }
