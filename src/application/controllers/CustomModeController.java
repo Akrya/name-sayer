@@ -350,6 +350,7 @@ public class CustomModeController {
                 _customRecords.remove(selection);
             }
         }
+
     }
 
 

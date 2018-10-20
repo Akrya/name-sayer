@@ -199,7 +199,7 @@
                                  <graphic>
                                     <HBox prefHeight="37.0" prefWidth="97.0">
                                        <children>
-                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Bookmark" wrappingWidth="74.85693359375" />
+                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite" wrappingWidth="74.85693359375" />
                                           <ImageView fitHeight="19.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../Images/favorites.png" />

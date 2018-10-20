@@ -209,7 +209,7 @@
             <Pane prefHeight="26.0" prefWidth="485.0" />
             <Button fx:id="stopBtn" mnemonicParsing="false" onAction="#stopAudio" prefHeight="25.0" prefWidth="83.0">
                <graphic>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="93.0">
                      <children>
                         <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop " wrappingWidth="41.314453125" />
                         <ImageView fitHeight="32.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
@@ -235,9 +235,9 @@
                <children>
                   <Label prefHeight="15.0" prefWidth="345.0" text="Recordings For:" />
                   <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="501.0" prefWidth="308.0" />
-                  <HBox alignment="CENTER" prefHeight="28.0" prefWidth="308.0">
+                  <HBox alignment="CENTER" prefHeight="28.0" prefWidth="308.0" styleClass="button-panel-background" stylesheets="@NameSelectorStyler.css">
                      <children>
-                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" prefHeight="43.0" prefWidth="180.0">
+                        <Button fx:id="listenPerBtn" mnemonicParsing="false" onAction="#listenPersonal" prefHeight="25.0" prefWidth="140.0">
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
@@ -251,9 +251,9 @@
                               </HBox>
                            </graphic></Button>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="49.0" prefWidth="175.0">
+                        <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefWidth="140.0">
                            <graphic>
-                              <HBox alignment="CENTER" prefHeight="16.0" prefWidth="134.0">
+                              <HBox alignment="CENTER" prefHeight="10.0" prefWidth="117.0">
                                  <children>
                                     <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" wrappingWidth="54.71337890625" />
                                     <ImageView fitHeight="15.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true">
