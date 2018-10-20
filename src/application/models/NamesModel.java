@@ -27,7 +27,7 @@ public class NamesModel {
     }
 
     public void delete(String recording){
-        String cmd = "rm Personal/"+"'"+recording+"'";
+        String cmd = "rm Single/"+"'"+recording+"'";
         ProcessBuilder deleteFile = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
             Process process = deleteFile.start();
@@ -99,11 +99,11 @@ public class NamesModel {
     }
 
     private void makeRecordings(){
-        File[] ogFiles = new File("Original").listFiles();
+        File[] ogFiles = new File("Database").listFiles();
         List<File> files = new ArrayList<>();
         files.addAll(Arrays.asList(ogFiles));
         int ogSize = files.size();
-        File[] perFiles = new File("Personal").listFiles();
+        File[] perFiles = new File("Single").listFiles();
         files.addAll(Arrays.asList(perFiles));
         _records.clear();
 
@@ -125,11 +125,11 @@ public class NamesModel {
     }
 
     private void getNewRecords(){
-        File[] ogFiles = new File("Original").listFiles();
+        File[] ogFiles = new File("Database").listFiles();
         List<File> files = new ArrayList<>();
         files.addAll(Arrays.asList(ogFiles));
         int ogSize = files.size();
-        File[] perFiles = new File("Personal").listFiles();
+        File[] perFiles = new File("Single").listFiles();
         files.addAll(Arrays.asList(perFiles));
 
         for (int i=0;i<files.size();i++){

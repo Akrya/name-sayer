@@ -34,12 +34,12 @@ public class CustomPlayer extends Task<Void> {
         for (RecordingModel record : _recordings){ //normalise and trim the recordings, if the trimmed file is empty then add original recording into the queue
             String trimFile = null;
             try {
-                String normalisedFile = normaliseAudio("Original/"+record.getFileName());
+                String normalisedFile = normaliseAudio("Database/"+record.getFileName());
                 trimFile = trimAudio(normalisedFile);
                 double length = calcLength(trimFile);
                 if (length == 0){
-                    _playListFiles.add("Original/"+record.getFileName());
-                    _totalLength = _totalLength+calcLength("Original/"+record.getFileName());
+                    _playListFiles.add("Database/"+record.getFileName());
+                    _totalLength = _totalLength+calcLength("Database/"+record.getFileName());
                 } else {
                     _totalLength = _totalLength+length;
                     _playListFiles.add(trimFile);

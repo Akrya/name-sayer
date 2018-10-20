@@ -142,9 +142,9 @@ public class MangeModeController{
             playRecording.setText(selection.getFileName());
             String filePath;
             if (selection.getFileName().substring(0, 8).equals("personal")) {
-                filePath = "Personal/" + selection.getFileName();
+                filePath = "Single/" + selection.getFileName();
             }else {
-                filePath = "Original/" + selection.getFileName(); //get file path to the recording and pass it into player
+                filePath = "Database/" + selection.getFileName(); //get file path to the recording and pass it into player
             }
             RecordingPlayer player = new RecordingPlayer(filePath);
             playProgressBar.progressProperty().unbind();
