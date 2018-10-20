@@ -204,6 +204,17 @@
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></ProgressBar>
+            <Pane prefHeight="26.0" prefWidth="485.0" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="83.0">
+               <graphic>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop " />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </HBox>
+               </graphic>
+            </Button>
          </children>
       </VBox>
    </center>
