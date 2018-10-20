@@ -213,7 +213,7 @@ public class CustomModeController {
         if (repeat == 0){
             return;
         } else {
-            CustomPlayer player = new CustomPlayer(ogSelection);
+            CustomPlayer player = new CustomPlayer(ogSelection,_namesListModel);
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(player.progressProperty());
             player.setOnSucceeded(e -> {
@@ -269,7 +269,7 @@ public class CustomModeController {
             recordBtn.setDisable(true);
             inAction = true;
             deleteBtn.setDisable(true);
-            CustomPlayer player = new CustomPlayer(selection);
+            CustomPlayer player = new CustomPlayer(selection,_namesListModel);
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(player.progressProperty());
             player.setOnSucceeded(e ->{
@@ -377,7 +377,6 @@ public class CustomModeController {
             InputStream inputStream = volumeInitializer.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String volumeLevel = br.readLine();
-            System.out.println(volumeLevel);
 
             double vlevel = Double.parseDouble(volumeLevel);
             volumeSlider.setValue(vlevel);

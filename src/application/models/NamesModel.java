@@ -46,18 +46,26 @@ public class NamesModel {
         }
     }
 
+
+    /** Search through the list of recording models for the best database recording that will be used for the practice mode
+     */
     public RecordingModel getBestRecord(){
-        RecordingModel goodRecord = null;
+        RecordingModel bestRecord = null;
+        RecordingModel secondBestRecord = null;
         for (RecordingModel record : _records){
-            if (record.getRating().equals("Good")){
-                goodRecord = record;
-                break;
+            if (record.getRating().equals("Good ★") && !record.getFileName().contains("personal")){ //search for favourite record
+                bestRecord = record;
+            } else if(record.getRating().equals("Good") && !record.getFileName().contains("personal")){ //search for alternative good record
+                secondBestRecord = record;
             }
         }
-        if (goodRecord == null){
-            goodRecord = _records.get(0);
+        if (bestRecord == null && secondBestRecord == null){ //if there isnt a favourite record and there aren't any good records then default to first recording found
+            bestRecord = _records.get(0);
+        } else if (bestRecord == null){ //if there isnt a favourite record but there is a good record then default to the good record
+            bestRecord = secondBestRecord;
         }
-        return goodRecord;
+        System.out.println(bestRecord.getFileName());
+        return bestRecord;
     }
 
     public List<RecordingModel> getRecords(){

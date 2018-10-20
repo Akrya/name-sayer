@@ -13,6 +13,7 @@ import java.util.List;
 public class CustomPlayer extends Task<Void> {
 
     private String[] _splitNames;
+    private NamesListModel _namesListModel;
     private List<NamesModel> _nameModels;
     private List<RecordingModel> _recordings;
     private List<String> _trimmedFiles;
@@ -22,9 +23,10 @@ public class CustomPlayer extends Task<Void> {
     private final int _targetVolume = -15;
 
 
-    public CustomPlayer(String customName) {
+    public CustomPlayer(String customName, NamesListModel namesListModel) {
         _splitNames = customName.split("[-\\s]");
-        getModels(new NamesListModel());
+        _namesListModel = namesListModel;
+        getModels(namesListModel);
         getRecordings();
         _playListFiles = new ArrayList<>();
         _trimmedFiles = new ArrayList<>();
