@@ -13,6 +13,7 @@ import java.util.List;
 public class CustomPlayer extends Task<Void> {
 
     private String[] _splitNames;
+    private NamesListModel _namesListModel;
     private List<NamesModel> _nameModels;
     private List<RecordingModel> _recordings;
     private List<String> _trimmedFiles;
@@ -20,11 +21,13 @@ public class CustomPlayer extends Task<Void> {
     private int queueNum = 1;
     private double _totalLength = 0;
     private final int _targetVolume = -15;
+    private Process _audioProcess;
 
 
-    public CustomPlayer(String customName) {
+    public CustomPlayer(String customName, NamesListModel namesListModel) {
         _splitNames = customName.split("[-\\s]");
-        getModels(new NamesListModel());
+        _namesListModel = namesListModel;
+        getModels(namesListModel);
         getRecordings();
         _playListFiles = new ArrayList<>();
         _trimmedFiles = new ArrayList<>();
@@ -69,11 +72,16 @@ public class CustomPlayer extends Task<Void> {
         String cmd = "ffplay -loglevel panic -autoexit -nodisp -i '"+filePath+"'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
-            Process process = builder.start();
-            process.waitFor();
+            _audioProcess = builder.start();
+            _audioProcess.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void stopAudio(){
+        _audioProcess.destroy();
+        this.cancel();
     }
 
     private String trimAudio(String filePath) throws IOException, InterruptedException {
@@ -89,7 +97,7 @@ public class CustomPlayer extends Task<Void> {
 
     }
 
-    private void cleanUpFiles(){
+    public void cleanUpFiles(){
         for (String filePath : _trimmedFiles){
             new File(filePath).delete();
         }
@@ -105,6 +113,8 @@ public class CustomPlayer extends Task<Void> {
     }
 
     private String normaliseAudio(String filePath) throws IOException, InterruptedException {
+        //reference: https://trac.ffmpeg.org/wiki/AudioVolume
+
         //extract the mean volume from the audio file using ffmpeg
         String cmd1 = "ffmpeg -i '" + filePath + "' -filter:a volumedetect -f null /dev/null 2>&1| grep mean_volume";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);

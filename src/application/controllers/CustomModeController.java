@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.*;
 import java.util.*;
@@ -80,12 +81,18 @@ public class CustomModeController {
     @FXML
     private Button shuffleBtn;
 
+    @FXML
+    private Button stopBtn;
 
-    private boolean inAction = false;
+    private boolean inAction;
+
     private Task copyWorker;
 
     private AudioVisualizerModel audioVM;
 
+    private RecordingPlayer _player;
+
+    private CustomPlayer _customPlayer;
 
 
     //takes you back to the main menu
@@ -132,6 +139,15 @@ public class CustomModeController {
         }
     }
 
+    private void checkButtons(){
+        if (selectedNames.getSelectionModel().isEmpty()){
+            listenOgBtn.setDisable(true);
+            shuffleBtn.setDisable(true);
+            removeBtn.setDisable(true);
+            compareBtn.setDisable(true);
+            recordBtn.setDisable(true);
+        }
+    }
 
     //Enables the personalListen button if there's a double click
     @FXML
@@ -139,10 +155,16 @@ public class CustomModeController {
         if (mouseEvent.getClickCount() == 2 && !inAction){
             listenPersonal();
         }
-        if (!customRecordings.getSelectionModel().isEmpty() && !inAction){
+        if (!customRecordings.getSelectionModel().isEmpty()){
             listenPerBtn.setDisable(false);
+            deleteBtn.setDisable(false);
         }
 
+    }
+
+    private void changePlayStatus(){
+        playStatus.setText("No recording currently playing");
+        playRecording.setText("");
     }
 
     //Plays the currently selected recording in the list view for personal recordings
@@ -150,29 +172,46 @@ public class CustomModeController {
     private void listenPersonal(){
         if (customRecordings.getSelectionModel().getSelectedItem() != null){
             String filePath = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
-            RecordingPlayer player = new RecordingPlayer(filePath); //make new player and bind progress bar to player
+            _player = new RecordingPlayer(filePath); //make new player and bind progress bar to player
             progressBar.progressProperty().unbind();
-            progressBar.progressProperty().bind(player.progressProperty());
+            progressBar.progressProperty().bind(_player.progressProperty());
             playStatus.setText("Now playing: ");
             playRecording.setText(customRecordings.getSelectionModel().getSelectedItem());
             inAction = true;
-            recordBtn.setDisable(true); //disable buttons while playing
-            listenPerBtn.setDisable(true);
-            listenOgBtn.setDisable(true);
-            deleteBtn.setDisable(true);
-            player.setOnSucceeded(e ->{
-                playStatus.setText("No recording currently playing");
-                playRecording.setText("");
-                deleteBtn.setDisable(false);
+            switchButtonStates();
+            _player.setOnSucceeded(e ->{
+                changePlayStatus();
                 inAction = false;
-                listenPerBtn.setDisable(false); //renable buttons
-                recordBtn.setDisable(false);
-                listenOgBtn.setDisable(false);
+                switchButtonStates();
+                _player = null;
             });
-            new Thread(player).start();
+            new Thread(_player).start();
         }
     }
 
+    @FXML
+    private void stopAudio(){
+        if (_customPlayer != null){
+            _customPlayer.stopAudio();
+            progressBar.progressProperty().unbind();
+            progressBar.setProgress(0);
+            _customPlayer.cleanUpFiles();
+            inAction = false;
+            _customPlayer = null;
+        }
+        if (_player != null){
+            boolean yes = _player.cancel();
+            System.out.println(yes);
+            _player.stopAudio();
+            progressBar.progressProperty().unbind();
+            progressBar.setProgress(0);
+            _player.cleanUpFiles();
+            inAction = false;
+            _player = null;
+        }
+        changePlayStatus();
+        switchButtonStates();
+    }
 
     @FXML
     private void compareRecords(){
@@ -198,9 +237,11 @@ public class CustomModeController {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()){
                 String ogSelection = selectedName.getText();
-                playStatus.setText("Currently comparing database version of '"+ogSelection+"'");
+                playStatus.setText("Currently comparing user and database version of");
+                inAction = true;
+                switchButtonStates();
                 String perSelection = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
-                playRecording.setText("'"+customRecordings.getSelectionModel().getSelectedItem()+"'");
+                playRecording.setText("'"+ogSelection+"'");
                 compare(ogSelection,perSelection,Integer.valueOf(result.get()));
             }
         }
@@ -211,21 +252,23 @@ public class CustomModeController {
      */
     private void compare(String ogSelection, String perSelection, int repeat){
         if (repeat == 0){
+            inAction = false;
+            switchButtonStates();
             return;
         } else {
-            CustomPlayer player = new CustomPlayer(ogSelection);
+            _customPlayer = new CustomPlayer(ogSelection,_namesListModel);
             progressBar.progressProperty().unbind();
-            progressBar.progressProperty().bind(player.progressProperty());
-            player.setOnSucceeded(e -> {
-                RecordingPlayer player2 = new RecordingPlayer(perSelection);
+            progressBar.progressProperty().bind(_customPlayer.progressProperty());
+            _customPlayer.setOnSucceeded(e -> {
+                _player = new RecordingPlayer(perSelection);
                 progressBar.progressProperty().unbind();
-                progressBar.progressProperty().bind(player2.progressProperty());
-                player2.setOnSucceeded(m -> {
+                progressBar.progressProperty().bind(_player.progressProperty());
+                _player.setOnSucceeded(m -> {
                     compare(ogSelection, perSelection, repeat - 1); //recursive call
                 });
-                new Thread(player2).start(); //when concat version finishes play user's recording before calling compare again
+                new Thread(_player).start(); //when concat version finishes play user's recording before calling compare again
             });
-            new Thread(player).start(); //play the concatenated version first
+            new Thread(_customPlayer).start(); //play the concatenated version first
         }
     }
 
@@ -236,11 +279,8 @@ public class CustomModeController {
             if (!selection.contains("invalid")){
                 selectStatus.setText("Currently selected:");
                 selectedName.setText(selection);
-                listenOgBtn.setDisable(false);
-                removeBtn.setDisable(false);
-                shuffleBtn.setDisable(false);
-                recordBtn.setDisable(false);
-                compareBtn.setDisable(false);
+                inAction = false;
+                switchButtonStates();
             }
         }
 
@@ -256,6 +296,8 @@ public class CustomModeController {
         String selection = selectedNames.getSelectionModel().getSelectedItem();
         if (selection != null){
             _selectedNames.remove(selection);
+            selectedName.setText("");
+            selectStatus.setText("No name selected");
         }
     }
 
@@ -264,23 +306,32 @@ public class CustomModeController {
     private void listenOriginal(){
         String selection =  selectedName.getText();
         if (selection != null){
-            listenOgBtn.setDisable(true); //same as other listen function except we use a customplayer instead
-            listenPerBtn.setDisable(true);
-            recordBtn.setDisable(true);
+            playStatus.setText("Now playing database version of: ");
+            playRecording.setText(selection); //same as other listen function except we use a customplayer instead to play concatenated names
             inAction = true;
-            deleteBtn.setDisable(true);
-            CustomPlayer player = new CustomPlayer(selection);
+            switchButtonStates();
+            _customPlayer = new CustomPlayer(selection,_namesListModel);
             progressBar.progressProperty().unbind();
-            progressBar.progressProperty().bind(player.progressProperty());
-            player.setOnSucceeded(e ->{
+            progressBar.progressProperty().bind(_customPlayer.progressProperty());
+            _customPlayer.setOnSucceeded(e ->{
                 inAction = false;
-                listenOgBtn.setDisable(false);
-                listenPerBtn.setDisable(false);
-                recordBtn.setDisable(false);
-                deleteBtn.setDisable(false);
+                changePlayStatus();
+                switchButtonStates();
+                _customPlayer = null;
             });
-            new Thread(player).start();
+            new Thread(_customPlayer).start();
         }
+    }
+
+    private void switchButtonStates(){
+        listenOgBtn.setDisable(inAction);
+        listenPerBtn.setDisable(inAction);
+        recordBtn.setDisable(inAction);
+        deleteBtn.setDisable(inAction);
+        shuffleBtn.setDisable(inAction);
+        removeBtn.setDisable(inAction);
+        compareBtn.setDisable(inAction);
+        stopBtn.setDisable(!inAction);
     }
 
     @FXML
@@ -308,18 +359,20 @@ public class CustomModeController {
 
         String selection = selectedName.getText();
         if (selection != null && !selection.isEmpty()){
-            Recorder recorder = new Recorder(selection); //make a new Recorder model that runs the bash commands for recording
+            Recorder recorder;
+            if (selection.contains(" ") || selection.contains("-")){
+                recorder = new Recorder(selection);  //call constructor for custom name recorder if there are spaces or hyphens in name
+            } else {
+                NamesModel name = _namesListModel.getName(selection);
+                recorder = new Recorder(name);
+            }
             inAction = true;
-            listenPerBtn.setDisable(true);
-            recordBtn.setDisable(true);
-            listenOgBtn.setDisable(true);
+            switchButtonStates();
             recorder.setOnSucceeded(e -> {
                 playStatus.setText("Finished recording!");
                 inAction = false;
+                switchButtonStates();
                 _customRecords.add(recorder.getValue());
-                listenPerBtn.setDisable(false);
-                recordBtn.setDisable(false);
-                listenOgBtn.setDisable(false);
                 new File("temp.wav").delete();
             });
             progressBar.progressProperty().unbind();
@@ -342,12 +395,8 @@ public class CustomModeController {
         getCustomRecordings();
         customRecordings.setItems(_customRecords);
 
-        listenPerBtn.setDisable(true);
-        recordBtn.setDisable(true);
-        compareBtn.setDisable(true);
-        listenOgBtn.setDisable(true);
-        shuffleBtn.setDisable(true);
-        removeBtn.setDisable(true);
+        inAction = true;
+        switchButtonStates();
 
         //initializing mic
         audioVisualizer.setProgress(0.0);
@@ -376,7 +425,6 @@ public class CustomModeController {
             InputStream inputStream = volumeInitializer.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String volumeLevel = br.readLine();
-            System.out.println(volumeLevel);
 
             double vlevel = Double.parseDouble(volumeLevel);
             volumeSlider.setValue(vlevel);
@@ -402,8 +450,6 @@ public class CustomModeController {
             }
         });
     }
-
-
 
     private void getCustomRecordings(){
         _customRecords.clear();

@@ -1,6 +1,6 @@
 package application.models;
 
-import application.models.RecordingModel;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,11 +16,14 @@ public class NamesModel {
 
     private String _name;
 
+    private boolean _favourite;
+
     public NamesModel(String name){
         _records = new ArrayList<>();
         _recordFiles = new ArrayList<>();
         _name = name;
         makeRecordings();
+        _favourite = false;
     }
 
     public void delete(String recording){
@@ -29,23 +32,39 @@ public class NamesModel {
         try {
             Process process = deleteFile.start();
             process.waitFor();
+            RecordingModel deletionRecord = null;
+            for (RecordingModel record : _records){
+                if (record.getFileName().equals(recording)){
+                    deletionRecord = record;
+                    _recordFiles.remove(recording);
+                    break;
+                }
+            }
+            _records.remove(deletionRecord);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+
+    /** Search through the list of recording models for the best database recording that will be used for the practice mode
+     */
     public RecordingModel getBestRecord(){
-        RecordingModel goodRecord = null;
+        RecordingModel bestRecord = null;
+        RecordingModel secondBestRecord = null;
         for (RecordingModel record : _records){
-            if (record.getRating().equals("Good")){
-                goodRecord = record;
-                break;
+            if (record.getRating().equals("Good ★") && !record.getFileName().contains("personal")){ //search for favourite record
+                bestRecord = record;
+            } else if(record.getRating().equals("Good") && !record.getFileName().contains("personal")){ //search for alternative good record
+                secondBestRecord = record;
             }
         }
-        if (goodRecord == null){
-            goodRecord = _records.get(0);
+        if (bestRecord == null && secondBestRecord == null){ //if there isnt a favourite record and there aren't any good records then default to first recording found
+            bestRecord = _records.get(0);
+        } else if (bestRecord == null){ //if there isnt a favourite record but there is a good record then default to the good record
+            bestRecord = secondBestRecord;
         }
-        return goodRecord;
+        return bestRecord;
     }
 
     public List<RecordingModel> getRecords(){
@@ -95,7 +114,7 @@ public class NamesModel {
                 if (files.get(i).getName().substring(files.get(i).getName().lastIndexOf("_") + 1, files.get(i).getName().lastIndexOf('.')).toUpperCase().equals(_name.toUpperCase())) {
                     String recording = files.get(i).getName();
                     _recordFiles.add(recording);
-                    if (i < ogSize){
+                    if (i < ogSize) {
                         _records.add(new RecordingModel(recording, _name, 0));
                     } else {
                         _records.add(new RecordingModel(recording, _name, 1));
@@ -123,9 +142,18 @@ public class NamesModel {
                             _records.add(new RecordingModel(files.get(i).getName(), _name, 1));
                         }
                         _recordFiles.add(files.get(i).getName());
+                        System.out.println(files.get(i).getName());
                     }
                 }
             }
         }
+    }
+
+    public void setFavourite(boolean favourite){
+        _favourite = favourite;
+    }
+
+    public boolean hasFavourite(){
+        return _favourite;
     }
 }

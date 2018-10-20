@@ -224,6 +224,7 @@ public class NamesSelectorController {
             alert.showAndWait();
         } else {
             entryName = entryName.substring(0,entryName.length()-1);
+            System.out.println(entryName+"Yeet");
             searchBox.clear();
             selectedList.getItems().add(entryName);
             clearBtn.setDisable(false);
