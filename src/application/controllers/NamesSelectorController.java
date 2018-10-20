@@ -320,7 +320,6 @@ public class NamesSelectorController {
                     names.add(line);
                 }
             }
-            _selectedNames.clear();
             _selectedNames.addAll(names);
             clearBtn.setDisable(false);
         } catch (FileNotFoundException e) {
