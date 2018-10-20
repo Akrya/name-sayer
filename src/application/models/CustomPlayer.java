@@ -13,6 +13,7 @@ import java.util.List;
 public class CustomPlayer extends Task<Void> {
 
     private String[] _splitNames;
+    private NamesListModel _namesListModel;
     private List<NamesModel> _nameModels;
     private List<RecordingModel> _recordings;
     private List<String> _trimmedFiles;
@@ -22,15 +23,17 @@ public class CustomPlayer extends Task<Void> {
     private final int _targetVolume = -15;
 
 
-    public CustomPlayer(String customName) {
+    public CustomPlayer(String customName, NamesListModel namesListModel) {
         _splitNames = customName.split("[-\\s]");
-        getModels(new NamesListModel());
+        _namesListModel = namesListModel;
+        getModels(namesListModel);
         getRecordings();
         _playListFiles = new ArrayList<>();
         _trimmedFiles = new ArrayList<>();
         for (RecordingModel record : _recordings){ //normalise and trim the recordings, if the trimmed file is empty then add original recording into the queue
             String trimFile = null;
             try {
+                System.out.println("Original/"+record.getFileName());
                 String normalisedFile = normaliseAudio("Original/"+record.getFileName());
                 trimFile = trimAudio(normalisedFile);
                 double length = calcLength(trimFile);
@@ -116,6 +119,7 @@ public class CustomPlayer extends Task<Void> {
         //read in mean volume from stdout
         BufferedReader br = new BufferedReader(new InputStreamReader(volume.getInputStream()));
         String output = br.readLine();
+        System.out.println(output);
 
         //calculate the difference between target volume and extracted volume
         int originalVolume = Integer.valueOf(output.substring(output.lastIndexOf(':')+2,output.lastIndexOf('.')));
