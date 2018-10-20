@@ -16,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.io.*;
 import java.util.*;
@@ -30,7 +29,7 @@ public class CustomModeController {
 
     private ObservableList<String> _selectedNames;
 
-    private ObservableList<String> _customRecords;
+    private ObservableList<String> _records;
 
     @FXML
     private ListView<String> customRecordings;
@@ -83,6 +82,9 @@ public class CustomModeController {
 
     @FXML
     private Button stopBtn;
+
+    @FXML
+    private Label recordingsListLabel;
 
     private boolean inAction;
 
@@ -178,11 +180,12 @@ public class CustomModeController {
             playStatus.setText("Now playing: ");
             playRecording.setText(customRecordings.getSelectionModel().getSelectedItem());
             inAction = true;
-            switchButtonStates();
+            switchButtonStates(true);
             _player.setOnSucceeded(e ->{
                 changePlayStatus();
                 inAction = false;
-                switchButtonStates();
+                switchButtonStates(false);
+                checkButtons();
                 _player = null;
             });
             new Thread(_player).start();
@@ -210,7 +213,8 @@ public class CustomModeController {
             _player = null;
         }
         changePlayStatus();
-        switchButtonStates();
+        switchButtonStates(inAction);
+        checkButtons();
     }
 
     @FXML
@@ -239,7 +243,7 @@ public class CustomModeController {
                 String ogSelection = selectedName.getText();
                 playStatus.setText("Currently comparing user and database version of");
                 inAction = true;
-                switchButtonStates();
+                switchButtonStates(true);
                 String perSelection = "CustomRecords/"+customRecordings.getSelectionModel().getSelectedItem();
                 playRecording.setText("'"+ogSelection+"'");
                 compare(ogSelection,perSelection,Integer.valueOf(result.get()));
@@ -253,7 +257,8 @@ public class CustomModeController {
     private void compare(String ogSelection, String perSelection, int repeat){
         if (repeat == 0){
             inAction = false;
-            switchButtonStates();
+            switchButtonStates(false);
+            checkButtons();
             return;
         } else {
             _customPlayer = new CustomPlayer(ogSelection,_namesListModel);
@@ -276,11 +281,15 @@ public class CustomModeController {
     private void selectName(){
         String selection = selectedNames.getSelectionModel().getSelectedItem();
         if (selection != null){
-            if (!selection.contains("invalid")){
+            if (!inAction){
+                recordingsListLabel.setText("User recordings for: "+selection);
                 selectStatus.setText("Currently selected:");
                 selectedName.setText(selection);
                 inAction = false;
-                switchButtonStates();
+                switchButtonStates(false);
+                CustomNameModel model = new CustomNameModel(selection);
+                _records.clear();
+                _records.addAll(model.getRecordings());
             }
         }
 
@@ -299,6 +308,7 @@ public class CustomModeController {
             selectedName.setText("");
             selectStatus.setText("No name selected");
         }
+        checkButtons();
     }
 
     //plays the currently selected recording for the list view for original recordings
@@ -309,29 +319,30 @@ public class CustomModeController {
             playStatus.setText("Now playing database version of: ");
             playRecording.setText(selection); //same as other listen function except we use a customplayer instead to play concatenated names
             inAction = true;
-            switchButtonStates();
+            switchButtonStates(true);
             _customPlayer = new CustomPlayer(selection,_namesListModel);
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(_customPlayer.progressProperty());
             _customPlayer.setOnSucceeded(e ->{
                 inAction = false;
                 changePlayStatus();
-                switchButtonStates();
+                switchButtonStates(true);
+                checkButtons();
                 _customPlayer = null;
             });
             new Thread(_customPlayer).start();
         }
     }
 
-    private void switchButtonStates(){
-        listenOgBtn.setDisable(inAction);
-        listenPerBtn.setDisable(inAction);
-        recordBtn.setDisable(inAction);
-        deleteBtn.setDisable(inAction);
-        shuffleBtn.setDisable(inAction);
-        removeBtn.setDisable(inAction);
-        compareBtn.setDisable(inAction);
-        stopBtn.setDisable(!inAction);
+    private void switchButtonStates(boolean flip){
+        listenOgBtn.setDisable(flip);
+        listenPerBtn.setDisable(flip);
+        recordBtn.setDisable(flip);
+        deleteBtn.setDisable(flip);
+        shuffleBtn.setDisable(flip);
+        removeBtn.setDisable(flip);
+        compareBtn.setDisable(flip);
+        stopBtn.setDisable(!flip);
     }
 
     @FXML
@@ -347,7 +358,7 @@ public class CustomModeController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 new File("CustomRecords/" + selection).delete();
-                _customRecords.remove(selection);
+                _records.remove(selection);
             }
         }
 
@@ -368,12 +379,12 @@ public class CustomModeController {
                 recorder = new Recorder(name);
             }
             inAction = true;
-            switchButtonStates();
+            switchButtonStates(true);
             recorder.setOnSucceeded(e -> {
                 playStatus.setText("Finished recording!");
                 inAction = false;
-                switchButtonStates();
-                _customRecords.add(recorder.getValue());
+                switchButtonStates(false);
+                _records.add(recorder.getValue());
                 new File("temp.wav").delete();
             });
             progressBar.progressProperty().unbind();
@@ -392,12 +403,11 @@ public class CustomModeController {
         _controller = _singleton.getController();
         _selectedNames = FXCollections.observableArrayList(_controller.getSelectedNames());
         selectedNames.setItems(_selectedNames);
-        _customRecords = FXCollections.observableArrayList();
-        getCustomRecordings();
-        customRecordings.setItems(_customRecords);
+        _records = FXCollections.observableArrayList();
+        customRecordings.setItems(_records);
 
-        inAction = true;
-        switchButtonStates();
+        inAction = false;
+        switchButtonStates(true);
 
         //initializing mic
         audioVisualizer.setProgress(0.0);
@@ -453,7 +463,7 @@ public class CustomModeController {
     }
 
     private void getCustomRecordings(){
-        _customRecords.clear();
+        _records.clear();
         File[] files = new File("CustomRecords").listFiles();
         List<String> customRecords = new ArrayList<>();
         for (File file : files){
@@ -461,6 +471,6 @@ public class CustomModeController {
                 customRecords.add(file.getName());
             }
         }
-        _customRecords.addAll(customRecords);
+        _records.addAll(customRecords);
     }
 }
