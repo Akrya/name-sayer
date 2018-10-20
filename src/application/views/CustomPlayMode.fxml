@@ -192,7 +192,7 @@
                   <HBox alignment="CENTER" prefHeight="35.0" prefWidth="563.0" />
                </children>
             </VBox>
-            <Label fx:id="playStatus" alignment="CENTER" prefHeight="22.0" prefWidth="275.0" text="No recording currently playing" textAlignment="CENTER">
+            <Label fx:id="playStatus" alignment="CENTER" prefHeight="22.0" prefWidth="432.0" text="No recording currently playing" textAlignment="CENTER">
                <padding>
                   <Insets top="5.0" />
                </padding>
@@ -207,11 +207,11 @@
                   <Insets top="10.0" />
                </VBox.margin></ProgressBar>
             <Pane prefHeight="26.0" prefWidth="485.0" />
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="85.0">
+            <Button fx:id="stopBtn" mnemonicParsing="false" onAction="#stopAudio" prefHeight="25.0" prefWidth="83.0">
                <graphic>
                   <HBox alignment="CENTER" prefHeight="50.0" prefWidth="93.0">
                      <children>
-                        <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop " wrappingWidth="40.314453125" />
+                        <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop " wrappingWidth="41.314453125" />
                         <ImageView fitHeight="32.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/stop.png" />

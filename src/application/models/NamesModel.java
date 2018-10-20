@@ -64,7 +64,6 @@ public class NamesModel {
         } else if (bestRecord == null){ //if there isnt a favourite record but there is a good record then default to the good record
             bestRecord = secondBestRecord;
         }
-        System.out.println(bestRecord.getFileName());
         return bestRecord;
     }
 
