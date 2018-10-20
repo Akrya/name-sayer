@@ -250,6 +250,7 @@ public class NamesSelectorController {
         _selectedNames.clear();
         clearBtn.setDisable(true);
         removeBtn.setDisable(true);
+        makeFileBtn.setDisable(true);
     }
 
     @FXML
@@ -322,6 +323,7 @@ public class NamesSelectorController {
             }
             _selectedNames.addAll(names);
             clearBtn.setDisable(false);
+            makeFileBtn.setDisable(false);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
