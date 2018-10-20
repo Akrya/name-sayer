@@ -233,7 +233,7 @@
             </Separator>
             <VBox alignment="CENTER" prefHeight="597.0" prefWidth="366.0">
                <children>
-                  <Label prefHeight="15.0" prefWidth="345.0" text="Recordings For:" />
+                  <Label fx:id="recordingsListLabel" prefHeight="15.0" prefWidth="345.0" text="Please select a name to see user recordings" />
                   <ListView fx:id="customRecordings" onMouseClicked="#enablePersonalListen" prefHeight="501.0" prefWidth="308.0" />
                   <HBox alignment="CENTER" prefHeight="28.0" prefWidth="308.0">
                      <children>

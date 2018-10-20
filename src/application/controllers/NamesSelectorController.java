@@ -74,14 +74,28 @@ public class NamesSelectorController {
 
     @FXML
     private void goToCustomMode(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/CustomPlayMode.fxml"));
-        Parent root = loader.load();
-        CustomModeController controller = loader.getController();
-        controller.initialise(_namesListModel);
-        Scene scene = new Scene(root);
+        boolean invalidName = false;
+        for (String name : _selectedNames){
+            if (name.contains("(invalid name)")){
+                invalidName = true;
+            }
+        }
+        if (invalidName){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Invalid name !");
+            alert.setHeaderText(null);
+            alert.setContentText("There seems to be a name not found in our database in your practice list!");
+            alert.showAndWait();
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/CustomPlayMode.fxml"));
+            Parent root = loader.load();
+            CustomModeController controller = loader.getController();
+            controller.initialise(_namesListModel);
+            Scene scene = new Scene(root);
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(scene);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(scene);
+        }
     }
     @FXML
     private void addSelection(){ //add whatever input is in textfield to the custom names list
@@ -224,7 +238,6 @@ public class NamesSelectorController {
             alert.showAndWait();
         } else {
             entryName = entryName.substring(0,entryName.length()-1);
-            System.out.println(entryName+"Yeet");
             searchBox.clear();
             selectedList.getItems().add(entryName);
             clearBtn.setDisable(false);
