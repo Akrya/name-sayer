@@ -1,5 +1,7 @@
 package application.models;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -30,6 +32,15 @@ public class NamesModel {
         try {
             Process process = deleteFile.start();
             process.waitFor();
+            RecordingModel deletionRecord = null;
+            for (RecordingModel record : _records){
+                if (record.getFileName().equals(recording)){
+                    deletionRecord = record;
+                    _recordFiles.remove(recording);
+                    break;
+                }
+            }
+            _records.remove(deletionRecord);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -96,7 +107,7 @@ public class NamesModel {
                 if (files.get(i).getName().substring(files.get(i).getName().lastIndexOf("_") + 1, files.get(i).getName().lastIndexOf('.')).toUpperCase().equals(_name.toUpperCase())) {
                     String recording = files.get(i).getName();
                     _recordFiles.add(recording);
-                    if (i < ogSize){
+                    if (i < ogSize) {
                         _records.add(new RecordingModel(recording, _name, 0));
                     } else {
                         _records.add(new RecordingModel(recording, _name, 1));
@@ -124,6 +135,7 @@ public class NamesModel {
                             _records.add(new RecordingModel(files.get(i).getName(), _name, 1));
                         }
                         _recordFiles.add(files.get(i).getName());
+                        System.out.println(files.get(i).getName());
                     }
                 }
             }

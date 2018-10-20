@@ -105,6 +105,8 @@ public class CustomPlayer extends Task<Void> {
     }
 
     private String normaliseAudio(String filePath) throws IOException, InterruptedException {
+        //reference: https://trac.ffmpeg.org/wiki/AudioVolume
+
         //extract the mean volume from the audio file using ffmpeg
         String cmd1 = "ffmpeg -i '" + filePath + "' -filter:a volumedetect -f null /dev/null 2>&1| grep mean_volume";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);

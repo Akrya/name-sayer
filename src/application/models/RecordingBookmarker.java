@@ -58,9 +58,9 @@ public class RecordingBookmarker {
 
     public void sendInvalidMessage(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Bad recording");
+        alert.setTitle("Invalid recording");
         alert.setHeaderText(null);
-        alert.setContentText("Please select a good recording to set as your preferred recording!");
+        alert.setContentText("Please select a good database recording to set as your preferred recording!");
         alert.showAndWait();
     }
 
