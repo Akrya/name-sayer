@@ -84,7 +84,7 @@ public class CustomModeController {
     @FXML
     private Button stopBtn;
 
-    private boolean inAction = false;
+    private boolean inAction;
 
     private Task copyWorker;
 
@@ -139,6 +139,15 @@ public class CustomModeController {
         }
     }
 
+    private void checkButtons(){
+        if (selectedNames.getSelectionModel().isEmpty()){
+            listenOgBtn.setDisable(true);
+            shuffleBtn.setDisable(true);
+            removeBtn.setDisable(true);
+            compareBtn.setDisable(true);
+            recordBtn.setDisable(true);
+        }
+    }
 
     //Enables the personalListen button if there's a double click
     @FXML
@@ -146,7 +155,7 @@ public class CustomModeController {
         if (mouseEvent.getClickCount() == 2 && !inAction){
             listenPersonal();
         }
-        if (!customRecordings.getSelectionModel().isEmpty() && !inAction){
+        if (!customRecordings.getSelectionModel().isEmpty()){
             listenPerBtn.setDisable(false);
             deleteBtn.setDisable(false);
         }
@@ -270,11 +279,8 @@ public class CustomModeController {
             if (!selection.contains("invalid")){
                 selectStatus.setText("Currently selected:");
                 selectedName.setText(selection);
-                listenOgBtn.setDisable(false);
-                removeBtn.setDisable(false);
-                shuffleBtn.setDisable(false);
-                recordBtn.setDisable(false);
-                compareBtn.setDisable(false);
+                inAction = false;
+                switchButtonStates();
             }
         }
 
@@ -325,6 +331,7 @@ public class CustomModeController {
         shuffleBtn.setDisable(inAction);
         removeBtn.setDisable(inAction);
         compareBtn.setDisable(inAction);
+        stopBtn.setDisable(!inAction);
     }
 
     @FXML
@@ -352,18 +359,20 @@ public class CustomModeController {
 
         String selection = selectedName.getText();
         if (selection != null && !selection.isEmpty()){
-            Recorder recorder = new Recorder(selection); //make a new Recorder model that runs the bash commands for recording
+            Recorder recorder;
+            if (selection.contains(" ") || selection.contains("-")){
+                recorder = new Recorder(selection);  //call constructor for custom name recorder if there are spaces or hyphens in name
+            } else {
+                NamesModel name = _namesListModel.getName(selection);
+                recorder = new Recorder(name);
+            }
             inAction = true;
-            listenPerBtn.setDisable(true);
-            recordBtn.setDisable(true);
-            listenOgBtn.setDisable(true);
+            switchButtonStates();
             recorder.setOnSucceeded(e -> {
                 playStatus.setText("Finished recording!");
                 inAction = false;
+                switchButtonStates();
                 _customRecords.add(recorder.getValue());
-                listenPerBtn.setDisable(false);
-                recordBtn.setDisable(false);
-                listenOgBtn.setDisable(false);
                 new File("temp.wav").delete();
             });
             progressBar.progressProperty().unbind();
@@ -386,13 +395,8 @@ public class CustomModeController {
         getCustomRecordings();
         customRecordings.setItems(_customRecords);
 
-        listenPerBtn.setDisable(true);
-        recordBtn.setDisable(true);
-        compareBtn.setDisable(true);
-        listenOgBtn.setDisable(true);
-        shuffleBtn.setDisable(true);
-        deleteBtn.setDisable(true);
-        removeBtn.setDisable(true);
+        inAction = true;
+        switchButtonStates();
 
         //initializing mic
         audioVisualizer.setProgress(0.0);
@@ -446,8 +450,6 @@ public class CustomModeController {
             }
         });
     }
-
-
 
     private void getCustomRecordings(){
         _customRecords.clear();
