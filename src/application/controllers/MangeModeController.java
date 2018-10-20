@@ -73,84 +73,34 @@ public class MangeModeController{
     @FXML
     private Slider volumeSlider;
 
-    private boolean isPlaying = false;
-
-
-
-    /*
-    method for adding selected name into the playlist, a name already in the playlist cannot be added
-     */
-//    @FXML
-//    private void addToQueue(){
-//        RecordingModel selected = recordingsTable.getSelectionModel().getSelectedItem(); //get the selected recording and put in playlist
-//        if (selected != null){
-//            String recording = selected.getFileName();
-//            if (_queuedRecordings.indexOf(recording) == -1){
-//                _queuedRecordings.add(recording);
-//                clearBtn.setDisable(false);           //buttons related to the playlist are enabled
-//                randomiseBtn.setDisable(false);
-//            }
-//        }
-//    }
-
-//    //method for adding all selected names into the playlist, names already in the playlist will not be added
-//    @FXML
-//    private void addAllToQueue(){
-//        List<RecordingModel> selected = recordingsTable.getItems(); //get all entries in recordings and add to playlist
-//
-//        for (RecordingModel recording: selected){
-//            String recordingName = recording.getFileName();
-//            if (_queuedRecordings.indexOf(recordingName) == -1){
-//                _queuedRecordings.add(recordingName);
-//            }
-//
-//        }
-//        clearBtn.setDisable(false);       //buttons related to the playlist are enabled
-//        randomiseBtn.setDisable(false);
-//    }
-//
-//
-
-//
-//    @FXML
-//    private void enableRecordingListBtns(MouseEvent mouseEvent){
-//        if (mouseEvent.getClickCount() == 2){ //allow double click to also add
-//            addToQueue();
-//        }
-//        if (recordingsTable.getSelectionModel().getSelectedItem() != null){ //enable buttons if recording selected is not null
-//            addBtn.setDisable(false);
-//            addAllBtn.setDisable(false);
-//            rateBtn.setDisable(false);
-//            String recording = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
-//            if (recording.substring(0,8).equals("personal")){
-//                deleteBtn.setDisable(false);
-//            } else {
-//                deleteBtn.setDisable(true);
-//            }
-//        }
-//    }
 
     @FXML
     private void deleteRecording(){
 
-        String selection = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete?");
-        alert.setHeaderText("You are about to delete '"+ selection+"'");
-        alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
+        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
+        if (selection != null) {
+            if (!selection.getFileName().substring(0,8).equals("personal")){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Invalid deletion");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a personal recording to delete, database recordings cannot be deleted!");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Delete?");
+                alert.setHeaderText("You are about to delete '" + selection.getFileName() + "'");
+                alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            _recordingModels.remove(recordingsTable.getSelectionModel().getSelectedItem());
-            recordingsTable.getItems().clear();
-            recordingsTable.getItems().setAll(_recordingModels);
-            String selectionName = selection.substring(selection.lastIndexOf('_')+1,selection.lastIndexOf('.'));
-            NamesModel selectionModel = _namesListModel.getName(selectionName);
-            List<RecordingModel> records = selectionModel.getRecords();
-            for (RecordingModel record : records){
-                if (record.getFileName().equals(selection)){
-                    selectionModel.delete(record.getFileName());
-                    break;
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    _recordingModels.clear();
+                    NamesModel selectionModel = _namesListModel.getName(selection.getName());
+                    selectionModel.delete(selection.getFileName());
+                    List<RecordingModel> records = selectionModel.getRecords();
+                    for (RecordingModel record : records) {
+                        _recordingModels.add(record);
+                    }
+                    recordingsTable.getItems().setAll(_recordingModels);
                 }
             }
         }
@@ -182,15 +132,14 @@ public class MangeModeController{
 
     @FXML
     private void playRecording(){
-        deleteBtn.setDisable(true);
-        rateBtn.setDisable(true);
-        bookMarkBtn.setDisable(true);
-        listenBtn.setDisable(true);
         RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
+            deleteBtn.setDisable(true);
+            rateBtn.setDisable(true);
+            bookMarkBtn.setDisable(true);
+            listenBtn.setDisable(true);
             playStatus.setText("Now playing: ");
             playRecording.setText(selection.getFileName());
-            isPlaying = true;
             String filePath;
             if (selection.getFileName().substring(0, 8).equals("personal")) {
                 filePath = "Personal/" + selection.getFileName();
@@ -203,10 +152,10 @@ public class MangeModeController{
             player.setOnSucceeded(e -> {
                 rateBtn.setDisable(false);
                 listenBtn.setDisable(false);
+                deleteBtn.setDisable(false);
                 bookMarkBtn.setDisable(false);
                 playStatus.setText("No recording currently playing");
                 playRecording.setText("");
-                isPlaying = false;
             });
             new Thread(player).start();
         }
@@ -223,12 +172,7 @@ public class MangeModeController{
             rateBtn.setDisable(false);
             bookMarkBtn.setDisable(false);
             listenBtn.setDisable(false);
-            String recording = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
-            if (recording.substring(0,8).equals("personal")){
-                deleteBtn.setDisable(false);
-            } else {
-                deleteBtn.setDisable(true);
-            }
+            deleteBtn.setDisable(false);
         }
         if (mouseEvent.getClickCount() == 2){
             playRecording();
@@ -263,8 +207,8 @@ public class MangeModeController{
         if (selection != null) {
             RecordingBookmarker bookmarker = new RecordingBookmarker(selection);
             NamesModel model = _namesListModel.getName(selection.getName());
-            if (selection.getRating().equals("Bad")) {
-                bookmarker.sendInvalidMessage(); //if the recording has a bad rating then send a warning message telling user you can't bookmark a bad recording
+            if (selection.getRating().equals("Bad") || selection.getFileName().contains("personal")) {
+                bookmarker.sendInvalidMessage();//if the recording has a bad rating then send a warning message telling user you can't bookmark a bad recording
             }else if (model.hasFavourite()){
                 if(bookmarker.overwriteFavourite()){  //if the name already has a bookmarked recording then ask the user if they want to change their preferred recording
                     _recordingModels.clear();
