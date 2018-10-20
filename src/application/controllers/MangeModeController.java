@@ -136,7 +136,7 @@ public class MangeModeController{
         String selection = recordingsTable.getSelectionModel().getSelectedItem().getFileName();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete?");
-        alert.setHeaderText("You are about to delete "+ "'se206_"+ selection+"'");
+        alert.setHeaderText("You are about to delete '"+ selection+"'");
         alert.setContentText("Hit Ok to confirm or Cancel to return to menu");
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -160,7 +160,7 @@ public class MangeModeController{
     private void rateRecording(){
         RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
-            String name = selection.getFileName().substring(selection.getFileName().lastIndexOf('_') + 1, selection.getFileName().lastIndexOf('.'));
+            String name = selection.getName();
             RecordingRater rater = new RecordingRater(selection.getFileName(), selection); //make new rater object
             boolean exists = rater.checkFile(); //if rating exists ask if they want to overwrite
             if (exists) {
@@ -201,13 +201,11 @@ public class MangeModeController{
             playProgressBar.progressProperty().unbind();
             playProgressBar.progressProperty().bind(player.progressProperty());
             player.setOnSucceeded(e -> {
-                deleteBtn.setDisable(false);
                 rateBtn.setDisable(false);
                 listenBtn.setDisable(false);
                 bookMarkBtn.setDisable(false);
                 playStatus.setText("No recording currently playing");
                 playRecording.setText("");
-                recordingsTable.getSelectionModel().selectNext();
                 isPlaying = false;
             });
             new Thread(player).start();
@@ -219,25 +217,6 @@ public class MangeModeController{
         searchBox.setText("");
     }
 
-//    @FXML
-//    private void randomiseQueue(){
-//        Collections.shuffle(_queuedRecordings);
-//    }
-//
-//    @FXML
-//    private void enablePlayBtns(MouseEvent mouseEvent){
-//        if (!playList.getSelectionModel().isEmpty()){
-//            listenBtn.setDisable(false);
-//            removeBtn.setDisable(false);
-//        } else {
-//            listenBtn.setDisable(true);
-//        }
-//
-//        if (mouseEvent.getClickCount() == 2 && !isPlaying){
-//            playRecording();
-//        }
-//
-//    }
     @FXML
     private void enableListen(MouseEvent mouseEvent){
         if (recordingsTable.getSelectionModel().getSelectedItem() != null){
@@ -275,36 +254,41 @@ public class MangeModeController{
         }
     }
 
-
-    /*this method takes the currently selected recording in the table and asks user
+    /**this method takes the currently selected recording in the table and asks user
      *if they would like to set it as their preferred recording which is used in practice mode
      */
     @FXML
     private void bookMarkRecording(){
         RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Rating");
-        alert.setHeaderText("You are bookmarking '"+ selection.getFileName()+"'");
-        alert.setContentText("Would you like to set this recording as your preferred practice recording?");
-
-        ButtonType okayButton = new ButtonType("Okay");
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-        alert.getButtonTypes().setAll(okayButton, cancelButton);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == okayButton) {
-            selection.setFavourite(true);
-            recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings list
-            _recordingModels.clear();
-            NamesModel model = _namesListModel.getName(selection.getFileName().substring(selection.getFileName().lastIndexOf('_') + 1, selection.getFileName().lastIndexOf('.')));
-            List<RecordingModel> records = model.getRecords();
-            for (RecordingModel record : records) {
-                _recordingModels.add(record);
+        if (selection != null) {
+            RecordingBookmarker bookmarker = new RecordingBookmarker(selection);
+            NamesModel model = _namesListModel.getName(selection.getName());
+            if (selection.getRating().equals("Bad")) {
+                bookmarker.sendInvalidMessage(); //if the recording has a bad rating then send a warning message telling user you can't bookmark a bad recording
+            }else if (model.hasFavourite()){
+                if(bookmarker.overwriteFavourite()){  //if the name already has a bookmarked recording then ask the user if they want to change their preferred recording
+                    _recordingModels.clear();
+                    selection.setFavourite(true);
+                    List<RecordingModel> records = model.getRecords();
+                    for (RecordingModel record: records){
+                        if (record.getRating().equals("Good ★") && !record.equals(selection)){ //search for old bookmarked recording and remove its favourite status
+                            record.setFavourite(false);
+                        }
+                        _recordingModels.add(record);
+                    }
+                    recordingsTable.getItems().setAll(_recordingModels);
+                }
+            } else {
+                if(bookmarker.setAsFavourite()) { //if user wants to bookmark a recording for the name then update the table
+                    _recordingModels.clear();
+                    model.setFavourite(true);
+                    List<RecordingModel> records = model.getRecords();
+                    for (RecordingModel record : records) { //repopulate the tableview with recordings
+                        _recordingModels.add(record);
+                    }
+                    recordingsTable.getItems().setAll(_recordingModels);
+                }
             }
-            recordingsTable.getItems().setAll(_recordingModels);
-        } else {
-            return;
         }
     }
 
@@ -321,6 +305,9 @@ public class MangeModeController{
         window.setScene(scene);
     }
 
+
+    /** method is called immediately after the controller is constructed, it sets up the button configurations for the scene and sets up the dynamic searching feature
+     */
     public void initialise(NamesListModel model) {
         _namesListModel = model;
 
