@@ -457,9 +457,13 @@ public class CustomModeController {
             switchButtonStates(false);
             _records.add(newFile);
             _recorder = null;
+            playStatus.setText("Finished recording!");
+            playRecording.setText("");
         }else {
             String selection = selectedName.getText();
             if (selection != null && !selection.isEmpty()) {
+                playStatus.setText("Currently Recording For:");
+                playRecording.setText(selection);
                 if (selection.contains(" ") || selection.contains("-")) {
                     _recorder = new Recorder(selection);  //call constructor for custom name recorder if there are spaces or hyphens in name
                 } else {
