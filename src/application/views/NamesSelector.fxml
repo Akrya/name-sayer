@@ -114,7 +114,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="120.0" prefWidth="700.0" styleClass="nameSayer-hbox">
                <children>
-                  <Label text="Name Sayer">
+                  <Label text="Select Names">
                      <font>
                         <Font size="64.0" />
                      </font>
@@ -136,7 +136,7 @@
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
-            <Label prefHeight="16.0" prefWidth="233.0" styleClass="scene-label" text="Custom Seleciton Mode" textFill="WHITE">
+            <Label prefHeight="16.0" prefWidth="233.0" styleClass="scene-label" text="Name Sayer" textFill="WHITE">
                <VBox.margin>
                   <Insets left="20.0" top="5.0" />
                </VBox.margin>

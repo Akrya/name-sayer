@@ -28,7 +28,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Name Sayer">
+                  <Label text="Practice Mode">
                      <font>
                         <Font size="64.0" />
                      </font>
