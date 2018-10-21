@@ -18,10 +18,10 @@ public class NamesListModel {
 
     private void createDirectory(){
 
-        new File( "Personal").mkdir();
-        new File("Original").mkdir();
-        new File("Custom").mkdir();
-        new File("CustomRecords").mkdir();
+        new File( "Single").mkdir();
+        new File("Database").mkdir();
+        new File("Playlists").mkdir();
+        new File("Concatenated").mkdir();
 
     }
 
@@ -51,10 +51,10 @@ public class NamesListModel {
     }
 
     private void makeNames(){
-        File[] ogFiles = new File("Original").listFiles(); //loop through the two directories and get all unique names
+        File[] ogFiles = new File("Database").listFiles(); //loop through the two directories and get all unique names
         List<File> files = new ArrayList<>();
         files.addAll(Arrays.asList(ogFiles));
-        File[] perFiles = new File("Personal").listFiles();
+        File[] perFiles = new File("Single").listFiles();
         files.addAll(Arrays.asList(perFiles));
 
         for (int i=0;i<files.size();i++){

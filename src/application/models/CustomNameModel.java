@@ -21,7 +21,7 @@ public class CustomNameModel {
     }
 
     private void findRecordings(){
-        File[] files = new File("CustomRecords/").listFiles();
+        File[] files = new File("Concatenated/").listFiles();
 
         for (File file : files){
             if (file.isFile()){

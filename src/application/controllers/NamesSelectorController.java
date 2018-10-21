@@ -196,7 +196,7 @@ public class NamesSelectorController {
     private void loadCustomFile(){ //load the current txt file in combo box onto the selected names list
         String selectedFile = customFiles.getSelectionModel().getSelectedItem();
         if (selectedFile != null){
-            File fileName = new File("Custom/"+selectedFile);
+            File fileName = new File("Playlists/"+selectedFile);
             loadFile(fileName);
         }
     }
@@ -250,6 +250,7 @@ public class NamesSelectorController {
         _selectedNames.clear();
         clearBtn.setDisable(true);
         removeBtn.setDisable(true);
+        makeFileBtn.setDisable(true);
     }
 
     @FXML
@@ -269,7 +270,7 @@ public class NamesSelectorController {
     }
 
     private void getCustomFiles(){
-        File[] files = new File("Custom").listFiles();
+        File[] files = new File("Playlists").listFiles();
         List<String> fileNames = new ArrayList<>();
         for (File file : files){
             if (file.isFile()){
@@ -322,6 +323,7 @@ public class NamesSelectorController {
             }
             _selectedNames.addAll(names);
             clearBtn.setDisable(false);
+            makeFileBtn.setDisable(false);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
