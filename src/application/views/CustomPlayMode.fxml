@@ -28,21 +28,32 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Practice Mode">
+                  <Label prefHeight="75.0" prefWidth="486.0" text="Practice Mode">
                      <font>
                         <Font size="64.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="100.0" prefWidth="405.0">
+                  <Pane prefHeight="100.0" prefWidth="307.0">
                      <children>
-                        <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="92.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="60.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/volume-up-indicator.png" />
                            </image>
                         </ImageView>
-                        <Slider fx:id="volumeSlider" layoutX="152.0" layoutY="40.0" prefHeight="14.0" prefWidth="150.0" />
+                        <Slider fx:id="volumeSlider" layoutX="116.0" layoutY="42.0" prefHeight="14.0" prefWidth="150.0" />
                      </children></Pane>
-                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" prefHeight="35.0" prefWidth="152.0" text="Back to Selection" />
+                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" prefHeight="35.0" prefWidth="152.0">
+                     <graphic>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Back to Selection" wrappingWidth="129.833984375" />
+                              <ImageView fitHeight="19.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/go-back-left-arrow.png" />
+                                 </image></ImageView>
+                           </children>
+                        </HBox>
+                     </graphic></Button>
                   <Pane layoutX="456.0" layoutY="10.0" prefHeight="100.0" prefWidth="57.0" />
                   <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="130.0">
                      <graphic>
@@ -71,7 +82,7 @@
                   <ListView fx:id="selectedNames" onMouseClicked="#enableSelect" prefHeight="500.0" prefWidth="287.0" />
                   <HBox prefHeight="28.0" prefWidth="287.0">
                      <children>
-                        <Button fx:id="listenOgBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listenOriginal" prefHeight="26.0" prefWidth="124.0" stylesheets="@NameSelectorStyler.css">
+                        <Button fx:id="listenOgBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listenOriginal" prefHeight="37.0" prefWidth="141.0" stylesheets="@NameSelectorStyler.css">
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
@@ -85,7 +96,7 @@
                               </HBox>
                            </graphic></Button>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Button fx:id="shuffleBtn" mnemonicParsing="false" onAction="#shuffleList" prefHeight="26.0" prefWidth="100.0">
+                        <Button fx:id="shuffleBtn" mnemonicParsing="false" onAction="#shuffleList" prefHeight="43.0" prefWidth="89.0">
                            <graphic>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
@@ -100,7 +111,7 @@
                            </graphic>
                         </Button>
                         <Separator orientation="VERTICAL" prefHeight="200.0" />
-                        <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefHeight="25.0" prefWidth="79.0">
+                        <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefHeight="59.0" prefWidth="100.0">
                            <graphic>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
@@ -165,7 +176,10 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record Custom" wrappingWidth="114.66455078125" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record" wrappingWidth="69.66455078125">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Text>
                               <ImageView fitHeight="41.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../Images/microphone.png" />
@@ -179,7 +193,10 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Compare" wrappingWidth="77.25537109375" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Compare" wrappingWidth="98.25537109375">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Text>
                               <ImageView fitHeight="45.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../Images/compare.png" />

@@ -96,7 +96,6 @@ public class CustomModeController {
 
     private CustomPlayer _customPlayer;
 
-
     //takes you back to the main menu
 
 
@@ -173,14 +172,15 @@ public class CustomModeController {
     @FXML
     private void listenPersonal(){
         if (customRecordings.getSelectionModel().getSelectedItem() != null){
-            String filePath = "Concatenated/"+customRecordings.getSelectionModel().getSelectedItem();
-            _player = new RecordingPlayer(filePath); //make new player and bind progress bar to player
+            if (selectedName.getText().contains("-")|| selectedName.getText().contains(" ")){
+                String filePath = "Concatenated/"+customRecordings.getSelectionModel().getSelectedItem();
+                _player = new RecordingPlayer(filePath);
+            } else {
+                String filePath = "Single/"+customRecordings.getSelectionModel().getSelectedItem();
+                _player = new RecordingPlayer(filePath); //make new player and bind progress bar to player
+            }
             progressBar.progressProperty().unbind();
             progressBar.progressProperty().bind(_player.progressProperty());
-            playStatus.setText("Now playing: ");
-            playRecording.setText(customRecordings.getSelectionModel().getSelectedItem());
-            inAction = true;
-            switchButtonStates(true);
             _player.setOnSucceeded(e ->{
                 changePlayStatus();
                 inAction = false;
@@ -189,6 +189,10 @@ public class CustomModeController {
                 _player = null;
             });
             new Thread(_player).start();
+            playStatus.setText("Now playing: ");
+            playRecording.setText(customRecordings.getSelectionModel().getSelectedItem());
+            inAction = true;
+            switchButtonStates(true);
         }
     }
 
@@ -240,13 +244,18 @@ public class CustomModeController {
 
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()){
-                String ogSelection = selectedName.getText();
-                playStatus.setText("Currently comparing user and database version of");
+                String databaseSelection = selectedName.getText();
+                String userSelection;
+                if (databaseSelection.contains("-") || databaseSelection.contains(" ")){
+                    userSelection = "Concatenated/"+customRecordings.getSelectionModel().getSelectedItem();
+                } else {
+                    userSelection = "Single/"+customRecordings.getSelectionModel().getSelectedItem();
+                }
+                playStatus.setText("Comparision "+result.get()+ ": user and database versions of:");
                 inAction = true;
                 switchButtonStates(true);
-                String perSelection = "Concatenated/"+customRecordings.getSelectionModel().getSelectedItem();
-                playRecording.setText("'"+ogSelection+"'");
-                compare(ogSelection,perSelection,Integer.valueOf(result.get()));
+                playRecording.setText("'"+databaseSelection+"'");
+                compare(databaseSelection,userSelection,Integer.valueOf(result.get()));
             }
         }
     }
@@ -259,6 +268,7 @@ public class CustomModeController {
             inAction = false;
             switchButtonStates(false);
             checkButtons();
+            changePlayStatus();
             return;
         } else {
             _customPlayer = new CustomPlayer(ogSelection,_namesListModel);
@@ -269,6 +279,8 @@ public class CustomModeController {
                 progressBar.progressProperty().unbind();
                 progressBar.progressProperty().bind(_player.progressProperty());
                 _player.setOnSucceeded(m -> {
+
+                    playStatus.setText("Comparision "+(repeat-1)+ ": user and database versions of:");
                     compare(ogSelection, perSelection, repeat - 1); //recursive call
                 });
                 new Thread(_player).start(); //when concat version finishes play user's recording before calling compare again
@@ -285,11 +297,17 @@ public class CustomModeController {
                 recordingsListLabel.setText("User recordings for: "+selection);
                 selectStatus.setText("Currently selected:");
                 selectedName.setText(selection);
+                if (selection.contains(" ") || selection.contains("-")){ //concatentated name
+                    CustomNameModel model = new CustomNameModel(selection);
+                    _records.clear();
+                    _records.addAll(model.getRecordings());
+                } else { //single name
+                    NamesModel model = _namesListModel.getName(selection);
+                    _records.clear();
+                    _records.addAll(model.getPerRecordings());
+                }
                 inAction = false;
                 switchButtonStates(false);
-                CustomNameModel model = new CustomNameModel(selection);
-                _records.clear();
-                _records.addAll(model.getRecordings());
             }
         }
 
@@ -329,7 +347,7 @@ public class CustomModeController {
             _customPlayer.setOnSucceeded(e ->{
                 inAction = false;
                 changePlayStatus();
-                switchButtonStates(true);
+                switchButtonStates(false);
                 checkButtons();
                 _customPlayer = null;
             });
@@ -454,7 +472,6 @@ public class CustomModeController {
             @Override
             public void invalidated(Observable observable) {
                 double volume = volumeSlider.getValue();
-                //System.out.println(volume);
                 String cmd2 = "amixer set 'Master' " + volume + "%";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd2);
                 try {
@@ -464,17 +481,5 @@ public class CustomModeController {
                 }
             }
         });
-    }
-
-    private void getCustomRecordings(){
-        _records.clear();
-        File[] files = new File("CustomRecords").listFiles();
-        List<String> customRecords = new ArrayList<>();
-        for (File file : files){
-            if (file.isFile()){
-                customRecords.add(file.getName());
-            }
-        }
-        _records.addAll(customRecords);
     }
 }
