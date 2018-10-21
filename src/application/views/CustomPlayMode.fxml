@@ -43,7 +43,7 @@
                               <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Back to Selection" wrappingWidth="105.833984375" />
                               <ImageView fitHeight="26.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Images/go-back-arrow.png" />
+                                    <Image url="@../Images/go-back-left-arrow.png" />
                                  </image></ImageView>
                            </children>
                         </HBox>
