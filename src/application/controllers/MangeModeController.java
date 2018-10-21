@@ -1,6 +1,7 @@
 package application.controllers;
 
 import application.models.*;
+import com.sun.prism.impl.Disposer;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -14,12 +15,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.*;
 
+/**Controller class for manage mode, it handles all the business logic associated with the functionality found in manage mode
+ * and updates the views of the GUI when applicable
+ * It also calls on model classes when appropriate and allows them to handle background processes such as audio playback
+ */
 public class MangeModeController{
 
     private NamesListModel _namesListModel;
@@ -29,6 +37,8 @@ public class MangeModeController{
     private boolean _inAction;
 
     private ObservableList<RecordingModel> _recordingModels = FXCollections.observableArrayList(); //list of recording models which is displayed in the recording table view
+
+    private RecordingPlayer _player = null;
 
     @FXML private Button _rateBtn;
 
@@ -60,13 +70,72 @@ public class MangeModeController{
 
     @FXML private Slider _volumeSlider;
 
+    @FXML private Text _listenBtnText;
 
+    @FXML private ImageView _listenBtnImage;
+
+
+    /** method is called immediately after the controller is constructed, it sets up the button configurations for the scene and sets up the dynamic searching feature
+     */
+    public void initialise(NamesListModel model) {
+        _namesListModel = model;
+
+        //disable all buttons on start up except for testing mic and creating recording
+        _deleteBtn.setDisable(true);
+        _rateBtn.setDisable(true);
+        _favouriteBtn.setDisable(true);
+        _listenBtn.setDisable(true);
+        _searchBox.setPromptText("Search...");
+
+        makeRatingFile();
+        _fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class
+        _ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        _recordingsTable.getItems().setAll(_recordingModels);
+
+
+        //reference for search box https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
+        ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
+        _filteredNames = new FilteredList<>(names, e -> true);
+        _namesList.setItems(_filteredNames);
+        _searchBox.textProperty().addListener((observable, oldValue, newValue) ->{ //add a listener to the search box, so filteredNames changes when user enters a letter
+            _filteredNames.setPredicate(element ->{ //setPredicate() defines the rules for what items in the filteredNames list is removed and which ones remain
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+                if (element.length() >= newValue.length()){
+                    if (element.toUpperCase().substring(0,newValue.length()).equals(newValue.toUpperCase())){ //allow names that start with search string to remain
+                        return true;
+                    }
+                }
+                if (element.contains("Name not found")){
+                    return true;
+                }
+                return false;
+            });
+            if (_filteredNames.isEmpty()){
+                names.add("Name not found");
+            } else if (!_filteredNames.isEmpty() && names.indexOf("Name not found") != -1 && _filteredNames.size() !=1){
+                names.remove("Name not found");
+            }
+            if (_filteredNames.size() == 1) { //automatically update recordings table if only one item in the search results
+                getRecordings();
+            }
+            _namesList.setItems(_filteredNames);
+        });
+
+        //initialise the volume slider
+        startVolumeSlider();
+    }
+
+    /** Called when delete button is pressed, Prompts the user if they want to continue deleting the selected recording
+     * if the selected recording cannot be deleted then display a warning message
+     */
     @FXML
     private void deleteRecording(){
 
         RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
-            if (!selection.getFileName().substring(0,8).equals("personal")){
+            if (!selection.getFileName().substring(0,8).equals("personal")){ //i.e trying to delete a database recording
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Invalid deletion");
                 alert.setHeaderText(null);
@@ -81,10 +150,10 @@ public class MangeModeController{
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                     _recordingModels.clear();
-                    NamesModel selectionModel = _namesListModel.getName(selection.getName());
+                    NamesModel selectionModel = _namesListModel.getName(selection.getName()); //find name model of the recording and delete the recording from its list
                     selectionModel.delete(selection.getFileName());
                     List<RecordingModel> records = selectionModel.getRecords();
-                    for (RecordingModel record : records) {
+                    for (RecordingModel record : records) { //re-populate the table view with recordings
                         _recordingModels.add(record);
                     }
                     _recordingsTable.getItems().setAll(_recordingModels);
@@ -93,6 +162,9 @@ public class MangeModeController{
         }
     }
 
+    /**Called when user presses the flag button, prompts the useer if they want to give the selected recording a bad rating
+     * if the recording already has a bad rating or is favourited then prompts the user if they want to overwrite the rating
+     */
     @FXML
     private void rateRecording(){
         RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
@@ -102,7 +174,7 @@ public class MangeModeController{
             boolean exists = rater.checkFile(); //if rating exists ask if they want to overwrite
             if (exists) {
                 rater.overWriteRating();
-            } else if (selection.getRating().equals("Good ★")) {
+            } else if (selection.getRating().equals("Good ★")) { //if record is favourited then ask if they want to overwrite
                 boolean overwritten = rater.overWriteFavRating();
                 if (overwritten){
                     NamesModel namesModel = _namesListModel.getName(name);
@@ -111,7 +183,7 @@ public class MangeModeController{
             } else {
                 rater.makeRating();
             }
-            _recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings list
+            _recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings table
             _recordingModels.clear();
             NamesModel model = _namesListModel.getName(name);
             List<RecordingModel> records = model.getRecords();
@@ -122,65 +194,106 @@ public class MangeModeController{
         }
     }
 
+    /** Method is called when an audio action has occcurred (either playback or recording)
+     * it turns on and off the buttons depending on what boolean is passed in
+     */
+    private void switchButtonStates(boolean flip){
+        _deleteBtn.setDisable(flip);
+        _rateBtn.setDisable(flip);
+        _favouriteBtn.setDisable(flip);
+        _listenBtn.setDisable(flip);
+    }
 
+    /**Called when stop button is pressed
+     * it stops the audio coming from the players and re enables the buttons
+     */
+    private void stopAudio(){
+        if (_player != null){
+            _player.stopAudio();
+            _audioProgressBar.progressProperty().unbind();
+            _audioProgressBar.setProgress(0);
+            _player.cleanUpFiles();
+            _player.cancel();
+            _inAction = false;
+            _player = null;
+        }
+        switchButtonStates(_inAction);
+    }
+
+    /**Called when the user presses the listen button, it plays the selected recording then changes to a stop button,
+     * if user presses stop button while audio is playing then audio is stopped.
+     */
     @FXML
     private void playRecording(){
-        RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
-        if (selection != null) {
-            _deleteBtn.setDisable(true);
-            _rateBtn.setDisable(true);
-            _favouriteBtn.setDisable(true);
-            _listenBtn.setDisable(true);
-            _playBackStatus.setText("Now playing: ");
-            _recordingInPlay.setText(selection.getFileName());
-            _inAction = true;
-            String filePath;
-            if (selection.getFileName().substring(0, 8).equals("personal")) {
-                filePath = "Single/" + selection.getFileName();
-            }else {
-                filePath = "Database/" + selection.getFileName(); //get file path to the recording and pass it into player
-            }
-            RecordingPlayer player = new RecordingPlayer(filePath);
-            _audioProgressBar.progressProperty().unbind();
-            _audioProgressBar.progressProperty().bind(player.progressProperty());
-            player.setOnSucceeded(e -> {
-                _inAction = false;
-                _rateBtn.setDisable(false);
+        if (_inAction){ //i.e a recording is playing at the moment
+            stopAudio();
+            switchButtonStates(false);
+            _inAction = false;
+            _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png"))); //change back to a normal listen button
+            _listenBtnText.setText("Listen");
+        } else { //i.e the player is not in action
+            RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
+            if (selection != null) {
+                switchButtonStates(true);
                 _listenBtn.setDisable(false);
-                _deleteBtn.setDisable(false);
-                _favouriteBtn.setDisable(false);
-                _playBackStatus.setText("No recording currently playing");
-                _recordingInPlay.setText("");
-            });
-            new Thread(player).start();
+                _playBackStatus.setText("Now playing: ");
+                _recordingInPlay.setText(selection.getFileName());
+                _inAction = true;
+                String filePath;
+                if (selection.getFileName().substring(0, 8).equals("personal")) {
+                    filePath = "Single/" + selection.getFileName();
+                } else {
+                    filePath = "Database/" + selection.getFileName(); //get file path to the recording and pass it into player
+                }
+                _player = new RecordingPlayer(filePath);
+                _audioProgressBar.progressProperty().unbind();
+                _audioProgressBar.progressProperty().bind(_player.progressProperty());
+                _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png"))); //change back to a normal listen button
+                _listenBtnText.setText("Stop");
+                _player.setOnSucceeded(e -> {
+                    _inAction = false;
+                    switchButtonStates(false);
+                    _playBackStatus.setText("No recording currently playing");
+                    _recordingInPlay.setText("");
+                    _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png"))); //change back to a normal listen button
+                    _listenBtnText.setText("Listen");
+                    _player = null;
+                });
+                new Thread(_player).start();
+            }
         }
     }
 
+    /**Method is called when the clear search button is pressed, it resets the search box making it empty
+     */
     @FXML
     private void clearSearch(){
         _searchBox.setText("");
     }
 
+    /**Called when user mouse clicks into the recording table, if a double click is registered then it auto plays the recording
+     * if no item is selected then it disables the buttons
+     */
     @FXML
     private void enableListen(MouseEvent mouseEvent){
         if (_recordingsTable.getSelectionModel().getSelectedItem() != null){
-            _rateBtn.setDisable(false);
-            _favouriteBtn.setDisable(false);
-            _listenBtn.setDisable(false);
-            _deleteBtn.setDisable(false);
+            switchButtonStates(false);
         }
         if (mouseEvent.getClickCount() == 2 && !_inAction){
             playRecording();
         }
     }
 
+    /**Called when user selects a name in the list, it fetches the associated recordings of the name
+     * and populates the recording table with the recordings
+     */
     @FXML
     private void getRecordings(){
         String selection = _namesList.getSelectionModel().getSelectedItem();
         if (selection == null){
             selection = _filteredNames.get(0);
         }
-        if (!selection.equals("Name not found")){
+        if (!selection.equals("Name not found")){ //populate recordings table by retrieving the name model of the name and getting its records
             _recordingModels.clear();
             NamesModel model = _namesListModel.getName(selection);
             List<RecordingModel> records = model.getRecords();
@@ -231,7 +344,9 @@ public class MangeModeController{
         }
     }
 
-    //takes you to the main menu
+    /** Method is called when home button is pressed, it returns the user back to the main menu and passes the name list model
+     * to the new controller
+     */
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
@@ -244,58 +359,8 @@ public class MangeModeController{
         window.setScene(scene);
     }
 
-
-    /** method is called immediately after the controller is constructed, it sets up the button configurations for the scene and sets up the dynamic searching feature
+    /** Method sets up the volume adjustment bar by binding a volume slider to the volume level;
      */
-    public void initialise(NamesListModel model) {
-        _namesListModel = model;
-
-        //disable all buttons on start up except for testing mic and creating recording
-        _deleteBtn.setDisable(true);
-        _rateBtn.setDisable(true);
-        _favouriteBtn.setDisable(true);
-        _listenBtn.setDisable(true);
-        _searchBox.setPromptText("Search...");
-
-        makeRatingFile();
-        _fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class
-        _ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
-        _recordingsTable.getItems().setAll(_recordingModels);
-
-
-        //reference for search box https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
-        ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
-        _filteredNames = new FilteredList<>(names, e -> true);
-        _namesList.setItems(_filteredNames);
-        _searchBox.textProperty().addListener((observable, oldValue, newValue) ->{
-            _filteredNames.setPredicate(element ->{
-                if (newValue == null || newValue.isEmpty()){
-                    return true;
-                }
-                if (element.length() >= newValue.length()){
-                    if (element.toUpperCase().substring(0,newValue.length()).equals(newValue.toUpperCase())){ //filter for names that start with search string
-                        return true;
-                    }
-                }
-                if (element.contains("Name not found")){
-                    return true;
-                }
-                return false;
-            });
-            if (_filteredNames.isEmpty()){
-                names.add("Name not found");
-            } else if (!_filteredNames.isEmpty() && names.indexOf("Name not found") != -1 && _filteredNames.size() !=1){
-                names.remove("Name not found");
-            }
-            if (_filteredNames.size() == 1) { //automatically update recordings table if only one item in the search results
-                getRecordings();
-            }
-            _namesList.setItems(_filteredNames);
-        });
-        startVolumeSlider();
-    }
-
-
     private void startVolumeSlider(){
 
         //running command to get current volume https://unix.stackexchange.com/questions/89571/how-to-get-volume-level-from-the-command-line/89581
@@ -335,9 +400,11 @@ public class MangeModeController{
         });
     }
 
+    /**Called when this controller is instantiated, it creates the rating.txt file if it doesn't exist (i.e. first time launching)
+     */
     private void makeRatingFile(){
-        File rateFile = new File("Ratings.txt"); //make file if it doesnt exist ie on first start of program
-        if(rateFile.exists()) {
+        File rateFile = new File("Ratings.txt");
+        if(rateFile.exists()) { //if file exists then retrieve the ratings of all the names
             getRatings();
             return;
         } else {
@@ -355,16 +422,19 @@ public class MangeModeController{
         }
     }
 
-    private void getRatings(){ //can be improved greatly right now O(n^2), function loops through rating.txt and finds the model associated with the recording then assigns a bad rating
+    /**Called if the rating file exists, it loops through the whole txt file,
+     * and grabs each name on each line, it finds the associated recording model and assigns it a bad rating
+     */
+    private void getRatings(){
         List<NamesModel> models = _namesListModel.getModels();
-        Map<String, Integer> fileMap = new HashMap<>();
+        Map<String, Integer> fileMap = new HashMap<>(); //map of files, filename is the key and its value is an integer, 0 means the file has good rating, 1 means file has bad rating
         List<String> fileNames = new ArrayList<>();
         List<RecordingModel> recordings = new ArrayList<>();
-        for (NamesModel model : models){
+        for (NamesModel model : models){ //loop through every model and get all its recordings
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records){
                 recordings.add(record);
-                fileMap.put(record.getFileName(), 0);
+                fileMap.put(record.getFileName(), 0); //by default each file has good rating
                 fileNames.add(record.getFileName());
             }
         }
@@ -374,10 +444,10 @@ public class MangeModeController{
                 String line = scanner.nextLine();
                 int index =  fileNames.indexOf(line);
                 if (index != -1){
-                    fileMap.put(fileNames.get(index),1);
+                    fileMap.put(fileNames.get(index),1); //if name is found in the file then it has a bad rating, so it is assigned value of 1
                 }
             }
-            for (Map.Entry<String,Integer> entry : fileMap.entrySet()){
+            for (Map.Entry<String,Integer> entry : fileMap.entrySet()){ //for every file in the map with a value of 1, set a bad rating on its recording model
                 if (entry.getValue() == 1){
                     for (RecordingModel record : recordings){
                         if (record.getFileName().equals(entry.getKey())){

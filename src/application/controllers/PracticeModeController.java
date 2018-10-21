@@ -197,12 +197,12 @@ public class PracticeModeController {
      */
     @FXML
     private void enableUserListen(MouseEvent mouseEvent){
-        if (mouseEvent.getClickCount() == 2 && !_inAction){
-            listenUserRecording();
-        }
         if (!_recordingListView.getSelectionModel().isEmpty()){
             _userListenBtn.setDisable(false);
             _deleteBtn.setDisable(false);
+        }
+        if (mouseEvent.getClickCount() == 2 && !_inAction){
+            listenUserRecording();
         }
 
     }
@@ -346,7 +346,6 @@ public class PracticeModeController {
     /**Called when stop button is pressed
      * it stops the audio coming from the players and re enables the buttons
      */
-    @FXML
     private void stopAudio(){
         if (_concatenatedPlayer != null){
             _concatenatedPlayer.stopAudio();
@@ -357,12 +356,11 @@ public class PracticeModeController {
             _concatenatedPlayer = null;
         }
         if (_player != null){
-            boolean yes = _player.cancel();
-            System.out.println(yes);
             _player.stopAudio();
             _audioProgressBar.progressProperty().unbind();
             _audioProgressBar.setProgress(0);
             _player.cleanUpFiles();
+            _player.cancel();
             _inAction = false;
             _player = null;
         }
