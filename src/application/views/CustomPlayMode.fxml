@@ -42,7 +42,15 @@
                         </ImageView>
                         <Slider fx:id="volumeSlider" layoutX="152.0" layoutY="40.0" prefHeight="14.0" prefWidth="150.0" />
                      </children></Pane>
-                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" prefHeight="35.0" prefWidth="152.0" text="Back to Selection" />
+                  <Button fx:id="selectScreenBtn" mnemonicParsing="false" onAction="#goToSelect" prefHeight="35.0" prefWidth="152.0">
+                     <graphic>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Back to Selection" />
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
+                     </graphic></Button>
                   <Pane layoutX="456.0" layoutY="10.0" prefHeight="100.0" prefWidth="57.0" />
                   <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="130.0">
                      <graphic>
@@ -165,7 +173,10 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record Custom" wrappingWidth="114.66455078125" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record" wrappingWidth="69.66455078125">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Text>
                               <ImageView fitHeight="41.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../Images/microphone.png" />
@@ -179,7 +190,10 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Compare" wrappingWidth="77.25537109375" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Compare" wrappingWidth="98.25537109375">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></Text>
                               <ImageView fitHeight="45.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../Images/compare.png" />
