@@ -472,7 +472,6 @@ public class CustomModeController {
             @Override
             public void invalidated(Observable observable) {
                 double volume = volumeSlider.getValue();
-                //System.out.println(volume);
                 String cmd2 = "amixer set 'Master' " + volume + "%";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd2);
                 try {

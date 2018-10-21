@@ -46,18 +46,6 @@ public class MainMenuController {
     }
 
     @FXML
-    private void openPracticeMode(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/PracticeMode.fxml"));
-        Parent root = loader.load();
-        PracticeModeController controller = loader.getController();
-        controller.setModel(_model);
-        Scene scene = new Scene(root);
-
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(scene);
-    }
-
-    @FXML
     private void openHelpWindow(ActionEvent event){
 
         Parent root;

@@ -93,7 +93,7 @@
             <VBox prefHeight="116.0" prefWidth="403.0">
                <children>
                   <Pane prefHeight="9.0" prefWidth="550.0" />
-                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#goToCustomMode" prefHeight="35.0" prefWidth="199.0" text="Practice Custom Names">
+                  <Button fx:id="practiceBtn" mnemonicParsing="false" onAction="#goToCustomMode" prefHeight="35.0" prefWidth="199.0" text="Practice Names">
                      <VBox.margin>
                         <Insets left="180.0" top="20.0" />
                      </VBox.margin>
@@ -114,12 +114,12 @@
          <children>
             <HBox alignment="CENTER" prefHeight="120.0" prefWidth="700.0" styleClass="nameSayer-hbox">
                <children>
-                  <Label text="Name Sayer">
+                  <Label prefHeight="75.0" prefWidth="687.0" text="Select Names">
                      <font>
                         <Font size="64.0" />
                      </font>
                   </Label>
-                  <Pane prefHeight="93.0" prefWidth="600.0" />
+                  <Pane prefHeight="83.0" prefWidth="291.0" />
                   <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#goToMain" prefHeight="35.0" prefWidth="125.0" textFill="WHITE">
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -136,7 +136,7 @@
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
-            <Label prefHeight="16.0" prefWidth="233.0" styleClass="scene-label" text="Custom Seleciton Mode" textFill="WHITE">
+            <Label prefHeight="16.0" prefWidth="233.0" styleClass="scene-label" textFill="WHITE">
                <VBox.margin>
                   <Insets left="20.0" top="5.0" />
                </VBox.margin>
@@ -152,7 +152,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="595.0" prefWidth="572.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="390.0" text="Please enter a custom name to practice " textFill="WHITE">
+                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="390.0" text="Please enter a name to practice " textFill="WHITE">
                      <padding>
                         <Insets bottom="5.0" />
                      </padding>
@@ -178,7 +178,7 @@
                            </graphic></Button>
                      </children>
                   </HBox>
-                  <ListView fx:id="namesList" onMouseClicked="#addToSearch" prefHeight="410.0" prefWidth="416.0" />
+                  <ListView fx:id="namesList" onMouseClicked="#addToSearch" prefHeight="542.0" prefWidth="531.0" />
                   <Label alignment="TOP_LEFT" prefHeight="31.0" prefWidth="401.0" text="SELECT WITH A FILE">
                      <font>
                         <Font size="15.0" />
@@ -214,6 +214,9 @@
                               </HBox>
                            </graphic></Button>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="30.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
                <padding>
