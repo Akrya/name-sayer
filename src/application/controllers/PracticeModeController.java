@@ -1,8 +1,6 @@
 package application.controllers;
 
 import application.models.*;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -49,6 +47,8 @@ public class PracticeModeController {
     private ConcatenatedPlayer _concatenatedPlayer = null; //player responsible for playing concatenated recordings
 
     private Recorder _recorder = null; //recorder which runs the bash command to record a new name
+
+    private VolumeManager _volumeManager;
 
     @FXML private ListView<String> _recordingListView;
 
@@ -108,7 +108,7 @@ public class PracticeModeController {
         _namesListModel = model; //name list model holds information about all the name models stored in the program
         _manager = ControllerManager.getInstance();
         _nameSelectorController = _manager.getController();
-        _selectedNames = FXCollections.observableArrayList(_nameSelectorController.getSelectedNames());
+        _selectedNames = FXCollections.observableArrayList(_nameSelectorController.getPracticeNames());
         _namesListView.setItems(_selectedNames); //populate name list view with selected names which we get from the manager
         _records = FXCollections.observableArrayList();
         _recordingListView.setItems(_records); //set up recording list view (empty on start up)
@@ -123,7 +123,8 @@ public class PracticeModeController {
         new Thread(_micWorker).start(); //run mic testing code on separate thread so GUI is responsive
 
         //initialise the volume slider bar
-        startVolumeSlider();
+        _volumeManager = new VolumeManager(_volumeSlider);
+        _volumeManager.startVolumeSlider();
     }
 
 
@@ -154,7 +155,7 @@ public class PracticeModeController {
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
         controller.initialise(_namesListModel);
-        controller.setSelectedNames(_selectedNames); //pass in a copy of the current selected names list back to the name selector controller
+        controller.updatePracticeNames(_selectedNames); //pass in a copy of the current selected names list back to the name selector controller
         _manager.setController(controller);
         Scene scene = new Scene(root);
 
@@ -522,41 +523,5 @@ public class PracticeModeController {
             _compareBtn.setDisable(true);
             _recordBtn.setDisable(true);
         }
-    }
-
-    /** Method sets up the volume adjustment bar by binding a volume slider to the volume level;
-     */
-    private void startVolumeSlider(){
-
-        //running command to get current volume
-        String cmd1 = "amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%'";
-        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);
-
-        try{
-            Process volumeInitializer = builder.start();
-            InputStream inputStream = volumeInitializer.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream)); //reading current volume level
-            String volumeLevel = br.readLine();
-            double vlevel = Double.parseDouble(volumeLevel);
-            _volumeSlider.setValue(vlevel); //bind volume level to the slider
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-        //attach a listener to the volume bar so when it slides it changes the system volume
-        //https://www.youtube.com/watch?v=X9mEBGXX3dA reference
-        _volumeSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                double volume = _volumeSlider.getValue();
-                String cmd2 = "amixer set 'Master' " + volume + "%";
-                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd2);
-                try {
-                    builder.start();
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 }

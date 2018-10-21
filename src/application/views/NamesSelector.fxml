@@ -34,10 +34,10 @@
                   <Font size="22.0" />
                </font>
             </Label>
-            <ListView fx:id="selectedList" onMouseClicked="#enableSelectBtns" prefHeight="467.0" prefWidth="550.0" />
+            <ListView fx:id="_practiceNamesList" onMouseClicked="#enablePracticeBtns" prefHeight="467.0" prefWidth="550.0" />
             <HBox alignment="CENTER" prefHeight="56.0" prefWidth="550.0">
                <children>
-                  <Button fx:id="removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefHeight="37.0" prefWidth="183.0" styleClass="button-menu-background">
+                  <Button fx:id="_removeBtn" mnemonicParsing="false" onAction="#removeSelection" prefHeight="37.0" prefWidth="183.0" styleClass="button-menu-background">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -55,7 +55,7 @@
                      </graphic>
                   </Button>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearSelections" prefHeight="37.0" prefWidth="184.0" styleClass="button-menu-background">
+                  <Button fx:id="_clearBtn" mnemonicParsing="false" onAction="#clearSelections" prefHeight="37.0" prefWidth="184.0" styleClass="button-menu-background">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -73,7 +73,7 @@
                      </graphic>
                   </Button>
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
-                  <Button fx:id="makeFileBtn" mnemonicParsing="false" onAction="#makeFile" prefHeight="37.0" prefWidth="183.0">
+                  <Button fx:id="_saveBtn" mnemonicParsing="false" onAction="#makeFile" prefHeight="37.0" prefWidth="183.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -168,7 +168,7 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="23.0" prefWidth="531.0">
                      <children>
-                        <TextField fx:id="searchBox" onKeyPressed="#addToSelection" prefHeight="25.0" prefWidth="481.0" />
+                        <TextField fx:id="_searchBox" onKeyPressed="#addToSelection" prefHeight="25.0" prefWidth="481.0" />
                         <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addSelection" style="-fx-background-radius: 0;;">
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="10.0" prefWidth="44.0">
@@ -187,7 +187,7 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </HBox>
-                  <ListView fx:id="namesList" onMouseClicked="#addToSearch" prefHeight="478.0" prefWidth="531.0">
+                  <ListView fx:id="_namesList" onMouseClicked="#addToSearch" prefHeight="478.0" prefWidth="531.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></ListView>
@@ -204,15 +204,15 @@
                   </Label>
                   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="343.0">
                      <children>
-                        <ComboBox fx:id="customFiles" prefWidth="150.0" promptText="custom lists" />
-                        <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadCustomFile" prefHeight="25.0" prefWidth="70.0" text="Load" />
+                        <ComboBox fx:id="__practiceListFiles" prefWidth="150.0" promptText="custom lists" />
+                        <Button fx:id="loadBtn" mnemonicParsing="false" onAction="#loadPlayList" prefHeight="25.0" prefWidth="70.0" text="Load" />
                         <Pane prefHeight="43.0" prefWidth="135.0" />
-                        <Text fx:id="fileUpload" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No file uploaded">
+                        <Text fx:id="_uploadStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No file uploaded">
                            <HBox.margin>
                               <Insets right="5.0" />
                            </HBox.margin>
                         </Text>
-                        <Button fx:id="uploadBtn" mnemonicParsing="false" onAction="#uploadFile">
+                        <Button fx:id="_uploadBtn" mnemonicParsing="false" onAction="#uploadFile">
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="21.0" prefWidth="70.0">
                                  <children>

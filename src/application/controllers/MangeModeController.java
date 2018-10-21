@@ -40,6 +40,8 @@ public class MangeModeController{
 
     private RecordingPlayer _player = null;
 
+    private VolumeManager _volumeManager;
+
     @FXML private Button _rateBtn;
 
     @FXML private Button _deleteBtn;
@@ -123,8 +125,9 @@ public class MangeModeController{
             _namesList.setItems(_filteredNames);
         });
 
-        //initialise the volume slider
-        startVolumeSlider();
+        //initialise the volume by creating a volume manager which sets up the slider
+        _volumeManager = new VolumeManager(_volumeSlider);
+        _volumeManager.startVolumeSlider();
     }
 
     /** Called when delete button is pressed, Prompts the user if they want to continue deleting the selected recording
@@ -209,9 +212,9 @@ public class MangeModeController{
      */
     private void stopAudio(){
         if (_player != null){
-            _player.stopAudio();
             _audioProgressBar.progressProperty().unbind();
             _audioProgressBar.setProgress(0);
+            _player.stopAudio();
             _player.cleanUpFiles();
             _player.cancel();
             _inAction = false;
@@ -352,52 +355,11 @@ public class MangeModeController{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
-        controller.initialise(_namesListModel);
         Scene scene = new Scene(root);
+        controller.initialise(_namesListModel);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
-    }
-
-    /** Method sets up the volume adjustment bar by binding a volume slider to the volume level;
-     */
-    private void startVolumeSlider(){
-
-        //running command to get current volume https://unix.stackexchange.com/questions/89571/how-to-get-volume-level-from-the-command-line/89581
-        String cmd1 = "amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%'";
-        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);
-
-        //setting the slider to the current volume
-        try{
-            Process volumeInitializer = builder.start();
-            InputStream inputStream = volumeInitializer.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-            String volumeLevel = br.readLine();
-            double vlevel = Double.parseDouble(volumeLevel);
-            _volumeSlider.setValue(vlevel);
-
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-
-        //A listener gets the value from slider and runs a bash command with that changes the volume based on the value
-
-        //https://www.youtube.com/watch?v=X9mEBGXX3dA reference
-        _volumeSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                double volume = _volumeSlider.getValue();
-                //System.out.println(volume);
-                String cmd2 = "amixer set 'Master' " + volume + "%";
-                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd2);
-                try {
-                    builder.start();
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     /**Called when this controller is instantiated, it creates the rating.txt file if it doesn't exist (i.e. first time launching)
