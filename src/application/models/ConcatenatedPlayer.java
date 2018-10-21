@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomPlayer extends Task<Void> {
+public class ConcatenatedPlayer extends Task<Void> {
 
     private String[] _splitNames;
     private NamesListModel _namesListModel;
@@ -24,7 +24,7 @@ public class CustomPlayer extends Task<Void> {
     private Process _audioProcess;
 
 
-    public CustomPlayer(String customName, NamesListModel namesListModel) {
+    public ConcatenatedPlayer(String customName, NamesListModel namesListModel) {
         _splitNames = customName.split("[-\\s]");
         _namesListModel = namesListModel;
         getModels(namesListModel);

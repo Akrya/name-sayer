@@ -148,7 +148,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </ScrollPane>
-            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefWidth="100.0" text="Close" textAlignment="CENTER">
+            <Button fx:id="_closeBtn" mnemonicParsing="false" onAction="#closeWindow" prefWidth="100.0" text="Close" textAlignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>

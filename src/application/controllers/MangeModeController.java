@@ -70,6 +70,8 @@ public class MangeModeController{
 
     private FilteredList<String> _filteredNames;
 
+    private boolean _inAction;
+
     @FXML
     private Slider volumeSlider;
 
@@ -146,6 +148,7 @@ public class MangeModeController{
             listenBtn.setDisable(true);
             playStatus.setText("Now playing: ");
             playRecording.setText(selection.getFileName());
+            _inAction = true;
             String filePath;
             if (selection.getFileName().substring(0, 8).equals("personal")) {
                 filePath = "Single/" + selection.getFileName();
@@ -156,6 +159,7 @@ public class MangeModeController{
             playProgressBar.progressProperty().unbind();
             playProgressBar.progressProperty().bind(player.progressProperty());
             player.setOnSucceeded(e -> {
+                _inAction = false;
                 rateBtn.setDisable(false);
                 listenBtn.setDisable(false);
                 deleteBtn.setDisable(false);
@@ -180,7 +184,7 @@ public class MangeModeController{
             listenBtn.setDisable(false);
             deleteBtn.setDisable(false);
         }
-        if (mouseEvent.getClickCount() == 2){
+        if (mouseEvent.getClickCount() == 2 && !_inAction){
             playRecording();
         }
     }

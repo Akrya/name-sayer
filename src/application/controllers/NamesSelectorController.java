@@ -95,7 +95,7 @@ public class NamesSelectorController {
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/CustomPlayMode.fxml"));
             Parent root = loader.load();
-            CustomModeController controller = loader.getController();
+            PracticeModeController controller = loader.getController();
             controller.initialise(_namesListModel);
             Scene scene = new Scene(root);
 

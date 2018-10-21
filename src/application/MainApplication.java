@@ -24,6 +24,7 @@ public class MainApplication extends Application {
         primaryStage.setTitle("Name Sayer");
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
+        primaryStage.setResizable(false);
 
 
         primaryStage.setOnCloseRequest(e ->{ //confirmation box for exiting program

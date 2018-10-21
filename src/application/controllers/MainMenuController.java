@@ -14,18 +14,18 @@ import java.io.IOException;
 
 public class MainMenuController {
 
-    private ControllerManager _singleton;
+    private ControllerManager _manager;
 
     private NamesListModel _model;
 
     @FXML
     private void openCustomMode(ActionEvent event) throws IOException {
 
-        _singleton = ControllerManager.getInstance();
+        _manager = ControllerManager.getInstance();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
-        _singleton.setController(controller);
+        _manager.setController(controller);
         controller.initialise(_model);
         Scene scene = new Scene(root);
 
