@@ -115,6 +115,8 @@ public class MangeModeController{
             boolean exists = rater.checkFile(); //if rating exists ask if they want to overwrite
             if (exists) {
                 rater.overWriteRating();
+            } else if (selection.getRating().equals("Good ★")) {
+                rater.overwWriteFavRating();
             } else {
                 rater.makeRating();
             }

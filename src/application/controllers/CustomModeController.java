@@ -328,6 +328,7 @@ public class CustomModeController {
             recordingsListLabel.setText("Please select a name to see user recordings");
             switchButtonStates(true);
             stopBtn.setDisable(true);
+            _records.clear();
         }
         checkButtons();
     }

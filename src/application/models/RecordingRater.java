@@ -43,6 +43,27 @@ public class RecordingRater {
 
     }
 
+    public void overwWriteFavRating(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Overwrite?");
+        alert.setHeaderText("'"+_selection+"'"+" is your preferred recording");
+        alert.setContentText("Do you want to give this recording a bad rating?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK){
+            _recordingModel.setFavourite(false);
+            _recordingModel.setRating(false);
+            BufferedWriter bw = null;
+            try {
+                bw = new BufferedWriter(new FileWriter("Ratings.txt", true));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            PrintWriter writer = new PrintWriter(bw);
+            writer.println(_selection);
+            writer.close();
+        }
+    }
 
     public void overWriteRating(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
