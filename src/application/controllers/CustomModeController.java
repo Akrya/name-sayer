@@ -13,6 +13,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -81,9 +83,6 @@ public class CustomModeController {
     private Button shuffleBtn;
 
     @FXML
-    private Button stopBtn;
-
-    @FXML
     private Label recordingsListLabel;
 
     private boolean inAction;
@@ -96,6 +95,31 @@ public class CustomModeController {
 
     private CustomPlayer _customPlayer;
 
+    @FXML
+    private ImageView recordImage;
+
+    private Recorder _recorder;
+
+    @FXML
+    private Text recordBtnText;
+
+    @FXML
+    private Text listenDBText;
+
+    @FXML
+    private Text listenUserText;
+
+    @FXML
+    private ImageView listenUserImage;
+
+    @FXML
+    private ImageView listenDBImage;
+
+    @FXML
+    private Text compareText;
+
+    @FXML
+    private ImageView compareImage;
     //takes you back to the main menu
 
 
@@ -171,28 +195,40 @@ public class CustomModeController {
     //Plays the currently selected recording in the list view for personal recordings
     @FXML
     private void listenPersonal(){
-        if (customRecordings.getSelectionModel().getSelectedItem() != null){
-            if (selectedName.getText().contains("-")|| selectedName.getText().contains(" ")){
-                String filePath = "Concatenated/"+customRecordings.getSelectionModel().getSelectedItem();
-                _player = new RecordingPlayer(filePath);
-            } else {
-                String filePath = "Single/"+customRecordings.getSelectionModel().getSelectedItem();
-                _player = new RecordingPlayer(filePath); //make new player and bind progress bar to player
+        if (inAction){
+            listenUserImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png")));
+            listenUserText.setText("Listen Personal");
+            stopAudio();
+            inAction = false;
+        } else {
+            if (customRecordings.getSelectionModel().getSelectedItem() != null) {
+                if (selectedName.getText().contains("-") || selectedName.getText().contains(" ")) {
+                    String filePath = "Concatenated/" + customRecordings.getSelectionModel().getSelectedItem();
+                    _player = new RecordingPlayer(filePath);
+                } else {
+                    String filePath = "Single/" + customRecordings.getSelectionModel().getSelectedItem();
+                    _player = new RecordingPlayer(filePath); //make new player and bind progress bar to player
+                }
+                progressBar.progressProperty().unbind();
+                progressBar.progressProperty().bind(_player.progressProperty());
+                listenUserImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png")));
+                listenUserText.setText("Stop");
+                _player.setOnSucceeded(e -> {
+                    changePlayStatus();
+                    listenUserImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png")));
+                    listenUserText.setText("Listen Personal");
+                    inAction = false;
+                    switchButtonStates(false);
+                    checkButtons();
+                    _player = null;
+                });
+                new Thread(_player).start();
+                playStatus.setText("Now playing: ");
+                playRecording.setText(customRecordings.getSelectionModel().getSelectedItem());
+                inAction = true;
+                switchButtonStates(true);
+                listenPerBtn.setDisable(false);
             }
-            progressBar.progressProperty().unbind();
-            progressBar.progressProperty().bind(_player.progressProperty());
-            _player.setOnSucceeded(e ->{
-                changePlayStatus();
-                inAction = false;
-                switchButtonStates(false);
-                checkButtons();
-                _player = null;
-            });
-            new Thread(_player).start();
-            playStatus.setText("Now playing: ");
-            playRecording.setText(customRecordings.getSelectionModel().getSelectedItem());
-            inAction = true;
-            switchButtonStates(true);
         }
     }
 
@@ -223,39 +259,49 @@ public class CustomModeController {
 
     @FXML
     private void compareRecords(){
-        if (customRecordings.getSelectionModel().getSelectedItem() == null){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("No selection !");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a personal recording to do a comparision with!");
-            alert.showAndWait();
+        if (inAction){
+            compareImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/compare.png")));
+            compareText.setText("Compare");
+            stopAudio();
+            inAction = false;
         } else {
-            List<String> choices = new ArrayList<>();
-            choices.add("1");
-            choices.add("2");
-            choices.add("3");
-            choices.add("4");
-            choices.add("5");
+            if (customRecordings.getSelectionModel().getSelectedItem() == null) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No selection !");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a personal recording to do a comparision with!");
+                alert.showAndWait();
+            } else {
+                List<String> choices = new ArrayList<>();
+                choices.add("1");
+                choices.add("2");
+                choices.add("3");
+                choices.add("4");
+                choices.add("5");
 
-            ChoiceDialog<String> dialog = new ChoiceDialog<>("1", choices);
-            dialog.setTitle("Comparison");
-            dialog.setHeaderText("You are comparing recordings for '"+playRecording.getText()+"'");
-            dialog.setContentText("Please choose how many times you want to compare: ");
+                ChoiceDialog<String> dialog = new ChoiceDialog<>("1", choices);
+                dialog.setTitle("Comparison");
+                dialog.setHeaderText("You are comparing recordings for '" + playRecording.getText() + "'");
+                dialog.setContentText("Please choose how many times you want to compare: ");
 
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-                String databaseSelection = selectedName.getText();
-                String userSelection;
-                if (databaseSelection.contains("-") || databaseSelection.contains(" ")){
-                    userSelection = "Concatenated/"+customRecordings.getSelectionModel().getSelectedItem();
-                } else {
-                    userSelection = "Single/"+customRecordings.getSelectionModel().getSelectedItem();
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    String databaseSelection = selectedName.getText();
+                    String userSelection;
+                    if (databaseSelection.contains("-") || databaseSelection.contains(" ")) {
+                        userSelection = "Concatenated/" + customRecordings.getSelectionModel().getSelectedItem();
+                    } else {
+                        userSelection = "Single/" + customRecordings.getSelectionModel().getSelectedItem();
+                    }
+                    playStatus.setText("Comparision " + result.get() + ": user and database versions of:");
+                    inAction = true;
+                    switchButtonStates(true);
+                    compareBtn.setDisable(false);
+                    compareImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png")));
+                    compareText.setText("Stop");
+                    playRecording.setText("'" + databaseSelection + "'");
+                    compare(databaseSelection, userSelection, Integer.valueOf(result.get()));
                 }
-                playStatus.setText("Comparision "+result.get()+ ": user and database versions of:");
-                inAction = true;
-                switchButtonStates(true);
-                playRecording.setText("'"+databaseSelection+"'");
-                compare(databaseSelection,userSelection,Integer.valueOf(result.get()));
             }
         }
     }
@@ -266,6 +312,8 @@ public class CustomModeController {
     private void compare(String ogSelection, String perSelection, int repeat){
         if (repeat == 0){
             inAction = false;
+            compareImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/compare.png")));
+            compareText.setText("Compare");
             switchButtonStates(false);
             checkButtons();
             changePlayStatus();
@@ -279,7 +327,6 @@ public class CustomModeController {
                 progressBar.progressProperty().unbind();
                 progressBar.progressProperty().bind(_player.progressProperty());
                 _player.setOnSucceeded(m -> {
-
                     playStatus.setText("Comparision "+(repeat-1)+ ": user and database versions of:");
                     compare(ogSelection, perSelection, repeat - 1); //recursive call
                 });
@@ -327,7 +374,6 @@ public class CustomModeController {
             selectStatus.setText("No name selected");
             recordingsListLabel.setText("Please select a name to see user recordings");
             switchButtonStates(true);
-            stopBtn.setDisable(true);
             _records.clear();
         }
         checkButtons();
@@ -336,23 +382,35 @@ public class CustomModeController {
     //plays the currently selected recording for the list view for original recordings
     @FXML
     private void listenOriginal(){
-        String selection =  selectedName.getText();
-        if (selection != null){
-            playStatus.setText("Now playing database version of: ");
-            playRecording.setText(selection); //same as other listen function except we use a customplayer instead to play concatenated names
-            inAction = true;
-            switchButtonStates(true);
-            _customPlayer = new CustomPlayer(selection,_namesListModel);
-            progressBar.progressProperty().unbind();
-            progressBar.progressProperty().bind(_customPlayer.progressProperty());
-            _customPlayer.setOnSucceeded(e ->{
-                inAction = false;
-                changePlayStatus();
-                switchButtonStates(false);
-                checkButtons();
-                _customPlayer = null;
-            });
-            new Thread(_customPlayer).start();
+        if (inAction){
+            listenDBImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png")));
+            listenDBText.setText("Listen Original");
+            stopAudio();
+            inAction = false;
+        } else {
+            String selection = selectedName.getText();
+            if (selection != null) {
+                playStatus.setText("Now playing database version of: ");
+                playRecording.setText(selection); //same as other listen function except we use a customplayer instead to play concatenated names
+                inAction = true;
+                switchButtonStates(true);
+                listenOgBtn.setDisable(false);
+                listenDBImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png")));
+                listenDBText.setText("Stop");
+                _customPlayer = new CustomPlayer(selection, _namesListModel);
+                progressBar.progressProperty().unbind();
+                progressBar.progressProperty().bind(_customPlayer.progressProperty());
+                _customPlayer.setOnSucceeded(e -> {
+                    inAction = false;
+                    changePlayStatus();
+                    listenDBImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png")));
+                    listenDBText.setText("Listen Original");
+                    switchButtonStates(false);
+                    checkButtons();
+                    _customPlayer = null;
+                });
+                new Thread(_customPlayer).start();
+            }
         }
     }
 
@@ -364,7 +422,6 @@ public class CustomModeController {
         shuffleBtn.setDisable(flip);
         removeBtn.setDisable(flip);
         compareBtn.setDisable(flip);
-        stopBtn.setDisable(!flip);
     }
 
     @FXML
@@ -390,28 +447,42 @@ public class CustomModeController {
     //Method for making a recording for the currently selected CustomName
     @FXML
     private void recordCustom(){
-
-        String selection = selectedName.getText();
-        if (selection != null && !selection.isEmpty()){
-            Recorder recorder;
-            if (selection.contains(" ") || selection.contains("-")){
-                recorder = new Recorder(selection);  //call constructor for custom name recorder if there are spaces or hyphens in name
-            } else {
-                NamesModel name = _namesListModel.getName(selection);
-                recorder = new Recorder(name);
-            }
-            inAction = true;
-            switchButtonStates(true);
-            recorder.setOnSucceeded(e -> {
-                playStatus.setText("Finished recording!");
-                inAction = false;
-                switchButtonStates(false);
-                _records.add(recorder.getValue());
-                new File("temp.wav").delete();
-            });
+        if (inAction){ //this means button is pressed when recording so we want to stop recording
             progressBar.progressProperty().unbind();
-            progressBar.progressProperty().bind(recorder.progressProperty());
-            new Thread(recorder).start();
+            progressBar.setProgress(0);
+            String newFile = _recorder.stopRecording();
+            recordImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/microphone.png")));
+            recordBtnText.setText("Record");
+            inAction = false;
+            switchButtonStates(false);
+            _records.add(newFile);
+            _recorder = null;
+        }else {
+            String selection = selectedName.getText();
+            if (selection != null && !selection.isEmpty()) {
+                if (selection.contains(" ") || selection.contains("-")) {
+                    _recorder = new Recorder(selection);  //call constructor for custom name recorder if there are spaces or hyphens in name
+                } else {
+                    NamesModel name = _namesListModel.getName(selection);
+                    _recorder = new Recorder(name);
+                }
+                inAction = true;
+                switchButtonStates(true);
+                recordBtn.setDisable(false);
+                recordImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png")));
+                recordBtnText.setText("Stop");
+                _recorder.setOnSucceeded(e -> {
+                    playStatus.setText("Finished recording!");
+                    inAction = false;
+                    switchButtonStates(false);
+                    recordBtnText.setText("Record");
+                    _records.add(_recorder.getValue());
+                    recordImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/microphone.png")));
+                });
+                progressBar.progressProperty().unbind();
+                progressBar.progressProperty().bind(_recorder.progressProperty());
+                new Thread(_recorder).start();
+            }
         }
     }
 
@@ -427,10 +498,11 @@ public class CustomModeController {
         selectedNames.setItems(_selectedNames);
         _records = FXCollections.observableArrayList();
         customRecordings.setItems(_records);
+        _player = null;
+        _customPlayer = null;
 
         inAction = false;
         switchButtonStates(true);
-        stopBtn.setDisable(true);
 
         //initializing mic
         audioVisualizer.setProgress(0.0);

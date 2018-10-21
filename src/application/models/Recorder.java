@@ -13,6 +13,7 @@ public class Recorder extends Task<String> {
     private int _versionNum;
     private String _fileName;
     private String _customName;
+    private Process _recordingProcess;
 
     public Recorder(NamesModel name){
         _name = name;
@@ -30,11 +31,11 @@ public class Recorder extends Task<String> {
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
         _fileName = "personal_"+currentTime+"_"+"ver_"+"("+_versionNum+")"+"_"+_name.toString()+".wav";
 
-        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Single/"+"'"+_fileName+"'";
+        String cmd = "ffmpeg -loglevel panic -f alsa -t 5 -i default Single/"+"'"+_fileName+"'";
 
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c", cmd);
         try {
-            audioBuilder.start();
+            _recordingProcess = audioBuilder.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,10 +45,10 @@ public class Recorder extends Task<String> {
         String currentTime = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Calendar.getInstance().getTime());
         _fileName = "custom_"+currentTime+"_"+_customName+".wav";
 
-        String cmd = "ffmpeg -loglevel panic -f alsa -i default -t 5 Concatenated/"+"'"+_fileName+"'";
+        String cmd = "ffmpeg -loglevel panic -f alsa -t 5 -i default Concatenated/"+"'"+_fileName+"'";
         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash","-c",cmd);
         try {
-            audioBuilder.start();
+            _recordingProcess = audioBuilder.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,12 +66,19 @@ public class Recorder extends Task<String> {
         }
     }
 
+    public String stopRecording(){
+        _recordingProcess.destroy();
+        this.cancel();
+        return _fileName;
+    }
+
     private void waitForRecord() throws InterruptedException {
         for (int i=0;i<5000;i++){
             Thread.sleep(1);
             updateProgress(i+1,5000); //update binded progress bar periodically for duration of recording
         }
     }
+
     @Override
     protected String call() throws Exception {
         if (_name != null){

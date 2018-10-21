@@ -43,7 +43,7 @@ public class RecordingRater {
 
     }
 
-    public void overwWriteFavRating(){
+    public boolean overWriteFavRating(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Overwrite?");
         alert.setHeaderText("'"+_selection+"'"+" is your preferred recording");
@@ -62,6 +62,9 @@ public class RecordingRater {
             PrintWriter writer = new PrintWriter(bw);
             writer.println(_selection);
             writer.close();
+            return true;
+        } else {
+            return false;
         }
     }
 

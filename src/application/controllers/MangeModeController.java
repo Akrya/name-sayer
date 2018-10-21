@@ -116,7 +116,11 @@ public class MangeModeController{
             if (exists) {
                 rater.overWriteRating();
             } else if (selection.getRating().equals("Good ★")) {
-                rater.overwWriteFavRating();
+                boolean overwritten = rater.overWriteFavRating();
+                if (overwritten){
+                    NamesModel namesModel = _namesListModel.getName(name);
+                    namesModel.setFavourite(false);
+                }
             } else {
                 rater.makeRating();
             }
