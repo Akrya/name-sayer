@@ -10,6 +10,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**Class handles play back of database version of a concatenated name, it normalises and trims each recording before adding them to
+ * a queue to be played back, it also calculates the total length of all the recordings and binds this to an associated progress bar
+ */
 public class ConcatenatedPlayer extends Task<Void> {
 
     private String[] _splitNames;
@@ -23,9 +26,11 @@ public class ConcatenatedPlayer extends Task<Void> {
     private final int _targetVolume = -15;
     private Process _audioProcess;
 
-
-    public ConcatenatedPlayer(String customName, NamesListModel namesListModel) {
-        _splitNames = customName.split("[-\\s]");
+    /**Constructor takes in a concatenated name and a reference to the namesListModel, it finds the name model of each name in
+     * the concatenated name and normalises then trims the best recording for that name before adding them to the queue
+     */
+    public ConcatenatedPlayer(String concatName, NamesListModel namesListModel) {
+        _splitNames = concatName.split("[-\\s]");
         _namesListModel = namesListModel;
         getModels(namesListModel);
         getRecordings();
@@ -50,6 +55,9 @@ public class ConcatenatedPlayer extends Task<Void> {
         }
     }
 
+    /** Method called by the constructor to find all the name model in the concatenated name from the nameListModel
+     *
+     */
     private void getModels(NamesListModel namesListModel){
         _nameModels = new ArrayList<>();
         for (String name : _splitNames){
@@ -60,6 +68,8 @@ public class ConcatenatedPlayer extends Task<Void> {
         }
     }
 
+    /**Loops through each name in the concatenated name and finds its best recording
+     */
     private void getRecordings(){
         _recordings = new ArrayList<>();
         for (NamesModel model : _nameModels){
@@ -68,6 +78,8 @@ public class ConcatenatedPlayer extends Task<Void> {
         }
     }
 
+    /** Method calls the bash command which plays the audio file
+     */
     private void playAudio(String filePath){
         String cmd = "ffplay -loglevel panic -autoexit -nodisp -i '"+filePath+"'";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash","-c",cmd);
@@ -79,11 +91,16 @@ public class ConcatenatedPlayer extends Task<Void> {
         }
     }
 
+    /**Called by a controller class when a stop button has been pressed, it prematurely
+     * ends the audio play back process
+     */
     public void stopAudio(){
         _audioProcess.destroy();
         this.cancel();
     }
 
+    /** Called in the constructor, it trims a given file for any silence, and returns the silence file
+     */
     private String trimAudio(String filePath) throws IOException, InterruptedException {
         //trim the normalised file for any silence then add new trimmed file to a list
         String cmd = "ffmpeg -i '"+filePath+"' -af silenceremove=1:0:-30dB silenced"+queueNum+".wav";
@@ -97,12 +114,17 @@ public class ConcatenatedPlayer extends Task<Void> {
 
     }
 
+    /**Called at the end of playback, it removes all temporary files
+     * associated with the playback of the name
+     */
     public void cleanUpFiles(){
         for (String filePath : _trimmedFiles){
             new File(filePath).delete();
         }
     }
 
+    /**Method called in constructor, it calculates the length of a wav file and returns this length in seconds
+     */
     private double calcLength(String filePath) throws IOException, UnsupportedAudioFileException {
         //reference to calculate wav file length https://stackoverflow.com/questions/3009908/how-do-i-get-a-sound-files-total-time-in-java
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(filePath));
@@ -112,6 +134,9 @@ public class ConcatenatedPlayer extends Task<Void> {
         return length;
     }
 
+    /**Called in the constructor, it normalises a given wav file to a target decibel value of -15, then returns the file name
+     * of the normalised file
+     */
     private String normaliseAudio(String filePath) throws IOException, InterruptedException {
         //reference: https://trac.ffmpeg.org/wiki/AudioVolume
 
@@ -137,6 +162,9 @@ public class ConcatenatedPlayer extends Task<Void> {
         return "normalised.wav";
     }
 
+    /** Method called when the task is started, it plays the audio in the queue on a separate thread while on the
+     * event dispatch thread, it periodically updates the progress bar on the GUI.
+     */
     @Override
     protected Void call() throws Exception {
 
@@ -153,7 +181,7 @@ public class ConcatenatedPlayer extends Task<Void> {
             Thread.sleep(1);
             updateProgress(i + 1, approxLength); //update binded progress bar periodically for duration of audio
         }
-        cleanUpFiles();
+        cleanUpFiles();//remove temp files after playback
         return null;
     }
 }

@@ -21,6 +21,10 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.util.*;
 
+/**Controller class for name selection, it handles all the business logic associated with the functionality found in selection mode
+ * and updates the views of the GUI when applicable
+ * It also calls on model classes when appropriate and allows them to handle background processes
+ */
 public class NamesSelectorController {
 
     //reference for pop-up boxes https://code.makery.ch/blog/javafx-dialogs-official/
@@ -50,6 +54,58 @@ public class NamesSelectorController {
     private NamesListModel _namesListModel;
 
     private ObservableList<String> _practiceFiles;
+
+    /** called immediately after controller is constructed, it sets up the button, listview configurations and also sets up the
+     * dynamic searching feature
+     */
+    public void initialise(NamesListModel model){
+        _namesListModel = model;
+        _practiceNames = FXCollections.observableArrayList();
+        _practiceNamesList.setItems(_practiceNames);
+        _clearBtn.setDisable(true);
+        _removeBtn.setDisable(true);
+        _saveBtn.setDisable(true);
+        _searchBox.setPromptText("Search for names here, use space key to autofill suggested result");
+        getPlayListFiles();
+        __practiceListFiles.setItems(_practiceFiles);
+
+        //populate listview with names in database
+        ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
+        _filteredNames = new FilteredList<>(names, e -> true);
+        _namesList.setItems(_filteredNames);
+
+        //same code as other search box reference: https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
+        _searchBox.textProperty().addListener((observable, oldValue, newValue) ->{
+            _filteredNames.setPredicate(element ->{ //set the rules for how the search box filters out names
+                String currentText = newValue;
+                if (currentText.contains(" ") && currentText.contains("-")){
+                    currentText = (currentText.lastIndexOf(' ') >= currentText.lastIndexOf('-')) ? currentText.substring(currentText.lastIndexOf(' ')+1) : currentText.substring(currentText.lastIndexOf('-')+1);
+                }else if (currentText.contains(" ")){ //checks if there is a space character, if there is then mark current string from last instance of space character
+                    currentText = currentText.substring(currentText.lastIndexOf(' ')+1);
+                } else if (currentText.contains("-")){
+                    currentText = currentText.substring(currentText.lastIndexOf('-')+1);
+                }
+                if (element.length() >= currentText.length()){
+                    if (element.toUpperCase().substring(0,currentText.length()).equals(currentText.toUpperCase())){ //filter for names that start with search string
+                        return true;
+                    }
+                }
+                if (element.contains("Name not found")){ //if the item in the filtered list is the "Name not found" message then display it
+                    return true;
+                }
+                if (newValue == null || newValue.isEmpty()){
+                    return true;
+                }
+                return false;
+            });
+            if (_filteredNames.isEmpty()){ //when filtered list is empty, i.e. user enters a name not in the database then add a name not found message
+                names.add("Name not found");
+            } else if (!_filteredNames.isEmpty() && names.indexOf("Name not found") != -1 && _filteredNames.size() !=1){ //if list is no longer empty then remove message
+                names.remove("Name not found");
+            }
+            _namesList.setItems(_filteredNames);
+        });
+    }
 
     /** Returns the user to the main menu and passes the name list model to the main menu, so its state is saved.
      */
@@ -99,6 +155,7 @@ public class NamesSelectorController {
             window.setScene(scene);
         }
     }
+
 
     /**Method called when add is pressed or user hits enter on keyboard to add the name to practice list
      * it calls addLine() which validates the user's entry
@@ -371,58 +428,6 @@ public class NamesSelectorController {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    /** called immediately after controller is constructed, it sets up the button, listview configurations and also sets up the
-     * dynamic searching feature
-     */
-    public void initialise(NamesListModel model){
-        _namesListModel = model;
-        _practiceNames = FXCollections.observableArrayList();
-        _practiceNamesList.setItems(_practiceNames);
-        _clearBtn.setDisable(true);
-        _removeBtn.setDisable(true);
-        _saveBtn.setDisable(true);
-        _searchBox.setPromptText("Search for names here, use space key to autofill suggested result");
-        getPlayListFiles();
-        __practiceListFiles.setItems(_practiceFiles);
-
-        //populate listview with names in database
-        ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
-        _filteredNames = new FilteredList<>(names, e -> true);
-        _namesList.setItems(_filteredNames);
-
-        //same code as other search box reference: https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
-        _searchBox.textProperty().addListener((observable, oldValue, newValue) ->{
-            _filteredNames.setPredicate(element ->{ //set the rules for how the search box filters out names
-                String currentText = newValue;
-                if (currentText.contains(" ") && currentText.contains("-")){
-                    currentText = (currentText.lastIndexOf(' ') >= currentText.lastIndexOf('-')) ? currentText.substring(currentText.lastIndexOf(' ')+1) : currentText.substring(currentText.lastIndexOf('-')+1);
-                }else if (currentText.contains(" ")){ //checks if there is a space character, if there is then mark current string from last instance of space character
-                    currentText = currentText.substring(currentText.lastIndexOf(' ')+1);
-                } else if (currentText.contains("-")){
-                    currentText = currentText.substring(currentText.lastIndexOf('-')+1);
-                }
-                if (element.length() >= currentText.length()){
-                    if (element.toUpperCase().substring(0,currentText.length()).equals(currentText.toUpperCase())){ //filter for names that start with search string
-                        return true;
-                    }
-                }
-                if (element.contains("Name not found")){ //if the item in the filtered list is the "Name not found" message then display it
-                    return true;
-                }
-                if (newValue == null || newValue.isEmpty()){
-                    return true;
-                }
-                return false;
-            });
-            if (_filteredNames.isEmpty()){ //when filtered list is empty, i.e. user enters a name not in the database then add a name not found message
-                names.add("Name not found");
-            } else if (!_filteredNames.isEmpty() && names.indexOf("Name not found") != -1 && _filteredNames.size() !=1){ //if list is no longer empty then remove message
-                names.remove("Name not found");
-            }
-            _namesList.setItems(_filteredNames);
-        });
     }
 
     /**Called when updatePracticeNames is called, it resets the practice list view with the new set of practice names
