@@ -102,7 +102,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Names" wrappingWidth="115.404296875" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Names" wrappingWidth="125.404296875" />
                               <ImageView fitHeight="21.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../Images/go-back-right-arrow.png" />
