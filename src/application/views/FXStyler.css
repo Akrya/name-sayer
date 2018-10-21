@@ -1,7 +1,27 @@
 .root{
     -fx-background-color: #252839;   /*root background color*/
     -fx-text-fill: #fff;
+    -fx-focus-color: transparent;
+
 }
+
+/*remove list focus*/
+.list-view:focused {
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0;
+}
+/*remove table focus*/
+.table-view:focused {
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+/*no highlight for text area in help window*/
+.text-area:focused{
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
 
 /*default hover and click system for buttons*/
 .button{
@@ -20,7 +40,6 @@
 
     -fx-font-weight: normal;
 }
-
 
 /*
 style for label
