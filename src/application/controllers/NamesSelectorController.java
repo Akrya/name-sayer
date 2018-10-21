@@ -132,7 +132,7 @@ public class NamesSelectorController {
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
-            File customFile = new File("Custom/"+result.get()+".txt"); //check if text file user inputs is already taken
+            File customFile = new File("Playlists/"+result.get()+".txt"); //check if text file user inputs is already taken
             if (customFile.exists()){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Overwrite file?");
@@ -263,6 +263,8 @@ public class NamesSelectorController {
     private void enableSelectBtns(){
         if (!selectedList.getSelectionModel().isEmpty()){
             removeBtn.setDisable(false);
+            clearBtn.setDisable(false);
+            makeFileBtn.setDisable(false);
         }
     }
 
@@ -384,8 +386,18 @@ public class NamesSelectorController {
         });
     }
 
+    private void updateList(){
+        selectedList.getItems().clear();
+        selectedList.setItems(_selectedNames);
+    }
+
     public List<String> getSelectedNames(){
         return _selectedNames;
+    }
+
+    public void setSelectedNames(List<String> selectedNames){
+        _selectedNames = FXCollections.observableArrayList(selectedNames);
+        updateList();
     }
 
 }

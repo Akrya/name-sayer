@@ -146,6 +146,7 @@ public class CustomModeController {
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
         controller.initialise(_namesListModel);
+        controller.setSelectedNames(_selectedNames);
         _singleton.setController(controller);
         Scene scene = new Scene(root);
 
@@ -363,6 +364,7 @@ public class CustomModeController {
     @FXML
     private void shuffleList(){
         Collections.shuffle(_selectedNames);
+        selectName();
     }
 
     @FXML
