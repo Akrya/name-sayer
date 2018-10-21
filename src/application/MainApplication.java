@@ -16,16 +16,15 @@ public class MainApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml")); //open up the menu on start up
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
-        NamesListModel model = new NamesListModel();
+        NamesListModel model = new NamesListModel(); //construct the list of name models
         controller.initialise(model);
         primaryStage.setTitle("Name Sayer");
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
         primaryStage.setResizable(false);
-
 
         primaryStage.setOnCloseRequest(e ->{ //confirmation box for exiting program
             e.consume();
@@ -36,6 +35,7 @@ public class MainApplication extends Application {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 primaryStage.close();
+                System.exit(0);
             }
         });
     }

@@ -136,7 +136,7 @@ public class PracticeModeController {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
 
-        _audioVisualModel.endTask();
+        _audioVisualModel.endTask(); //stop the mic level bar when changing scenes
     }
 
 
@@ -386,13 +386,7 @@ public class PracticeModeController {
                 alert.setContentText("Please select a personal recording to do a comparision with!");
                 alert.showAndWait();
             } else {
-                List<String> choices = new ArrayList<>();
-                choices.add("1");
-                choices.add("2");
-                choices.add("3");
-                choices.add("4");
-                choices.add("5");
-
+                List<String> choices = new ArrayList<>(Arrays.asList(new String[]{"1","2","3","4","5"}));
                 ChoiceDialog<String> dialog = new ChoiceDialog<>("1", choices);
                 dialog.setTitle("Comparison");
                 dialog.setHeaderText("You are comparing recordings for '" + _recordingInPlay.getText() + "'");
@@ -541,10 +535,8 @@ public class PracticeModeController {
             InputStream inputStream = volumeInitializer.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream)); //reading current volume level
             String volumeLevel = br.readLine();
-
             double vlevel = Double.parseDouble(volumeLevel);
             _volumeSlider.setValue(vlevel); //bind volume level to the slider
-
         } catch (IOException e){
             e.printStackTrace();
         }
