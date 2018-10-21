@@ -18,14 +18,16 @@ public class MainMenuController {
 
     private NamesListModel _model;
 
+    /** Called when practice mode button is pressed on main menu, we direct the user to the name selection screen after
+     */
     @FXML
-    private void openCustomMode(ActionEvent event) throws IOException {
+    private void openSelectMode(ActionEvent event) throws IOException {
 
         _manager = ControllerManager.getInstance();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
-        _manager.setController(controller);
+        _manager.setController(controller); //pass the manager a reference to the name selector controller, which will be used in the practice mode screen
         controller.initialise(_model);
         Scene scene = new Scene(root);
 
@@ -33,8 +35,10 @@ public class MainMenuController {
         window.setScene(scene);
     }
 
+    /** Called when the Manage mode button is pressed, it directs the user to the manage mode screen after
+     */
     @FXML
-    private void openListenMode(ActionEvent event) throws IOException {
+    private void openManageMode(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/ManageMode.fxml"));
         Parent root = loader.load();
         MangeModeController controller = loader.getController();
@@ -45,6 +49,8 @@ public class MainMenuController {
         window.setScene(scene);
     }
 
+    /** Called when the help button is pressed, it opens up the help window which contains our user manual
+     */
     @FXML
     private void openHelpWindow(ActionEvent event){
 
@@ -63,6 +69,8 @@ public class MainMenuController {
         }
     }
 
+    /** Called when Main menu controller is constructed it gets passed a reference to the name list model
+     */
     public void initialise(NamesListModel model){
         _model = model;
     }

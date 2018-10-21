@@ -38,14 +38,14 @@
                   <Pane prefHeight="203.0" prefWidth="1200.0" />
                   <HBox alignment="CENTER" prefHeight="125.0" prefWidth="800.0">
                      <children>
-                        <Button fx:id="viewRecordings" mnemonicParsing="false" onAction="#openListenMode" prefHeight="120.0" prefWidth="210.0" text="MANAGE NAMES">
+                        <Button fx:id="viewRecordings" mnemonicParsing="false" onAction="#openManageMode" prefHeight="120.0" prefWidth="210.0" text="MANAGE NAMES">
                            <font>
                               <Font size="13.0" />
                            </font>
                            <HBox.margin>
                               <Insets right="250.0" />
                            </HBox.margin></Button>
-                        <Button mnemonicParsing="false" onAction="#openCustomMode" prefHeight="120.0" prefWidth="210.0" text="PRACTICE MODE ">
+                        <Button mnemonicParsing="false" onAction="#openSelectMode" prefHeight="120.0" prefWidth="210.0" text="PRACTICE MODE ">
                            <font>
                               <Font size="13.0" />
                            </font></Button>

@@ -22,64 +22,49 @@ import java.util.*;
 
 public class MangeModeController{
 
-    @FXML
-    private Button rateBtn;
-
-    @FXML
-    private Button deleteBtn;
-
-    @FXML
-    private Button listenBtn;
-
-    @FXML
-    private TextField searchBox;
-
-    @FXML
-    private ProgressBar playProgressBar;
-
-    @FXML
-    private Label playStatus;
-
-    @FXML
-    private Label playRecording;
-
-    @FXML
-    private ListView<String> namesList;
-
-    @FXML
-    private TableView<RecordingModel> recordingsTable;
-
-    @FXML
-    private Label recordingLabel;
-
-    @FXML
-    private Label recordingStatus;
-
-    @FXML
-    private Button bookMarkBtn;
-
-    private ObservableList<RecordingModel> _recordingModels = FXCollections.observableArrayList();
-
-    @FXML
-    private TableColumn<RecordingModel, String> fileCol;
-
-    @FXML
-    private TableColumn<RecordingModel, String> ratingCol;
-
     private NamesListModel _namesListModel;
 
-    private FilteredList<String> _filteredNames;
+    private FilteredList<String> _filteredNames; //this list changes depending on what the user searches, it is originally a copy of all names stored
 
     private boolean _inAction;
 
-    @FXML
-    private Slider volumeSlider;
+    private ObservableList<RecordingModel> _recordingModels = FXCollections.observableArrayList(); //list of recording models which is displayed in the recording table view
+
+    @FXML private Button _rateBtn;
+
+    @FXML private Button _deleteBtn;
+
+    @FXML private Button _listenBtn;
+
+    @FXML private Button _favouriteBtn;
+
+    @FXML private TextField _searchBox;
+
+    @FXML private ProgressBar _audioProgressBar;
+
+    @FXML private Label _playBackStatus;
+
+    @FXML private Label _recordingInPlay;
+
+    @FXML private ListView<String> _namesList; //list view which is binded to filterenames, it is dynamically updated as the user searches
+
+    @FXML private TableView<RecordingModel> _recordingsTable;
+
+    @FXML private Label _recordingsTableName;
+
+    @FXML private Label _recordingsTableStatus;
+
+    @FXML private TableColumn<RecordingModel, String> _fileNameColumn;
+
+    @FXML private TableColumn<RecordingModel, String> _ratingColumn;
+
+    @FXML private Slider _volumeSlider;
 
 
     @FXML
     private void deleteRecording(){
 
-        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
+        RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
             if (!selection.getFileName().substring(0,8).equals("personal")){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -102,7 +87,7 @@ public class MangeModeController{
                     for (RecordingModel record : records) {
                         _recordingModels.add(record);
                     }
-                    recordingsTable.getItems().setAll(_recordingModels);
+                    _recordingsTable.getItems().setAll(_recordingModels);
                 }
             }
         }
@@ -110,7 +95,7 @@ public class MangeModeController{
 
     @FXML
     private void rateRecording(){
-        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
+        RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
             String name = selection.getName();
             RecordingRater rater = new RecordingRater(selection.getFileName(), selection); //make new rater object
@@ -126,28 +111,28 @@ public class MangeModeController{
             } else {
                 rater.makeRating();
             }
-            recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings list
+            _recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings list
             _recordingModels.clear();
             NamesModel model = _namesListModel.getName(name);
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records) {
                 _recordingModels.add(record);
             }
-            recordingsTable.getItems().setAll(_recordingModels);
+            _recordingsTable.getItems().setAll(_recordingModels);
         }
     }
 
 
     @FXML
     private void playRecording(){
-        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
+        RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
-            deleteBtn.setDisable(true);
-            rateBtn.setDisable(true);
-            bookMarkBtn.setDisable(true);
-            listenBtn.setDisable(true);
-            playStatus.setText("Now playing: ");
-            playRecording.setText(selection.getFileName());
+            _deleteBtn.setDisable(true);
+            _rateBtn.setDisable(true);
+            _favouriteBtn.setDisable(true);
+            _listenBtn.setDisable(true);
+            _playBackStatus.setText("Now playing: ");
+            _recordingInPlay.setText(selection.getFileName());
             _inAction = true;
             String filePath;
             if (selection.getFileName().substring(0, 8).equals("personal")) {
@@ -156,16 +141,16 @@ public class MangeModeController{
                 filePath = "Database/" + selection.getFileName(); //get file path to the recording and pass it into player
             }
             RecordingPlayer player = new RecordingPlayer(filePath);
-            playProgressBar.progressProperty().unbind();
-            playProgressBar.progressProperty().bind(player.progressProperty());
+            _audioProgressBar.progressProperty().unbind();
+            _audioProgressBar.progressProperty().bind(player.progressProperty());
             player.setOnSucceeded(e -> {
                 _inAction = false;
-                rateBtn.setDisable(false);
-                listenBtn.setDisable(false);
-                deleteBtn.setDisable(false);
-                bookMarkBtn.setDisable(false);
-                playStatus.setText("No recording currently playing");
-                playRecording.setText("");
+                _rateBtn.setDisable(false);
+                _listenBtn.setDisable(false);
+                _deleteBtn.setDisable(false);
+                _favouriteBtn.setDisable(false);
+                _playBackStatus.setText("No recording currently playing");
+                _recordingInPlay.setText("");
             });
             new Thread(player).start();
         }
@@ -173,16 +158,16 @@ public class MangeModeController{
 
     @FXML
     private void clearSearch(){
-        searchBox.setText("");
+        _searchBox.setText("");
     }
 
     @FXML
     private void enableListen(MouseEvent mouseEvent){
-        if (recordingsTable.getSelectionModel().getSelectedItem() != null){
-            rateBtn.setDisable(false);
-            bookMarkBtn.setDisable(false);
-            listenBtn.setDisable(false);
-            deleteBtn.setDisable(false);
+        if (_recordingsTable.getSelectionModel().getSelectedItem() != null){
+            _rateBtn.setDisable(false);
+            _favouriteBtn.setDisable(false);
+            _listenBtn.setDisable(false);
+            _deleteBtn.setDisable(false);
         }
         if (mouseEvent.getClickCount() == 2 && !_inAction){
             playRecording();
@@ -191,7 +176,7 @@ public class MangeModeController{
 
     @FXML
     private void getRecordings(){
-        String selection = namesList.getSelectionModel().getSelectedItem();
+        String selection = _namesList.getSelectionModel().getSelectedItem();
         if (selection == null){
             selection = _filteredNames.get(0);
         }
@@ -202,9 +187,9 @@ public class MangeModeController{
             for (RecordingModel record : records){
                 _recordingModels.add(record);
             }
-            recordingsTable.getItems().setAll(_recordingModels);
-            recordingStatus.setText("Recordings for: ");
-            recordingLabel.setText(selection);
+            _recordingsTable.getItems().setAll(_recordingModels);
+            _recordingsTableStatus.setText("Recordings for: ");
+            _recordingsTableName.setText(selection);
         }
     }
 
@@ -213,7 +198,7 @@ public class MangeModeController{
      */
     @FXML
     private void bookMarkRecording(){
-        RecordingModel selection = recordingsTable.getSelectionModel().getSelectedItem();
+        RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
             RecordingBookmarker bookmarker = new RecordingBookmarker(selection);
             NamesModel model = _namesListModel.getName(selection.getName());
@@ -230,7 +215,7 @@ public class MangeModeController{
                         }
                         _recordingModels.add(record);
                     }
-                    recordingsTable.getItems().setAll(_recordingModels);
+                    _recordingsTable.getItems().setAll(_recordingModels);
                 }
             } else {
                 if(bookmarker.setAsFavourite()) { //if user wants to bookmark a recording for the name then update the table
@@ -240,7 +225,7 @@ public class MangeModeController{
                     for (RecordingModel record : records) { //repopulate the tableview with recordings
                         _recordingModels.add(record);
                     }
-                    recordingsTable.getItems().setAll(_recordingModels);
+                    _recordingsTable.getItems().setAll(_recordingModels);
                 }
             }
         }
@@ -266,23 +251,23 @@ public class MangeModeController{
         _namesListModel = model;
 
         //disable all buttons on start up except for testing mic and creating recording
-        deleteBtn.setDisable(true);
-        rateBtn.setDisable(true);
-        bookMarkBtn.setDisable(true);
-        listenBtn.setDisable(true);
-        searchBox.setPromptText("Search...");
+        _deleteBtn.setDisable(true);
+        _rateBtn.setDisable(true);
+        _favouriteBtn.setDisable(true);
+        _listenBtn.setDisable(true);
+        _searchBox.setPromptText("Search...");
 
         makeRatingFile();
-        fileCol.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class
-        ratingCol.setCellValueFactory(new PropertyValueFactory<>("rating"));
-        recordingsTable.getItems().setAll(_recordingModels);
+        _fileNameColumn.setCellValueFactory(new PropertyValueFactory<>("fileName")); //bind two columns to RecordingModel class
+        _ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
+        _recordingsTable.getItems().setAll(_recordingModels);
 
 
         //reference for search box https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
         ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
         _filteredNames = new FilteredList<>(names, e -> true);
-        namesList.setItems(_filteredNames);
-        searchBox.textProperty().addListener((observable,oldValue, newValue) ->{
+        _namesList.setItems(_filteredNames);
+        _searchBox.textProperty().addListener((observable, oldValue, newValue) ->{
             _filteredNames.setPredicate(element ->{
                 if (newValue == null || newValue.isEmpty()){
                     return true;
@@ -305,7 +290,7 @@ public class MangeModeController{
             if (_filteredNames.size() == 1) { //automatically update recordings table if only one item in the search results
                 getRecordings();
             }
-            namesList.setItems(_filteredNames);
+            _namesList.setItems(_filteredNames);
         });
         startVolumeSlider();
     }
@@ -324,7 +309,7 @@ public class MangeModeController{
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String volumeLevel = br.readLine();
             double vlevel = Double.parseDouble(volumeLevel);
-            volumeSlider.setValue(vlevel);
+            _volumeSlider.setValue(vlevel);
 
         } catch (IOException e){
             e.printStackTrace();
@@ -334,10 +319,10 @@ public class MangeModeController{
         //A listener gets the value from slider and runs a bash command with that changes the volume based on the value
 
         //https://www.youtube.com/watch?v=X9mEBGXX3dA reference
-        volumeSlider.valueProperty().addListener(new InvalidationListener() {
+        _volumeSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                double volume = volumeSlider.getValue();
+                double volume = _volumeSlider.getValue();
                 //System.out.println(volume);
                 String cmd2 = "amixer set 'Master' " + volume + "%";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd2);
@@ -404,7 +389,5 @@ public class MangeModeController{
         } catch (FileNotFoundException e){
             e.printStackTrace();
         }
-
-
     }
 }

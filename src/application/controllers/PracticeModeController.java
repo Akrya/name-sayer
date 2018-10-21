@@ -22,6 +22,10 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.util.*;
 
+/**Controller class for practice mode, it handles all the business logic associated with the functionality found in practice mode
+ * and updates the views of the GUI when applicable
+ * It also calls on model classes when appropriate and allows them to handle background processes
+ */
 public class PracticeModeController {
 
     private ControllerManager _manager;
