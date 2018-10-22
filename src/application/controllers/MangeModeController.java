@@ -73,12 +73,15 @@ public class MangeModeController{
 
     @FXML private ImageView _listenBtnImage;
 
+    private CSSManager _cssManager;
+
 
     /**method is called immediately after the controller is constructed, it sets up the button configurations for the scene and sets up the dynamic searching feature
      * @param model name list model contains all the name models the program finds
      */
-    public void initialise(NameModelManager model) {
+    public void initialise(NameModelManager model, CSSManager cssManager) {
         _nameModelManager = model;
+        _cssManager = cssManager;
 
         //disable all buttons on start up except for testing mic and creating recording
         _deleteBtn.setDisable(true);
@@ -353,9 +356,11 @@ public class MangeModeController{
     private void goToMain(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
         Parent root = loader.load();
+        root.getStylesheets().clear();
+        root.getStylesheets().add(_cssManager.cssTheme);
         MainMenuController controller = loader.getController();
         Scene scene = new Scene(root);
-        controller.initialise(_nameModelManager);
+        controller.initialise(_nameModelManager, _cssManager);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);

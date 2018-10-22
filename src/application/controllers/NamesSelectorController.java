@@ -1,5 +1,6 @@
 package application.controllers;
 
+import application.models.CSSManager;
 import application.models.NameModelManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -55,12 +56,15 @@ public class NamesSelectorController {
 
     private ObservableList<String> _practiceFiles;
 
+    private CSSManager _cssManager;
+
 
     /**Called immediately after controller is constructed, it sets up the button, listview configurations and also sets up the
      * dynamic searching feature
      * @param manager contains all the name models the program finds
      */
-    public void initialise(NameModelManager manager){
+    public void initialise(NameModelManager manager, CSSManager cssManager){
+        _cssManager = cssManager;
         _nameModelManager = manager;
         _practiceNames = FXCollections.observableArrayList();
         _practiceNamesList.setItems(_practiceNames);
@@ -117,8 +121,10 @@ public class NamesSelectorController {
     private void goToMain(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
         Parent root = loader.load();
+        root.getStylesheets().clear();
+        root.getStylesheets().add(_cssManager.cssTheme);
         MainMenuController controller = loader.getController();
-        controller.initialise(_nameModelManager);
+        controller.initialise(_nameModelManager, _cssManager);
         Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -154,8 +160,10 @@ public class NamesSelectorController {
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/PracticeMode.fxml"));//switch scenes
             Parent root = loader.load();
+            root.getStylesheets().clear();
+            root.getStylesheets().add(_cssManager.cssTheme);
             PracticeModeController controller = loader.getController();
-            controller.initialise(_nameModelManager);
+            controller.initialise(_nameModelManager, _cssManager);
             Scene scene = new Scene(root);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -22,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PracticeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.PracticeModeController">
    <top>
       <VBox prefHeight="103.0" prefWidth="1200.0" styleClass="nameSayer-hbox" BorderPane.alignment="CENTER">
          <children>
@@ -46,7 +40,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Back to Selection" wrappingWidth="129.833984375" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Back to Selection" wrappingWidth="129.833984375" />
                               <ImageView fitHeight="19.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/go-back-left-arrow.png" />
@@ -59,7 +53,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Home" wrappingWidth="51.390625" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Home" wrappingWidth="51.390625" />
                               <ImageView fitHeight="21.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/house.png" />
@@ -86,7 +80,7 @@
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text fx:id="_dbListenBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Original" wrappingWidth="108.96435546875" />
+                                    <Text fx:id="_dbListenBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Listen Original" wrappingWidth="108.96435546875" />
                                     <ImageView fx:id="_dbListenBtnImage" fitHeight="14.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/musical-note.png" />
@@ -100,7 +94,7 @@
                            <graphic>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Shuffle" wrappingWidth="54.49365234375" />
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Shuffle" wrappingWidth="54.49365234375" />
                                     <ImageView fitHeight="16.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/couple-of-arrows-changing-places.png" />
@@ -115,7 +109,7 @@
                            <graphic>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove" wrappingWidth="65.33935546875" />
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Remove" wrappingWidth="65.33935546875" />
                                     <ImageView fitHeight="16.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/substract.png" />
@@ -158,7 +152,7 @@
                      </children>
                   </HBox>
                   <Pane prefHeight="10.0" prefWidth="485.0" />
-                  <Text fx:id="_selectStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="No name selected ">
+                  <Text fx:id="_selectStatus" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-selected" text="No name selected ">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -166,7 +160,7 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </Text>
-                  <Text fx:id="_selectedName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="480.0">
+                  <Text fx:id="_selectedName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-selected" wrappingWidth="480.0">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -176,7 +170,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="_recordBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record" wrappingWidth="69.66455078125">
+                              <Text fx:id="_recordBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Record" wrappingWidth="69.66455078125">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Text>
@@ -193,7 +187,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fx:id="_compareBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Compare" wrappingWidth="98.25537109375">
+                              <Text fx:id="_compareBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Compare" wrappingWidth="98.25537109375">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Text>
@@ -245,7 +239,7 @@
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text fx:id="_userListenBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Personal" wrappingWidth="113.8203125" />
+                                    <Text fx:id="_userListenBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Listen Personal" wrappingWidth="113.8203125" />
                                     <ImageView fx:id="_userListenBtnImage" fitHeight="15.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/musical-note.png" />
@@ -259,7 +253,7 @@
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="10.0" prefWidth="117.0">
                                  <children>
-                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" wrappingWidth="54.71337890625" />
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Delete" wrappingWidth="54.71337890625" />
                                     <ImageView fitHeight="15.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/garbage.png" />

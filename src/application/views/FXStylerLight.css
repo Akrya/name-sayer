@@ -1,12 +1,16 @@
 .root{
-    -fx-background-color: #252839;   /*root background color*/
-    -fx-text-fill: #fff;
+    -fx-background-color: #fffbdc;   /*root background color*/
+    -fx-text-fill: #a2a2a2;
     -fx-focus-color: transparent;
 
 }
 
 .text-class{
-    -fx-fill: #595159;
+     -fx-fill: #f4e2f4;
+ }
+
+.text-selected{
+    -fx-fill: #272327;
 }
 
 /*remove list focus*/
@@ -30,13 +34,15 @@
 /*default hover and click system for buttons*/
 .button{
     -fx-background-radius: 0;
-    -fx-background-color: #f2b632;
-    -fx-text-fill: #595159;
+    -fx-background-color: #576067;
+    -fx-text-fill: #f4e2f4;
 
 }
+
+
 .button:hover{
 
-    -fx-background-color: #ffd81e;
+    -fx-background-color: #484e54;
 
     -fx-font-weight: bold;
 }
@@ -49,7 +55,7 @@
 style for label
  */
 .label{
-    -fx-text-fill: #eeeeee;
+    -fx-text-fill: #282828;
 }
 
 
@@ -61,7 +67,7 @@ style for label
 
 /*style for name sayer panel*/
 .nameSayer-hbox{
-    -fx-background-color: #677077;
+    -fx-background-color: #f2b632;
 
 }
 
@@ -140,7 +146,8 @@ style for label
 }
 
 .table-view .column-header {
-    -fx-background-color: #c79e26;
+    -fx-background-color: #7c8690;
+    -fx-fill: #f4e2f4;
 }
 .table-row-cell{
     -fx-background-color: #677077;
@@ -186,14 +193,8 @@ thumb
     -fx-background-color:derive( #434c53,90%);
     -fx-background-insets: 2, 0, 0;
     -fx-background-radius: 0em;
-
 }
 
-
-/*
-toggle theme
- */
-
 .radio-button{
-    -fx-text-fill: #fff;
+    -fx-text-fill: #000000;
 }

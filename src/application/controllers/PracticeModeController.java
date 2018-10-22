@@ -101,11 +101,14 @@ public class PracticeModeController {
 
     @FXML private ImageView _compareBtnImage;
 
+    private CSSManager _cssManager;
+
     /**Method is called when the scene is loaded and the controller is instantiated, a reference to the NameModelManager is
      * passed into the controller and stored as a field, method also sets up the mic levels bar and disables buttons on startup
      * as well as populate the listviews with names and recordings.
      */
-    public void initialise(NameModelManager model){
+    public void initialise(NameModelManager model, CSSManager cssManager){
+        _cssManager = cssManager;
         _nameModelManager = model; //name list model holds information about all the name models stored in the program
         _manager = ControllerManager.getInstance();
         _nameSelectorController = _manager.getController();
@@ -163,8 +166,10 @@ public class PracticeModeController {
     private void goToMain(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
         Parent root = loader.load();
+        root.getStylesheets().clear();
+        root.getStylesheets().add(_cssManager.cssTheme);
         MainMenuController controller = loader.getController();
-        controller.initialise(_nameModelManager);
+        controller.initialise(_nameModelManager, _cssManager);
         Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -182,8 +187,10 @@ public class PracticeModeController {
         _manager = ControllerManager.getInstance();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
+        root.getStylesheets().clear();
+        root.getStylesheets().add(_cssManager.cssTheme);
         NamesSelectorController controller = loader.getController();
-        controller.initialise(_nameModelManager);
+        controller.initialise(_nameModelManager, _cssManager);
         controller.updatePracticeNames(_selectedNames); //pass in a copy of the current selected names list back to the name selector controller
         _manager.setController(controller);
         Scene scene = new Scene(root);

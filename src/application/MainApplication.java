@@ -1,6 +1,7 @@
 package application;
 
 import application.controllers.MainMenuController;
+import application.models.CSSManager;
 import application.models.NameModelManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,7 @@ public class MainApplication extends Application {
 
     /**Method called when application starts,
      * it loads the main menu controller and passes it a name manager
+     * a css manager is also passed which stores the information about the current stylesheet in use
      * @param primaryStage
      * @throws Exception
      */
@@ -30,8 +32,9 @@ public class MainApplication extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml")); //open up the menu on start up
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
-        NameModelManager model = new NameModelManager(); //construct the list of name models
-        controller.initialise(model);
+        NameModelManager model = new NameModelManager(); //construct the list of name models1
+        CSSManager cssManager = new CSSManager();
+        controller.initialise(model, cssManager);
         primaryStage.setTitle("Name Sayer");
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();

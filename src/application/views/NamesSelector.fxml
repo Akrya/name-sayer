@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -22,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NamesSelectorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.NamesSelectorController">
    <right>
       <VBox alignment="CENTER" prefHeight="624.0" prefWidth="560.0" BorderPane.alignment="CENTER">
          <children>
@@ -44,7 +38,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="15.0" prefWidth="105.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove" wrappingWidth="63.33935546875" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Remove" wrappingWidth="63.33935546875" />
                               <ImageView fitHeight="24.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/substract.png" />
@@ -62,7 +56,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Clear" wrappingWidth="42.998046875" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Clear" wrappingWidth="42.998046875" />
                               <ImageView fitHeight="15.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/clear-button.png" />
@@ -80,7 +74,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Save Names" wrappingWidth="90.16748046875" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Save Names" wrappingWidth="90.16748046875" />
                               <ImageView fitHeight="19.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/save.png" />
@@ -102,7 +96,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Practice Names" wrappingWidth="125.404296875" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Practice Names" wrappingWidth="125.404296875" />
                               <ImageView fitHeight="21.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/go-back-right-arrow.png" />
@@ -138,7 +132,7 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Home" wrappingWidth="47.390625" />
+                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Home" wrappingWidth="47.390625" />
                               <ImageView fitHeight="24.0" fitWidth="105.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/house.png" />
@@ -173,7 +167,7 @@
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="10.0" prefWidth="44.0">
                                  <children>
-                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Add" wrappingWidth="33.39697265625" />
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Add" wrappingWidth="33.39697265625" />
                                     <ImageView fitHeight="14.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/add.png" />
@@ -216,7 +210,7 @@
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="21.0" prefWidth="70.0">
                                  <children>
-                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Upload" wrappingWidth="52.55078125" />
+                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Upload" wrappingWidth="52.55078125" />
                                     <ImageView fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../images/add.png" />
