@@ -86,8 +86,8 @@
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Original" wrappingWidth="108.96435546875" />
-                                    <ImageView fitHeight="14.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
+                                    <Text fx:id="listenDBText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Original" wrappingWidth="108.96435546875" />
+                                    <ImageView fx:id="listenDBImage" fitHeight="14.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Images/musical-note.png" />
                                        </image>
@@ -176,11 +176,11 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record" wrappingWidth="69.66455078125">
+                              <Text fx:id="recordBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Record" wrappingWidth="69.66455078125">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Text>
-                              <ImageView fitHeight="41.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="recordImage" fitHeight="41.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../Images/microphone.png" />
                                  </image>
@@ -193,11 +193,11 @@
                      <graphic>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Compare" wrappingWidth="98.25537109375">
+                              <Text fx:id="compareText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Compare" wrappingWidth="98.25537109375">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Text>
-                              <ImageView fitHeight="45.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="compareImage" fitHeight="45.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../Images/compare.png" />
                                  </image>
@@ -224,19 +224,6 @@
                   <Insets top="10.0" />
                </VBox.margin></ProgressBar>
             <Pane prefHeight="26.0" prefWidth="485.0" />
-            <Button fx:id="stopBtn" mnemonicParsing="false" onAction="#stopAudio" prefHeight="25.0" prefWidth="83.0">
-               <graphic>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="93.0">
-                     <children>
-                        <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop " wrappingWidth="41.314453125" />
-                        <ImageView fitHeight="32.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Images/stop.png" />
-                           </image></ImageView>
-                     </children>
-                  </HBox>
-               </graphic>
-            </Button>
          </children>
       </VBox>
    </center>
@@ -258,8 +245,8 @@
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Personal" wrappingWidth="113.8203125" />
-                                    <ImageView fitHeight="12.0" fitWidth="108.0" pickOnBounds="true" preserveRatio="true">
+                                    <Text fx:id="listenUserText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Personal" wrappingWidth="113.8203125" />
+                                    <ImageView fx:id="listenUserImage" fitHeight="15.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../Images/musical-note.png" />
                                        </image>

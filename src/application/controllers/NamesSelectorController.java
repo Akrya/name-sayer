@@ -86,6 +86,12 @@ public class NamesSelectorController {
             alert.setHeaderText(null);
             alert.setContentText("There seems to be a name not found in our database in your practice list!");
             alert.showAndWait();
+        } else if (_selectedNames.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Empty List!");
+            alert.setHeaderText(null);
+            alert.setContentText("Your practice list is empty! Please select names before continuing");
+            alert.showAndWait();
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/CustomPlayMode.fxml"));
             Parent root = loader.load();
@@ -266,6 +272,7 @@ public class NamesSelectorController {
         if (_selectedNames.isEmpty()){
             clearBtn.setDisable(true);
             removeBtn.setDisable(true);
+            makeFileBtn.setDisable(true);
         }
     }
 
@@ -336,7 +343,7 @@ public class NamesSelectorController {
         clearBtn.setDisable(true);
         removeBtn.setDisable(true);
         makeFileBtn.setDisable(true);
-        searchBox.setPromptText("Search for names here, use space key to autofill suggested result ...");
+        searchBox.setPromptText("Search for names here, use space key to autofill suggested result");
         getCustomFiles();
         customFiles.setItems(_customFiles);
 

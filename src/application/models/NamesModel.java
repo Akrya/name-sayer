@@ -72,17 +72,6 @@ public class NamesModel {
         return _records;
     }
 
-    public List<String> getOgRecordings(){
-        getNewRecords();
-        List<String> ogRecordings = new ArrayList<>();
-        for (RecordingModel record : _records){
-            if (record.getIdentifier() == 0){
-                ogRecordings.add(record.getFileName());
-            }
-        }
-        return ogRecordings;
-    }
-
     public List<String> getPerRecordings(){
         getNewRecords();
         List<String> perRecordings = new ArrayList<>();
