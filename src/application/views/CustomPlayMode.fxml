@@ -37,7 +37,7 @@
                      <children>
                         <ImageView fitHeight="52.0" fitWidth="48.0" layoutX="60.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/volume-up-indicator.png" />
+                              <Image url="@../images/volume-up-indicator.png" />
                            </image>
                         </ImageView>
                         <Slider fx:id="_volumeSlider" layoutX="116.0" layoutY="42.0" prefHeight="14.0" prefWidth="150.0" />
@@ -49,7 +49,7 @@
                               <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Back to Selection" wrappingWidth="129.833984375" />
                               <ImageView fitHeight="19.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Images/go-back-left-arrow.png" />
+                                    <Image url="@../images/go-back-left-arrow.png" />
                                  </image></ImageView>
                            </children>
                         </HBox>
@@ -62,7 +62,7 @@
                               <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Home" wrappingWidth="51.390625" />
                               <ImageView fitHeight="21.0" fitWidth="104.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Images/house.png" />
+                                    <Image url="@../images/house.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -89,7 +89,7 @@
                                     <Text fx:id="_dbListenBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Original" wrappingWidth="108.96435546875" />
                                     <ImageView fx:id="_dbListenBtnImage" fitHeight="14.0" fitWidth="112.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/musical-note.png" />
+                                          <Image url="@../images/musical-note.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -103,7 +103,7 @@
                                     <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Shuffle" wrappingWidth="54.49365234375" />
                                     <ImageView fitHeight="16.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/couple-of-arrows-changing-places.png" />
+                                          <Image url="@../images/couple-of-arrows-changing-places.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -118,7 +118,7 @@
                                     <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove" wrappingWidth="65.33935546875" />
                                     <ImageView fitHeight="16.0" fitWidth="144.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/substract.png" />
+                                          <Image url="@../images/substract.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -182,7 +182,7 @@
                                  </font></Text>
                               <ImageView fx:id="_recordBtnImage" fitHeight="41.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Images/microphone.png" />
+                                    <Image url="@../images/microphone.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -199,7 +199,7 @@
                                  </font></Text>
                               <ImageView fx:id="_compareBtnImage" fitHeight="45.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Images/compare.png" />
+                                    <Image url="@../images/compare.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -248,7 +248,7 @@
                                     <Text fx:id="_userListenBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen Personal" wrappingWidth="113.8203125" />
                                     <ImageView fx:id="_userListenBtnImage" fitHeight="15.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/musical-note.png" />
+                                          <Image url="@../images/musical-note.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -262,7 +262,7 @@
                                     <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Delete" wrappingWidth="54.71337890625" />
                                     <ImageView fitHeight="15.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/garbage.png" />
+                                          <Image url="@../images/garbage.png" />
                                        </image>
                                     </ImageView>
                                  </children>

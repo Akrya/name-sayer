@@ -172,7 +172,7 @@ public class MangeModeController{
         RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
             String name = selection.getName();
-            RecordingRater rater = new RecordingRater(selection.getFileName(), selection); //make new rater object
+            RecordingRater rater = new RecordingRater(selection); //make new rater object
             boolean exists = rater.checkFile(); //if rating exists ask if they want to overwrite
             if (exists) {
                 rater.overWriteRating();
@@ -231,7 +231,7 @@ public class MangeModeController{
             stopAudio();
             switchButtonStates(false);
             _inAction = false;
-            _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png"))); //change back to a normal listen button
+            _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/musical-note.png"))); //change back to a normal listen button
             _listenBtnText.setText("Listen");
         } else { //i.e the player is not in action
             RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
@@ -250,14 +250,14 @@ public class MangeModeController{
                 _player = new RecordingPlayer(filePath);
                 _audioProgressBar.progressProperty().unbind();
                 _audioProgressBar.progressProperty().bind(_player.progressProperty());
-                _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png"))); //change back to a normal listen button
+                _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/stop.png"))); //change back to a normal listen button
                 _listenBtnText.setText("Stop");
                 _player.setOnSucceeded(e -> {
                     _inAction = false;
                     switchButtonStates(false);
                     _playBackStatus.setText("No recording currently playing");
                     _recordingInPlay.setText("");
-                    _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png"))); //change back to a normal listen button
+                    _listenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/musical-note.png"))); //change back to a normal listen button
                     _listenBtnText.setText("Listen");
                     _player = null;
                 });

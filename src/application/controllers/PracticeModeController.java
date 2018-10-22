@@ -242,7 +242,7 @@ public class PracticeModeController {
     @FXML
     private void listenUserRecording(){
         if (_inAction){ //i.e. user clicked when it is a stop button
-            _userListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png"))); //change back to its normal state
+            _userListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/musical-note.png"))); //change back to its normal state
             _userListenBtnText.setText("Listen Personal");
             stopAudio();
             _inAction = false;
@@ -257,11 +257,11 @@ public class PracticeModeController {
                 }
                 _audioProgressBar.progressProperty().unbind();
                 _audioProgressBar.progressProperty().bind(_player.progressProperty());
-                _userListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png"))); //change icon of the button to a stop sign
+                _userListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/stop.png"))); //change icon of the button to a stop sign
                 _userListenBtnText.setText("Stop");
                 _player.setOnSucceeded(e -> {
                     changePlayStatus();
-                    _userListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png"))); //when the audio finishes change the icon back
+                    _userListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/musical-note.png"))); //when the audio finishes change the icon back
                     _userListenBtnText.setText("Listen Personal");
                     _inAction = false;
                     switchButtonStates(false); //re-enable buttons
@@ -284,7 +284,7 @@ public class PracticeModeController {
     @FXML
     private void listenDBRecording(){
         if (_inAction){ //i.e. it is currently a stop button
-            _dbListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png"))); //change back to a normal listen button
+            _dbListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/musical-note.png"))); //change back to a normal listen button
             _dbListenBtnText.setText("Listen Original");
             stopAudio();
             _inAction = false;
@@ -296,7 +296,7 @@ public class PracticeModeController {
                 _inAction = true;
                 switchButtonStates(true);
                 _dbListenBtn.setDisable(false);
-                _dbListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png"))); //change to a stop button
+                _dbListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/stop.png"))); //change to a stop button
                 _dbListenBtnText.setText("Stop");
                 _concatenatedPlayer = new ConcatenatedPlayer(selection, _nameModelManager); //make a concatenated name player
                 _audioProgressBar.progressProperty().unbind();
@@ -304,7 +304,7 @@ public class PracticeModeController {
                 _concatenatedPlayer.setOnSucceeded(e -> {
                     _inAction = false;
                     changePlayStatus();
-                    _dbListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/musical-note.png"))); //change back to a listen button after audio stops
+                    _dbListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/musical-note.png"))); //change back to a listen button after audio stops
                     _dbListenBtnText.setText("Listen Original");
                     switchButtonStates(false);
                     checkEmptyNameList();
@@ -324,7 +324,7 @@ public class PracticeModeController {
             _audioProgressBar.progressProperty().unbind();
             _audioProgressBar.setProgress(0);
             String newFile = _recorder.stopRecording();
-            _recordBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/microphone.png"))); //change back to a record button
+            _recordBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/microphone.png"))); //change back to a record button
             _recordBtnText.setText("Record");
             _inAction = false;
             switchButtonStates(false);
@@ -347,7 +347,7 @@ public class PracticeModeController {
                 _inAction = true;
                 switchButtonStates(true);
                 _recordBtn.setDisable(false);
-                _recordBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png"))); //change to a stop button
+                _recordBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/stop.png"))); //change to a stop button
                 _recordBtnText.setText("Stop");
                 _recorder.setOnSucceeded(e -> {
                     _playStatus.setText("Finished recording!");
@@ -355,7 +355,7 @@ public class PracticeModeController {
                     switchButtonStates(false);
                     _recordBtnText.setText("Record");
                     _records.add(_recorder.getValue());
-                    _recordBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/microphone.png"))); //change back to a record button
+                    _recordBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/microphone.png"))); //change back to a record button
                 });
                 _audioProgressBar.progressProperty().unbind();
                 _audioProgressBar.progressProperty().bind(_recorder.progressProperty());
@@ -405,7 +405,7 @@ public class PracticeModeController {
     @FXML
     private void compareRecords(){
         if (_inAction){ //i.e comparison is ongoing, it is currently a stop button
-            _compareBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/compare.png"))); //turn icon back to comparison icon
+            _compareBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/compare.png"))); //turn icon back to comparison icon
             _compareBtnText.setText("Compare");
             stopAudio();
             _inAction = false;
@@ -436,7 +436,7 @@ public class PracticeModeController {
                     _inAction = true;
                     switchButtonStates(true);
                     _compareBtn.setDisable(false);
-                    _compareBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png"))); //change the button icon to a stop sign
+                    _compareBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/stop.png"))); //change the button icon to a stop sign
                     _compareBtnText.setText("Stop");
                     _recordingInPlay.setText("'" + databaseSelection + "'");
                     compare(databaseSelection, userSelection, Integer.valueOf(result.get())); //call the recursive function which loops until specificed number of comparisons is over
@@ -451,7 +451,7 @@ public class PracticeModeController {
     private void compare(String ogSelection, String perSelection, int repeat){
         if (repeat == 0){ //i.e comparison is over then revert stop button back to a compare button
             _inAction = false;
-            _compareBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/compare.png")));
+            _compareBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/images/compare.png")));
             _compareBtnText.setText("Compare");
             switchButtonStates(false);
             changePlayStatus();

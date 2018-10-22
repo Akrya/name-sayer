@@ -7,15 +7,23 @@ import javafx.scene.control.ButtonType;
 import java.util.List;
 import java.util.Optional;
 
+/**Class is responsible for creating pop up messages when user wants to favourite a record
+ */
 public class RecordingBookmarker {
 
     private RecordingModel _selection;
 
-
+    /**Called when user presses the favourite button
+     * @param selection Recording model that user wants to favourite
+     */
     public RecordingBookmarker(RecordingModel selection){
         _selection = selection;
     }
 
+    /**If the name already has a favourite recording then it asks if they want to overwrite their
+     * preferred recording
+     * @return true if user wants to overwrite, false otherwise
+     */
     public boolean overwriteFavourite(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Overwriting");
@@ -35,7 +43,10 @@ public class RecordingBookmarker {
         }
     }
 
-
+    /**If the name does not have a favourite recording then it asks the user for confirmation
+     * if they want to favourite the recording
+     * @return true if user wants to continue, false otherwise
+     */
     public boolean setAsFavourite(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Bookmarking");
@@ -56,6 +67,9 @@ public class RecordingBookmarker {
         }
     }
 
+    /**Warning message is sent if the user attempts to favourite a personal recording or
+     * if user attempts to favourite a bad recording.
+     */
     public void sendInvalidMessage(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Invalid recording");

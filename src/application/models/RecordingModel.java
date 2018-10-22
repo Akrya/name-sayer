@@ -1,12 +1,10 @@
 package application.models;
 
+/**Class is contains information about a recording, it contains information about its rating status
+ */
 public class RecordingModel {
 
     private int _identifier; //identifier for recording, 0 if it is a database recording and 1 if it is personal
-
-    private String _date;
-
-    private String _time;
 
     private String _fileName;
 
@@ -18,56 +16,55 @@ public class RecordingModel {
 
     private boolean _favourite;
 
+    /**Constructor called in the name model class when retrieving all associated recordings of the name
+     * @param fileName name of file of recording
+     * @param name name of associated name model
+     * @param identifier 0 if recording is a database recording, 1 if its a user recording
+     */
     public RecordingModel(String fileName, String name, int identifier){
         _fileName = fileName;
         _name = name;
         _identifier = identifier;
         _goodRating = true;
         _favourite = false;
-        findDate();
-        findVersion();
     }
 
-    private void findDate(){
-        if (_identifier == 0){
-            _date = _fileName.substring(_fileName.indexOf('_')+1,_fileName.lastIndexOf('_'));
-        } else {
-            _date = _fileName.substring(_fileName.indexOf('_')+1,_fileName.indexOf('v')-1);
-        }
-        _time = _date.substring(_date.indexOf('_')+1); //date and time fields currently unused but may be useful in the final release
-        _date = _date.substring(0,_date.indexOf('_'));
-    }
-
-    private void findVersion(){
-        if (_identifier == 0){
-            _versionNum = 0;
-        } else {
-            _versionNum = Integer.parseInt(_fileName.substring(_fileName.indexOf('(')+1,_fileName.indexOf(')')));
-        }
-    }
-
+    /**Getter method for the file name of recording
+     * @return file name
+     */
     public String getFileName(){
         return _fileName;
     }
 
-    public String getDate(){
-        return _date;
-    }
-
+    /**Getter method for the name associated with the recording
+     * @return name representation of recording
+     */
     public String getName(){ return _name; }
 
+    /**Method returns what directory the recording belongs to
+     * @return identifier of recording
+     */
     public int getIdentifier(){
         return _identifier;
     }
 
+    /**Called when user wants to give a bad or good rating to recording
+     * @param rating true if recording is good, false otherwise
+     */
     public void setRating(boolean rating){
         _goodRating = rating;
     }
 
+    /**Called if user wants to favourite the recording
+     * @param favourite true if recording is user's favourite, false otherwise
+     */
     public void setFavourite(boolean favourite){
         _favourite = favourite;
     }
 
+    /**Method called when controller wants to know what rating a recording has
+     * @return string representation of the rating of the recording
+     */
     public String getRating(){
         if (_favourite){
             return "Good ★";
