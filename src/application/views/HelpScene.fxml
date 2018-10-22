@@ -40,7 +40,7 @@
                                  <children>
                                     <ImageView fitHeight="540.0" fitWidth="902.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/viewNamesSC.png" />
+                                          <Image url="@../images/viewNamesSC.png" />
                                        </image>
                                        <HBox.margin>
                                           <Insets />
@@ -66,7 +66,7 @@
                               </Text>
                               <ImageView fitHeight="531.0" fitWidth="902.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Images/practiceNamesSC.jpg" />
+                                    <Image url="@../images/practiceNamesSC.jpg" />
                                  </image>
                                  <VBox.margin>
                                     <Insets left="15.0" top="10.0" />
@@ -97,7 +97,7 @@
                                  <children>
                                     <ImageView fitHeight="271.0" fitWidth="470.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/customNameCreatorSC.png" />
+                                          <Image url="@../images/customNameCreatorSC.png" />
                                        </image>
                                     </ImageView>
                                     <TextArea editable="false" prefHeight="254.0" prefWidth="452.0" text="In custom mode, you first select custom names you wish to practice, you &#10;can build new names using the search bar. &#10;&#10;-the search bar has a special autocomplete feature which allows you to &#10;quickly create a new name, the autocomplete feature can be activated &#10;by entering 'space' which fills in the top search result for you. &#10;&#10;-Alternatively you can load custom names from a txt file, you can upload &#10;them from anywhere on your computer or you can select them from our &#10;own directory&#10;&#10;-Once you have created a list of custom names you have the chance to save &#10;these to a new txt file or you can pass them into the custom practice mode.">
@@ -124,7 +124,7 @@
                                  <children>
                                     <ImageView fitHeight="271.0" fitWidth="470.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../Images/practiceCustomNamesSC.jpg" />
+                                          <Image url="@../images/practiceCustomNamesSC.jpg" />
                                        </image>
                                     </ImageView>
                                     <TextArea editable="false" prefHeight="277.0" prefWidth="442.0" text="After creating and selecting custom names, you can now practice them,.&#10;&#10;You have the option to listen to the database version of your custom name or &#10;you can record your own version of the custom name. Previous attempts at &#10;recording your own custom name is saved on the right, while on the left are &#10;the custom names you selected previously. ">
@@ -148,7 +148,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </ScrollPane>
-            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeWindow" prefWidth="100.0" text="Close" textAlignment="CENTER">
+            <Button fx:id="_closeBtn" mnemonicParsing="false" onAction="#closeWindow" prefWidth="100.0" text="Close" textAlignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>

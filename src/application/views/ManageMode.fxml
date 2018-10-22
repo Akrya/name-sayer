@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -19,7 +25,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.MangeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@FXStyler.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.MangeModeController">
    <top>
       <VBox prefHeight="103.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
@@ -35,13 +41,13 @@
                      <children>
                         <ImageView fitHeight="36.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../Images/volume-up-indicator.png" />
+                              <Image url="@../images/volume-up-indicator.png" />
                            </image>
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Slider fx:id="volumeSlider" prefHeight="14.0" prefWidth="150.0" />
+                        <Slider fx:id="_volumeSlider" prefHeight="14.0" prefWidth="150.0" />
                      </children>
                      <HBox.margin>
                         <Insets right="50.0" />
@@ -58,7 +64,7 @@
                               </Text>
                               <ImageView fitHeight="19.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Images/house.png" />
+                                    <Image url="@../images/house.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -88,7 +94,7 @@
                   <HBox alignment="CENTER" prefHeight="32.0" prefWidth="1035.0">
                      <children>
                         <Pane prefHeight="32.0" prefWidth="130.0" />
-                        <TextField fx:id="searchBox" prefHeight="25.0" prefWidth="500.0" />
+                        <TextField fx:id="_searchBox" prefHeight="25.0" prefWidth="500.0" />
                         <Button mnemonicParsing="false" onAction="#clearSearch" prefHeight="25.0" prefWidth="135.0" text="Clear Search" />
                         <Pane prefHeight="25.0" prefWidth="295.0" />
                      </children>
@@ -106,7 +112,7 @@
                            <VBox.margin>
                               <Insets right="5.0" />
                            </VBox.margin></Label>
-                        <ListView fx:id="namesList" onMouseClicked="#getRecordings" prefHeight="438.0" prefWidth="373.0">
+                        <ListView fx:id="_namesList" onMouseClicked="#getRecordings" prefHeight="438.0" prefWidth="373.0">
                            <VBox.margin>
                               <Insets right="5.0" />
                            </VBox.margin></ListView>
@@ -121,17 +127,17 @@
                         <HBox prefHeight="4.0" prefWidth="400.0">
                            <children>
                               <Pane prefHeight="15.0" prefWidth="19.0" />
-                              <Label fx:id="recordingStatus" text="Recordings">
+                              <Label fx:id="_recordingsTableStatus" text="Recordings">
                                  <VBox.margin>
                                     <Insets right="5.0" top="15.0" />
                                  </VBox.margin></Label>
-                              <Label fx:id="recordingLabel" />
+                              <Label fx:id="_recordingsTableName" />
                            </children>
                         </HBox>
-                        <TableView fx:id="recordingsTable" onMouseClicked="#enableListen" prefHeight="409.0" prefWidth="436.0">
+                        <TableView fx:id="_recordingsTable" onMouseClicked="#enableListen" prefHeight="409.0" prefWidth="436.0">
                           <columns>
-                            <TableColumn fx:id="fileCol" prefWidth="380.0" text="File name" />
-                            <TableColumn fx:id="ratingCol" text="Rating" />
+                            <TableColumn fx:id="_fileNameColumn" prefWidth="380.0" text="File name" />
+                            <TableColumn fx:id="_ratingColumn" text="Rating" />
                           </columns>
                            <VBox.margin>
                               <Insets />
@@ -139,18 +145,18 @@
                         </TableView>
                         <HBox prefHeight="66.0" prefWidth="450.0">
                            <children>
-                              <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#playRecording" prefHeight="87.0" prefWidth="114.0">
+                              <Button fx:id="_listenBtn" mnemonicParsing="false" onAction="#playRecording" prefHeight="87.0" prefWidth="114.0">
                                  <graphic>
                                     <HBox alignment="CENTER" prefHeight="85.0" prefWidth="186.0">
                                        <children>
-                                          <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen" wrappingWidth="51.7294921875">
+                                          <Text fx:id="_listenBtnText" fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Listen" wrappingWidth="51.7294921875">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
                                           </Text>
-                                          <ImageView fitHeight="16.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fx:id="_listenBtnImage" fitHeight="16.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Images/musical-note.png" />
+                                                <Image url="@../images/musical-note.png" />
                                              </image>
                                           </ImageView>
                                        </children>
@@ -158,7 +164,7 @@
                                  </graphic>
                               </Button>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="65.0" prefWidth="115.0">
+                              <Button fx:id="_deleteBtn" mnemonicParsing="false" onAction="#deleteRecording" prefHeight="65.0" prefWidth="115.0">
                                  <graphic>
                                     <HBox alignment="CENTER" prefHeight="13.0" prefWidth="79.0">
                                        <children>
@@ -169,7 +175,7 @@
                                           </Text>
                                           <ImageView fitHeight="15.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Images/garbage.png" />
+                                                <Image url="@../images/garbage.png" />
                                              </image>
                                           </ImageView>
                                        </children>
@@ -177,7 +183,7 @@
                                  </graphic>
                               </Button>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="rateBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#rateRecording" prefHeight="52.0" prefWidth="114.0" style="-fx-background-color: #d4303b; -fx-text-fill: white;" textAlignment="CENTER" textFill="WHITE">
+                              <Button fx:id="_rateBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#rateRecording" prefHeight="52.0" prefWidth="114.0" style="-fx-background-color: #d4303b; -fx-text-fill: white;" textAlignment="CENTER" textFill="WHITE">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
@@ -187,7 +193,7 @@
                                           <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Flag" wrappingWidth="37.3076171875" />
                                           <ImageView fitHeight="19.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Images/flag.png" />
+                                                <Image url="@../images/flag.png" />
                                              </image>
                                           </ImageView>
                                        </children>
@@ -195,14 +201,14 @@
                                  </graphic>
                               </Button>
                               <Separator orientation="VERTICAL" prefHeight="200.0" />
-                              <Button fx:id="bookMarkBtn" mnemonicParsing="false" onAction="#bookMarkRecording" prefHeight="93.0" prefWidth="115.0">
+                              <Button fx:id="_favouriteBtn" mnemonicParsing="false" onAction="#bookMarkRecording" prefHeight="93.0" prefWidth="115.0">
                                  <graphic>
                                     <HBox prefHeight="37.0" prefWidth="97.0">
                                        <children>
                                           <Text fill="#595159" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite" wrappingWidth="74.85693359375" />
                                           <ImageView fitHeight="19.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Images/favorites.png" />
+                                                <Image url="@../images/favorites.png" />
                                              </image>
                                           </ImageView>
                                        </children>
@@ -224,13 +230,13 @@
    <bottom>
       <VBox alignment="CENTER" prefHeight="98.0" prefWidth="360.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="playStatus" text="No recording currently playing">
+            <Label fx:id="_playBackStatus" text="No recording currently playing">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
-            <Label fx:id="playRecording" />
-            <ProgressBar fx:id="playProgressBar" prefHeight="10.0" prefWidth="642.0" progress="0.0">
+            <Label fx:id="_recordingInPlay" />
+            <ProgressBar fx:id="_audioProgressBar" prefHeight="10.0" prefWidth="642.0" progress="0.0">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>

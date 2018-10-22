@@ -3,19 +3,27 @@ package application.models;
 import java.io.File;
 import java.util.*;
 
-public class NamesListModel {
+/**Class is instantiated when the program first begins, it is responsible for keeping track of all changes to
+ * Name models, and is used by controller classes to get information about name models
+ */
+public class NameModelManager {
 
-    private ArrayList<NamesModel> _names; //List of NamesModel objects, each object associated with one or more recording for that name
-    private List<String> _uniqueNames;
+    private ArrayList<NameModel> _names; //List of NameModel objects, each object associated with one or more recording for that name
+    private List<String> _uniqueNames; //List of unique names found in the database
 
-
-    public NamesListModel() {
+    /**Called on start up of program it instantiates all name models
+     * in the makeNames() method
+     */
+    public NameModelManager() {
         _names = new ArrayList<>();
         _uniqueNames = new ArrayList<>();
         createDirectory();
         makeNames();
     }
 
+    /**If its the first time running the program then program will create the
+     * following directories
+     */
     private void createDirectory(){
 
         new File( "Single").mkdir();
@@ -25,23 +33,35 @@ public class NamesListModel {
 
     }
 
+    /**Method called by controllers when they a list of all the names in string form
+     * in alphabetical order
+     * @return list of names stored in database
+     */
     public List<String> getNames(){
         List<String> names = new ArrayList<>();
-        for (NamesModel model : _names){
+        for (NameModel model : _names){
             names.add(model.toString());
         }
         Collections.sort(names);
         return names;
     }
 
-    public List<NamesModel> getModels(){
+    /**Method called when controllers want a copy of the list name models stored in the class
+     * @return list of name models stored in class
+     */
+    public List<NameModel> getModels(){
         return _names;
     }
 
-    public NamesModel getName(String name){
+    /**Caleld when a specific NameModel is needed for retrieval
+     * it searches for this model by its string name
+     * @param name name of model as a string
+     * @return reference to the model
+     */
+    public NameModel getName(String name){
         name = name.substring(0,1).toUpperCase()+name.substring(1);
-        NamesModel targetName = null;
-        for (NamesModel candidateName : _names){
+        NameModel targetName = null;
+        for (NameModel candidateName : _names){
             if (candidateName.toString().equals(name)){
                 targetName = candidateName;
                 break;
@@ -50,6 +70,9 @@ public class NamesListModel {
         return targetName;
     }
 
+    /**Called in constructor it loops through the Database and Single directories and finds
+     * all unique names, and creates a name model for the name
+     */
     private void makeNames(){
         File[] ogFiles = new File("Database").listFiles(); //loop through the two directories and get all unique names
         List<File> files = new ArrayList<>();
@@ -65,8 +88,8 @@ public class NamesListModel {
                     if (!Character.isUpperCase(name.charAt(0))){
                         name = name.substring(0, 1).toUpperCase() + name.substring(1);
                     }
-                    NamesModel namesModel = new NamesModel(name);
-                    _names.add(namesModel);
+                    NameModel nameModel = new NameModel(name);
+                    _names.add(nameModel);
                 }
             }
         }

@@ -8,19 +8,12 @@ import java.io.IOException;
 
 import javafx.scene.control.*;
 
-
-
-
 public class HelpWindowController {
-
-
-    @FXML
-    public Button closeButton;
+    @FXML public Button _closeBtn;
 
     @FXML
     private void closeWindow(ActionEvent event) throws IOException{
-
-        Stage stage = (Stage) closeButton.getScene().getWindow();
+        Stage stage = (Stage) _closeBtn.getScene().getWindow();
         stage.close();
     }
 }
