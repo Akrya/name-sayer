@@ -82,7 +82,7 @@
                   <ListView fx:id="_namesListView" onMouseClicked="#selectName" prefHeight="500.0" prefWidth="287.0" />
                   <HBox prefHeight="28.0" prefWidth="287.0">
                      <children>
-                        <Button fx:id="_dbListenBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listenDBRecording" prefHeight="37.0" prefWidth="141.0" stylesheets="@NameSelectorStyler.css">
+                        <Button fx:id="_dbListenBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#listenDBRecording" prefHeight="37.0" prefWidth="141.0">
                            <graphic>
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>

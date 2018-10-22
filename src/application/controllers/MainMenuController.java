@@ -53,23 +53,17 @@ public class MainMenuController {
         window.setScene(scene);
     }
 
+
     /**Called when the help button is pressed, it opens up the help window which contains our user manual
      * @param event
      */
     @FXML
     private void openHelpWindow(ActionEvent event){
-
-        Parent root;
-        try{
-            root = FXMLLoader.load(getClass().getResource("/application/views/help2.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Help");
-            stage.setScene(new Scene(root, 960, 1000));
-            stage.show();
-
-        }
-
-        catch (IOException e){
+        try {
+            String cmd1 = " xdg-open NameSayer_Manual.pdf";
+            ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd1);
+            builder.start();
+        } catch (IOException e){
             e.printStackTrace();
         }
     }

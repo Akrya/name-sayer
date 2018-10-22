@@ -12,8 +12,19 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
+/**Entry point of our program, it loads the main menu screen and creates a name manager
+ * which is passed to the main menu controller
+ *
+ * Authors: Casey Chun-Cheung Wong UPI: cwon880
+ *          Aditya Krishnan        UPI: akri095
+ */
 public class MainApplication extends Application {
 
+    /**Method called when application starts,
+     * it loads the main menu controller and passes it a name manager
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml")); //open up the menu on start up
