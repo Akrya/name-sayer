@@ -154,7 +154,6 @@ public class NameModel {
                             _records.add(new RecordingModel(files.get(i).getName(), _name, 1));
                         }
                         _recordFiles.add(files.get(i).getName());
-                        System.out.println(files.get(i).getName());
                     }
                 }
             }
