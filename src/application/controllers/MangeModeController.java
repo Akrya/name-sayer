@@ -1,9 +1,6 @@
 package application.controllers;
 
 import application.models.*;
-import com.sun.prism.impl.Disposer;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -30,7 +27,7 @@ import java.util.*;
  */
 public class MangeModeController{
 
-    private NamesListModel _namesListModel;
+    private NameModelManager _nameModelManager;
 
     private FilteredList<String> _filteredNames; //this list changes depending on what the user searches, it is originally a copy of all names stored
 
@@ -77,10 +74,11 @@ public class MangeModeController{
     @FXML private ImageView _listenBtnImage;
 
 
-    /** method is called immediately after the controller is constructed, it sets up the button configurations for the scene and sets up the dynamic searching feature
+    /**method is called immediately after the controller is constructed, it sets up the button configurations for the scene and sets up the dynamic searching feature
+     * @param model name list model contains all the name models the program finds
      */
-    public void initialise(NamesListModel model) {
-        _namesListModel = model;
+    public void initialise(NameModelManager model) {
+        _nameModelManager = model;
 
         //disable all buttons on start up except for testing mic and creating recording
         _deleteBtn.setDisable(true);
@@ -96,7 +94,7 @@ public class MangeModeController{
 
 
         //reference for search box https://stackoverflow.com/questions/44735486/javafx-scenebuilder-search-listview
-        ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
+        ObservableList<String> names = FXCollections.observableArrayList(_nameModelManager.getNames());
         _filteredNames = new FilteredList<>(names, e -> true);
         _namesList.setItems(_filteredNames);
         _searchBox.textProperty().addListener((observable, oldValue, newValue) ->{ //add a listener to the search box, so filteredNames changes when user enters a letter
@@ -130,7 +128,8 @@ public class MangeModeController{
         _volumeManager.startVolumeSlider();
     }
 
-    /** Called when delete button is pressed, Prompts the user if they want to continue deleting the selected recording
+
+    /**Called when delete button is pressed, Prompts the user if they want to continue deleting the selected recording
      * if the selected recording cannot be deleted then display a warning message
      */
     @FXML
@@ -153,7 +152,7 @@ public class MangeModeController{
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
                     _recordingModels.clear();
-                    NamesModel selectionModel = _namesListModel.getName(selection.getName()); //find name model of the recording and delete the recording from its list
+                    NameModel selectionModel = _nameModelManager.getName(selection.getName()); //find name model of the recording and delete the recording from its list
                     selectionModel.delete(selection.getFileName());
                     List<RecordingModel> records = selectionModel.getRecords();
                     for (RecordingModel record : records) { //re-populate the table view with recordings
@@ -180,15 +179,15 @@ public class MangeModeController{
             } else if (selection.getRating().equals("Good ★")) { //if record is favourited then ask if they want to overwrite
                 boolean overwritten = rater.overWriteFavRating();
                 if (overwritten){
-                    NamesModel namesModel = _namesListModel.getName(name);
-                    namesModel.setFavourite(false);
+                    NameModel nameModel = _nameModelManager.getName(name);
+                    nameModel.setFavourite(false);
                 }
             } else {
                 rater.makeRating();
             }
             _recordingsTable.getItems().clear(); //update table with new ratings by resetting the recordings table
             _recordingModels.clear();
-            NamesModel model = _namesListModel.getName(name);
+            NameModel model = _nameModelManager.getName(name);
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records) {
                 _recordingModels.add(record);
@@ -298,7 +297,7 @@ public class MangeModeController{
         }
         if (!selection.equals("Name not found")){ //populate recordings table by retrieving the name model of the name and getting its records
             _recordingModels.clear();
-            NamesModel model = _namesListModel.getName(selection);
+            NameModel model = _nameModelManager.getName(selection);
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records){
                 _recordingModels.add(record);
@@ -317,7 +316,7 @@ public class MangeModeController{
         RecordingModel selection = _recordingsTable.getSelectionModel().getSelectedItem();
         if (selection != null) {
             RecordingBookmarker bookmarker = new RecordingBookmarker(selection);
-            NamesModel model = _namesListModel.getName(selection.getName());
+            NameModel model = _nameModelManager.getName(selection.getName());
             if (selection.getRating().equals("Bad") || selection.getFileName().contains("personal")) {
                 bookmarker.sendInvalidMessage();//if the recording has a bad rating then send a warning message telling user you can't bookmark a bad recording
             }else if (model.hasFavourite()){
@@ -356,7 +355,7 @@ public class MangeModeController{
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
         Scene scene = new Scene(root);
-        controller.initialise(_namesListModel);
+        controller.initialise(_nameModelManager);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
@@ -388,11 +387,11 @@ public class MangeModeController{
      * and grabs each name on each line, it finds the associated recording model and assigns it a bad rating
      */
     private void getRatings(){
-        List<NamesModel> models = _namesListModel.getModels();
+        List<NameModel> models = _nameModelManager.getModels();
         Map<String, Integer> fileMap = new HashMap<>(); //map of files, filename is the key and its value is an integer, 0 means the file has good rating, 1 means file has bad rating
         List<String> fileNames = new ArrayList<>();
         List<RecordingModel> recordings = new ArrayList<>();
-        for (NamesModel model : models){ //loop through every model and get all its recordings
+        for (NameModel model : models){ //loop through every model and get all its recordings
             List<RecordingModel> records = model.getRecords();
             for (RecordingModel record : records){
                 recordings.add(record);

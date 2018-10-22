@@ -1,7 +1,7 @@
 package application;
 
 import application.controllers.MainMenuController;
-import application.models.NamesListModel;
+import application.models.NameModelManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +19,7 @@ public class MainApplication extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml")); //open up the menu on start up
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
-        NamesListModel model = new NamesListModel(); //construct the list of name models
+        NameModelManager model = new NameModelManager(); //construct the list of name models
         controller.initialise(model);
         primaryStage.setTitle("Name Sayer");
         primaryStage.setScene(new Scene(root, 1200, 700));

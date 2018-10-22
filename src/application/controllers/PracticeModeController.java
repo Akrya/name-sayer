@@ -34,13 +34,11 @@ public class PracticeModeController {
 
     private ObservableList<String> _records; //this list is read by the recordings list view component
 
-    private NamesListModel _namesListModel;
+    private NameModelManager _nameModelManager;
 
     private boolean _inAction = false;
 
     private Task _micWorker; //Task object which reads in mic levels of the user's input
-
-    private AudioVisualizerModel _audioVisualModel; //Model which binds mic levels to a progress bar
 
     private RecordingPlayer _player = null; //player responsible for playing user recordings
 
@@ -49,6 +47,8 @@ public class PracticeModeController {
     private Recorder _recorder = null; //recorder which runs the bash command to record a new name
 
     private VolumeManager _volumeManager;
+
+    private List<ConcatenatedNameModel> _concatNameModelList;
 
     @FXML private ListView<String> _recordingListView;
 
@@ -100,12 +100,12 @@ public class PracticeModeController {
 
     @FXML private ImageView _compareBtnImage;
 
-    /**Method is called when the scene is loaded and the controller is instantiated, a reference to the NamesListModel is
+    /**Method is called when the scene is loaded and the controller is instantiated, a reference to the NameModelManager is
      * passed into the controller and stored as a field, method also sets up the mic levels bar and disables buttons on startup
      * as well as populate the listviews with names and recordings.
      */
-    public void initialise(NamesListModel model){
-        _namesListModel = model; //name list model holds information about all the name models stored in the program
+    public void initialise(NameModelManager model){
+        _nameModelManager = model; //name list model holds information about all the name models stored in the program
         _manager = ControllerManager.getInstance();
         _nameSelectorController = _manager.getController();
         _selectedNames = FXCollections.observableArrayList(_nameSelectorController.getPracticeNames());
@@ -114,17 +114,44 @@ public class PracticeModeController {
         _recordingListView.setItems(_records); //set up recording list view (empty on start up)
         switchButtonStates(true); //set all buttons as disable initially
 
+        //initialise the volume slider bar
+        _volumeManager = new VolumeManager(_volumeSlider);
+        _volumeManager.startVolumeSlider();
+
         //initialising mic level bar
         _micLevelBar.setProgress(0.0);
-        _audioVisualModel = new AudioVisualizerModel();
-        _micWorker = _audioVisualModel.createWorker();
+        _micWorker = _volumeManager.createWorker();
         _micLevelBar.progressProperty().unbind();
         _micLevelBar.progressProperty().bind(_micWorker.progressProperty());
         new Thread(_micWorker).start(); //run mic testing code on separate thread so GUI is responsive
 
-        //initialise the volume slider bar
-        _volumeManager = new VolumeManager(_volumeSlider);
-        _volumeManager.startVolumeSlider();
+        makeConcatenatedNameModels();
+    }
+
+    /**Method called in initialise it scans through the practice list for concatenated names and creates a model for each one found
+     */
+    private void makeConcatenatedNameModels() {
+        _concatNameModelList = new ArrayList<>();
+        for (String name : _selectedNames){
+            if (name.contains(" ") || name.contains("-")){
+                ConcatenatedNameModel model = new ConcatenatedNameModel(name);
+                _concatNameModelList.add(model);
+            }
+        }
+    }
+
+    /**Method finds a concatenated name model based on the string representation of the name
+     * @param selection string representation of concat name
+     * @return concatenated name model of the selection
+     */
+    private ConcatenatedNameModel getConcatModel(String selection){
+        ConcatenatedNameModel targetModel = null;
+        for (ConcatenatedNameModel model : _concatNameModelList){
+            if (model.toString().equals(selection)){
+                targetModel = model;
+            }
+        }
+        return targetModel;
     }
 
 
@@ -135,13 +162,13 @@ public class PracticeModeController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
-        controller.initialise(_namesListModel);
+        controller.initialise(_nameModelManager);
         Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
 
-        _audioVisualModel.endTask(); //stop the mic level bar when changing scenes
+        _volumeManager.endTask(); //stop the mic level bar when changing scenes
     }
 
 
@@ -154,7 +181,7 @@ public class PracticeModeController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/NamesSelector.fxml"));
         Parent root = loader.load();
         NamesSelectorController controller = loader.getController();
-        controller.initialise(_namesListModel);
+        controller.initialise(_nameModelManager);
         controller.updatePracticeNames(_selectedNames); //pass in a copy of the current selected names list back to the name selector controller
         _manager.setController(controller);
         Scene scene = new Scene(root);
@@ -162,7 +189,7 @@ public class PracticeModeController {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(scene);
 
-        _audioVisualModel.endTask();
+        _volumeManager.endTask();
     }
 
 
@@ -178,13 +205,13 @@ public class PracticeModeController {
                 _selectStatus.setText("Currently selected:");
                 _selectedName.setText(selection);
                 if (selection.contains(" ") || selection.contains("-")){ //concatentated name
-                    CustomNameModel model = new CustomNameModel(selection);
+                    ConcatenatedNameModel model = getConcatModel(selection);
                     _records.clear();
                     _records.addAll(model.getRecordings());
                 } else { //single name
-                    NamesModel model = _namesListModel.getName(selection);
+                    NameModel model = _nameModelManager.getName(selection);
                     _records.clear();
-                    _records.addAll(model.getPerRecordings());
+                    _records.addAll(model.getUserRecordings());
                 }
                 _inAction = false;
                 switchButtonStates(false);
@@ -271,7 +298,7 @@ public class PracticeModeController {
                 _dbListenBtn.setDisable(false);
                 _dbListenBtnImage.setImage(new Image(getClass().getResourceAsStream("/application/Images/stop.png"))); //change to a stop button
                 _dbListenBtnText.setText("Stop");
-                _concatenatedPlayer = new ConcatenatedPlayer(selection, _namesListModel); //make a concatenated name player
+                _concatenatedPlayer = new ConcatenatedPlayer(selection, _nameModelManager); //make a concatenated name player
                 _audioProgressBar.progressProperty().unbind();
                 _audioProgressBar.progressProperty().bind(_concatenatedPlayer.progressProperty());
                 _concatenatedPlayer.setOnSucceeded(e -> {
@@ -311,10 +338,11 @@ public class PracticeModeController {
                 _playStatus.setText("Currently Recording For:");
                 _recordingInPlay.setText(selection);
                 if (selection.contains(" ") || selection.contains("-")) { //check what type of name the selection is
-                    _recorder = new Recorder(selection);  //call concatenated name constructor recorder if there are spaces or hyphens in name
+                    ConcatenatedNameModel model = getConcatModel(selection);
+                    _recorder = new Recorder(model);  //call concatenated name constructor recorder if there are spaces or hyphens in name
                 } else {
-                    NamesModel name = _namesListModel.getName(selection);
-                    _recorder = new Recorder(name); //call single name constructor for the recorder object
+                    NameModel model = _nameModelManager.getName(selection);
+                    _recorder = new Recorder(model); //call single name constructor for the recorder object
                 }
                 _inAction = true;
                 switchButtonStates(true);
@@ -429,7 +457,7 @@ public class PracticeModeController {
             changePlayStatus();
             return;
         } else { //comparison ongoing
-            _concatenatedPlayer = new ConcatenatedPlayer(ogSelection,_namesListModel); //play the concatenated version first
+            _concatenatedPlayer = new ConcatenatedPlayer(ogSelection, _nameModelManager); //play the concatenated version first
             _audioProgressBar.progressProperty().unbind();
             _audioProgressBar.progressProperty().bind(_concatenatedPlayer.progressProperty());
             _concatenatedPlayer.setOnSucceeded(e -> { //when concat version finishes play user's recording before calling compare again
@@ -489,7 +517,7 @@ public class PracticeModeController {
                     new File("Concatenated/" + selection).delete();
                     _records.remove(selection);
                 } else {
-                    NamesModel model = _namesListModel.getName(_selectedName.getText());
+                    NameModel model = _nameModelManager.getName(_selectedName.getText());
                     model.delete(selection);
                     _records.remove(selection);
                 }

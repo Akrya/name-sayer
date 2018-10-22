@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.models.NamesListModel;
+import application.models.NameModelManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -51,15 +51,17 @@ public class NamesSelectorController {
 
     private FilteredList<String> _filteredNames;
 
-    private NamesListModel _namesListModel;
+    private NameModelManager _nameModelManager;
 
     private ObservableList<String> _practiceFiles;
 
-    /** called immediately after controller is constructed, it sets up the button, listview configurations and also sets up the
+
+    /**Called immediately after controller is constructed, it sets up the button, listview configurations and also sets up the
      * dynamic searching feature
+     * @param manager contains all the name models the program finds
      */
-    public void initialise(NamesListModel model){
-        _namesListModel = model;
+    public void initialise(NameModelManager manager){
+        _nameModelManager = manager;
         _practiceNames = FXCollections.observableArrayList();
         _practiceNamesList.setItems(_practiceNames);
         _clearBtn.setDisable(true);
@@ -70,7 +72,7 @@ public class NamesSelectorController {
         __practiceListFiles.setItems(_practiceFiles);
 
         //populate listview with names in database
-        ObservableList<String> names = FXCollections.observableArrayList(_namesListModel.getNames());
+        ObservableList<String> names = FXCollections.observableArrayList(_nameModelManager.getNames());
         _filteredNames = new FilteredList<>(names, e -> true);
         _namesList.setItems(_filteredNames);
 
@@ -107,22 +109,27 @@ public class NamesSelectorController {
         });
     }
 
-    /** Returns the user to the main menu and passes the name list model to the main menu, so its state is saved.
+    /**Returns the user to the main menu and passes the name list model to the main menu, so its state is saved.
+     * @param event
+     * @throws IOException
      */
     @FXML
     private void goToMain(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/MainMenu.fxml"));
         Parent root = loader.load();
         MainMenuController controller = loader.getController();
-        controller.initialise(_namesListModel);
+        controller.initialise(_nameModelManager);
         Scene scene = new Scene(root);
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene);
     }
 
-    /** Method called when user presses practice mode button, it checks if the practice list is empty or if it contains invalid names
-     * if there is an invalid name or its empty then we display a warning message otherwise we change screens to practice mode
+
+    /**Method called when user presses practice mode button, it checks if the practice list is empty or if it contains invalid names
+     *if there is an invalid name or its empty then we display a warning message otherwise we change screens to practice mode
+     * @param event
+     * @throws IOException
      */
     @FXML
     private void goToCustomMode(ActionEvent event) throws IOException {
@@ -148,7 +155,7 @@ public class NamesSelectorController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/CustomPlayMode.fxml"));//switch scenes
             Parent root = loader.load();
             PracticeModeController controller = loader.getController();
-            controller.initialise(_namesListModel);
+            controller.initialise(_nameModelManager);
             Scene scene = new Scene(root);
 
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -167,7 +174,8 @@ public class NamesSelectorController {
         }
     }
 
-    /** Method called when user clicks into the names list view, their selection is added into the searchbox
+    /**Method called when user clicks into the names list view, their selection is added into the searchbox
+     * @param mouseEvent
      */
     @FXML
     private void addToSearch(MouseEvent mouseEvent){ //add selection to the search box when clicked
@@ -213,7 +221,8 @@ public class NamesSelectorController {
     }
 
     /** Method called by makeFile(), it creates the file passed in as a parameter and appends each name in the current practice list
-     * to the text file
+     *to the text file
+     * @param playList a text file containing names
      */
     private void writePlayListFile(File playList){ //write to text file by looping through selected names list and adding it to a new line of txt file
         try {
@@ -234,9 +243,11 @@ public class NamesSelectorController {
         }
     }
 
-    /** Method called when a key is pressed in the search box, if the key pressed is a space bar then it triggers the auto-complete
+
+    /**Method called when a key is pressed in the search box, if the key pressed is a space bar then it triggers the auto-complete
      * code, auto-complete works by removing what the user entered after the latest space or hyphen character and replaces it
      * with the top entry found in the filtered list. If the key press is Enter then add the searchbox name to the practice list
+     * @param event key press event
      */
     @FXML
     private void addToSelection(KeyEvent event){
@@ -279,8 +290,10 @@ public class NamesSelectorController {
         }
     }
 
-    /** Method validates the searchbox entry by checking if each individual name in the entry is valid,
+
+    /**Method validates the searchbox entry by checking if each individual name in the entry is valid,
      * if there is an invalid name in the string then a warning message is displayed, otherwise the string is added into the practice list
+     * @param line current string in the search box
      */
     private void addLine(String line){
         String[] candidateNames = line.split("\\s+"); //split by space characters
@@ -293,7 +306,7 @@ public class NamesSelectorController {
                     if (hyphenName.length() != 0) { //check if each name in the sub-name is valid
                         hyphenName = hyphenName.substring(0, 1).toUpperCase() + hyphenName.substring(1);
                         entryName = entryName + hyphenName + "-";
-                        if (_namesListModel.getName(hyphenName) == null) {
+                        if (_nameModelManager.getName(hyphenName) == null) {
                             invalid = true;
                             break;
                         }
@@ -305,7 +318,7 @@ public class NamesSelectorController {
                     entryName = entryName.substring(0, entryName.lastIndexOf('-'))+" "+entryName.substring(entryName.lastIndexOf('-')+1); //replace last hyphen with a space
                 }
                 entryName = entryName + name + " "; //append sub-name to entry name
-                if (_namesListModel.getName(name) == null) {
+                if (_nameModelManager.getName(name) == null) {
                     invalid = true;
                     break;
                 }
@@ -407,7 +420,7 @@ public class NamesSelectorController {
                 for (String name: candidateNames) {//check if each name in the line is valid
                     if (!name.isEmpty()) {
                         name = name.substring(0, 1).toUpperCase() + name.substring(1);
-                        if (_namesListModel.getName(name) == null) { //getName() returns null if a name model is not found
+                        if (_nameModelManager.getName(name) == null) { //getName() returns null if a name model is not found
                             invalid = true;
                             break;
                         }
@@ -437,14 +450,17 @@ public class NamesSelectorController {
         _practiceNamesList.setItems(_practiceNames);
     }
 
-    /** Called when PracticeModeController is initialised and wants a copy of the names found in the practice list
+    /**Called when PracticeModeController is initialised and wants a copy of the names found in the practice list
+     * @return list of names in the practice list
      */
     public List<String> getPracticeNames(){
         return _practiceNames;
     }
 
+
     /**Called in the PracticeModeController class when it is going back to selection mode, it updates the practice list
      * with any changes that occurred in the practice mode
+     * @param selectedNames list of names in the practice mode before it returned to selection screen
      */
     public void updatePracticeNames(List<String> selectedNames){
         _practiceNames = FXCollections.observableArrayList(selectedNames);

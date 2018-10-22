@@ -16,8 +16,8 @@ import java.util.List;
 public class ConcatenatedPlayer extends Task<Void> {
 
     private String[] _splitNames;
-    private NamesListModel _namesListModel;
-    private List<NamesModel> _nameModels;
+    private NameModelManager _nameModelManager;
+    private List<NameModel> _nameModels;
     private List<RecordingModel> _recordings;
     private List<String> _trimmedFiles;
     private List<String> _playListFiles;
@@ -26,13 +26,16 @@ public class ConcatenatedPlayer extends Task<Void> {
     private final int _targetVolume = -15;
     private Process _audioProcess;
 
-    /**Constructor takes in a concatenated name and a reference to the namesListModel, it finds the name model of each name in
+
+    /**Constructor takes in a concatenated name and a reference to the nameModelManager, it finds the name model of each name in
      * the concatenated name and normalises then trims the best recording for that name before adding them to the queue
+     * @param concatName concatenated name we want to play
+     * @param nameModelManager contains all the name models the program finds
      */
-    public ConcatenatedPlayer(String concatName, NamesListModel namesListModel) {
+    public ConcatenatedPlayer(String concatName, NameModelManager nameModelManager) {
         _splitNames = concatName.split("[-\\s]");
-        _namesListModel = namesListModel;
-        getModels(namesListModel);
+        _nameModelManager = nameModelManager;
+        getModels(nameModelManager);
         getRecordings();
         _playListFiles = new ArrayList<>();
         _trimmedFiles = new ArrayList<>();
@@ -55,13 +58,13 @@ public class ConcatenatedPlayer extends Task<Void> {
         }
     }
 
-    /** Method called by the constructor to find all the name model in the concatenated name from the nameListModel
-     *
+    /**Method called by the constructor to find all the name model in the concatenated name from the nameListModel
+     * @param nameModelManager contains all the name models the program finds
      */
-    private void getModels(NamesListModel namesListModel){
+    private void getModels(NameModelManager nameModelManager){
         _nameModels = new ArrayList<>();
         for (String name : _splitNames){
-            NamesModel model = namesListModel.getName(name);
+            NameModel model = nameModelManager.getName(name);
             if (model != null) {
                 _nameModels.add(model);
             }
@@ -72,13 +75,14 @@ public class ConcatenatedPlayer extends Task<Void> {
      */
     private void getRecordings(){
         _recordings = new ArrayList<>();
-        for (NamesModel model : _nameModels){
+        for (NameModel model : _nameModels){
             RecordingModel record = model.getBestRecord();
             _recordings.add(record);
         }
     }
 
-    /** Method calls the bash command which plays the audio file
+    /**Method calls the bash command which plays the audio file
+     * @param filePath relative path of file we want to play
      */
     private void playAudio(String filePath){
         String cmd = "ffplay -loglevel panic -autoexit -nodisp -i '"+filePath+"'";
@@ -99,7 +103,11 @@ public class ConcatenatedPlayer extends Task<Void> {
         this.cancel();
     }
 
-    /** Called in the constructor, it trims a given file for any silence, and returns the silence file
+    /**Called in the constructor, it trims a given file for any silence, and returns the silence file
+     * @param filePath relative path of file we want to trim
+     * @return file name of the trimmed file
+     * @throws IOException
+     * @throws InterruptedException
      */
     private String trimAudio(String filePath) throws IOException, InterruptedException {
         //trim the normalised file for any silence then add new trimmed file to a list
@@ -124,6 +132,10 @@ public class ConcatenatedPlayer extends Task<Void> {
     }
 
     /**Method called in constructor, it calculates the length of a wav file and returns this length in seconds
+     * @param filePath relative path of file we want to find a length for
+     * @return length of file in seconds
+     * @throws IOException
+     * @throws UnsupportedAudioFileException
      */
     private double calcLength(String filePath) throws IOException, UnsupportedAudioFileException {
         //reference to calculate wav file length https://stackoverflow.com/questions/3009908/how-do-i-get-a-sound-files-total-time-in-java
@@ -134,8 +146,13 @@ public class ConcatenatedPlayer extends Task<Void> {
         return length;
     }
 
+
     /**Called in the constructor, it normalises a given wav file to a target decibel value of -15, then returns the file name
      * of the normalised file
+     * @param filePath relative path to the file that will be normalised
+     * @return file name of the normalised file
+     * @throws IOException
+     * @throws InterruptedException
      */
     private String normaliseAudio(String filePath) throws IOException, InterruptedException {
         //reference: https://trac.ffmpeg.org/wiki/AudioVolume
@@ -162,8 +179,11 @@ public class ConcatenatedPlayer extends Task<Void> {
         return "normalised.wav";
     }
 
+
     /** Method called when the task is started, it plays the audio in the queue on a separate thread while on the
      * event dispatch thread, it periodically updates the progress bar on the GUI.
+     * @return audioPlayer returns null after task is successfully carried out
+     * @throws Exception
      */
     @Override
     protected Void call() throws Exception {
