@@ -185,6 +185,7 @@ public class NamesSelectorController {
                 String currentText = _searchBox.getText();
                 currentText = currentText +selection+ " ";
                 _searchBox.setText(currentText);
+                _searchBox.requestFocus();
                 _searchBox.end();
             }
         }
