@@ -61,7 +61,7 @@ public class MainMenuController {
 
         Parent root;
         try{
-            root = FXMLLoader.load(getClass().getResource("/application/views/Help2.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/application/views/help2.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Help");
             stage.setScene(new Scene(root, 960, 1000));

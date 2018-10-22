@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -113,6 +114,7 @@ public class PracticeModeController {
         _records = FXCollections.observableArrayList();
         _recordingListView.setItems(_records); //set up recording list view (empty on start up)
         switchButtonStates(true); //set all buttons as disable initially
+        _selectedName.setTextAlignment(TextAlignment.CENTER);
 
         //initialise the volume slider bar
         _volumeManager = new VolumeManager(_volumeSlider);

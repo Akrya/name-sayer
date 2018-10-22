@@ -152,7 +152,7 @@ public class NamesSelectorController {
             alert.setContentText("Your practice list is empty! Please select names before continuing");
             alert.showAndWait();
         } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/CustomPlayMode.fxml"));//switch scenes
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/views/PracticeMode.fxml"));//switch scenes
             Parent root = loader.load();
             PracticeModeController controller = loader.getController();
             controller.initialise(_nameModelManager);
