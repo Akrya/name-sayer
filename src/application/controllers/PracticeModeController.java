@@ -429,7 +429,7 @@ public class PracticeModeController {
                 List<String> choices = new ArrayList<>(Arrays.asList(new String[]{"1","2","3","4","5"}));
                 ChoiceDialog<String> dialog = new ChoiceDialog<>("1", choices);
                 dialog.setTitle("Comparison");
-                dialog.setHeaderText("You are comparing recordings for '" + _recordingInPlay.getText() + "'");
+                dialog.setHeaderText("You are comparing recordings for '" + _selectedName.getText() + "'");
                 dialog.setContentText("Please choose how many times you want to compare: ");
 
                 Optional<String> result = dialog.showAndWait();
