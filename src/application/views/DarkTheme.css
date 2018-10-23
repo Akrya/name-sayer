@@ -5,6 +5,10 @@
 
 }
 
+.text-file{
+    -fx-fill: #fff;
+}
+
 .text-class{
     -fx-fill: #595159;
 }

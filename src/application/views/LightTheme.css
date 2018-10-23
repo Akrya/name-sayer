@@ -1,16 +1,19 @@
 .root{
-    -fx-background-color: #fffbdc;   /*root background color*/
-    -fx-text-fill: #a2a2a2;
+    -fx-background-color: #ffefd5;   /*root background color*/
+    -fx-text-fill: #595159;
     -fx-focus-color: transparent;
 
 }
+.text-file{
+    -fx-fill: #595159;
+}
 
 .text-class{
-     -fx-fill: #f4e2f4;
+     -fx-fill: #595159;
  }
 
 .text-selected{
-    -fx-fill: #272327;
+    -fx-fill: #595159;
 }
 
 /*remove list focus*/
@@ -34,15 +37,15 @@
 /*default hover and click system for buttons*/
 .button{
     -fx-background-radius: 0;
-    -fx-background-color: #576067;
-    -fx-text-fill: #f4e2f4;
+    -fx-background-color: #f2b632;
+    -fx-text-fill: #595159;
 
 }
 
 
 .button:hover{
 
-    -fx-background-color: #484e54;
+    -fx-background-color: #ffd81e;
 
     -fx-font-weight: bold;
 }
@@ -55,7 +58,7 @@
 style for label
  */
 .label{
-    -fx-text-fill: #282828;
+    -fx-text-fill: #595159;
 }
 
 
@@ -67,7 +70,7 @@ style for label
 
 /*style for name sayer panel*/
 .nameSayer-hbox{
-    -fx-background-color: #f2b632;
+    -fx-background-color: #eed5b7;
 
 }
 
@@ -95,6 +98,9 @@ style for label
     -fx-font-weight: bold;
 }
 
+.button:disabled{
+    -fx-opacity: 0.7;
+}
 
 
 .button-panel-background{
@@ -196,5 +202,5 @@ thumb
 }
 
 .radio-button{
-    -fx-text-fill: #000000;
+    -fx-text-fill: #595159;
 }

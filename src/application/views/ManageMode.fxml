@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.MangeModeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.MangeModeController">
    <top>
       <VBox prefHeight="103.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
@@ -78,7 +78,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="87.0" prefWidth="1040.0">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text=" Please type in a name to manage its recordings" wrappingWidth="425.63720703125">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-file" text=" Please type in a name to manage its recordings" wrappingWidth="425.63720703125">
                      <VBox.margin>
                         <Insets bottom="5.0" right="100.0" top="5.0" />
                      </VBox.margin>
@@ -184,7 +184,7 @@
                                  <graphic>
                                     <HBox alignment="TOP_CENTER" prefHeight="45.0" prefWidth="114.0">
                                        <children>
-                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-class" text="Flag" wrappingWidth="37.3076171875" />
+                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Flag" wrappingWidth="37.3076171875" />
                                           <ImageView fitHeight="19.0" fitWidth="63.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@../images/flag.png" />
