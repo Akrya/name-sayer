@@ -121,7 +121,7 @@ style for label
 
  */
 .list-view{
-    -fx-background-color: #677077;
+    -fx-background-color: #eee9e9;
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
@@ -130,13 +130,13 @@ style for label
 }
 
 .list-cell{
-    -fx-text-fill: white;
-    -fx-background-color: #677077;
+    -fx-text-fill: #595159;
+    -fx-background-color: #eee9e9;
 }
 
 .list-cell:hover {
 
-    -fx-background-color: #30344a;
+    -fx-background-color: #817d7d;
 
 }
 
@@ -144,19 +144,19 @@ style for label
 
  */
 .table-view{
-    -fx-background-color: #677077;
+    -fx-background-color: #eee9e9;
 }
 
 .table-view .table-cell{
-    -fx-text-fill: white;
+    -fx-text-fill: #595159;
 }
 
 .table-view .column-header {
-    -fx-background-color: #7c8690;
+    -fx-background-color: #a1afbb;
     -fx-fill: #f4e2f4;
 }
 .table-row-cell{
-    -fx-background-color: #677077;
+    -fx-background-color: #eee9e9;
     -fx-table-cell-border-color: #fff;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
@@ -168,11 +168,17 @@ style for label
 }
 
 .table-row-cell:hover{
-    -fx-background-color: #30344a;
+    -fx-background-color: #817d7d;
 }
 
 
+.combo-box .list-cell{
+    -fx-background-color: #eee9e9;
+}
 
+.combo-box .list-cell:hover{
+    -fx-background-color: #817d7d;
+}
 
 /*
 Stylin for all scroll bars
