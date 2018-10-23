@@ -1,7 +1,5 @@
 package application.models;
 
-import javax.swing.text.html.CSS;
-
 public class CSSManager {
 
     public String cssTheme;
@@ -9,16 +7,16 @@ public class CSSManager {
 
 
     public CSSManager(){
-        cssTheme = "/application/views/FXStyler.css";
+        cssTheme = "/application/views/DarkTheme.css";
         isLight = false;
     }
 
     public void switchDark(){
-        cssTheme = "/application/views/FXStyler.css";
+        cssTheme = "/application/views/DarkTheme.css";
     }
 
     public void switchLight(){
-        cssTheme = "/application/views/FXstylerLight.css";
+        cssTheme = "/application/views/LightTheme.css";
     }
 
 
