@@ -37,7 +37,7 @@
 /*default hover and click system for buttons*/
 .button{
     -fx-background-radius: 0;
-    -fx-background-color: #f2b632;
+    -fx-background-color: #eedd82;
     -fx-text-fill: #595159;
 
 }
@@ -45,7 +45,7 @@
 
 .button:hover{
 
-    -fx-background-color: #ffd81e;
+    -fx-background-color: #a89a5a;
 
     -fx-font-weight: bold;
 }

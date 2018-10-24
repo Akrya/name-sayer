@@ -26,7 +26,7 @@ import java.util.*;
  * and updates the views of the GUI when applicable
  * It also calls on model classes when appropriate and allows them to handle background processes
  */
-public class NamesSelectorController {
+public class NamesSelectorController implements  Controller {
 
     //reference for pop-up boxes https://code.makery.ch/blog/javafx-dialogs-official/
 

@@ -25,7 +25,7 @@ import java.util.*;
  * and updates the views of the GUI when applicable
  * It also calls on model classes when appropriate and allows them to handle background processes
  */
-public class PracticeModeController {
+public class PracticeModeController implements Controller{
 
     private ControllerManager _manager;
 

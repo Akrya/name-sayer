@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainMenuController {
+public class MainMenuController implements Controller{
 
 
     @FXML private RadioButton themeSwitch;

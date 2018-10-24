@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sun.awt.geom.AreaOp;
 
 import java.io.*;
 import java.util.*;
@@ -25,7 +26,7 @@ import java.util.*;
  * and updates the views of the GUI when applicable
  * It also calls on model classes when appropriate and allows them to handle background processes such as audio playback
  */
-public class MangeModeController{
+public class MangeModeController implements Controller {
 
     private NameModelManager _nameModelManager;
 
